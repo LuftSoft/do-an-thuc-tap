@@ -1,0 +1,26 @@
+a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+}
+
+.detail-user-list {
+    list-style: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    padding: 10px 20px 10px 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.detail-user-list:first-child {
+    border-bottom: 1px solid black;
+}
+
+.detail-user-list>li>a {
+    color: black;
+}
+
+.detail-user-list>li>a:hover {
+    color: red;
+}
