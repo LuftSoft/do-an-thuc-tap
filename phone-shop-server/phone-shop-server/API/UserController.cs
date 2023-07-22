@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace phone_shop_server.API.User
+namespace phone_shop_server.API
 {
     [ApiController]
     [Route("/api/v/user")]

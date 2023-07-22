@@ -11,10 +11,13 @@ import { UserOrderComponent } from './page/user-order/user-order.component';
 import { ShopProductComponent } from './page/shop-product/shop-product.component';
 import { ShopProductDetailComponent } from './page/shop-product-detail/shop-product-detail.component';
 import { UserSignupComponent } from './page/user-signup/user-signup.component';
+import { NotificationService } from 'src/app/core/service/notification.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    SharedModule
   ],
   declarations: [
     UserLoginComponent,
@@ -28,6 +31,9 @@ import { UserSignupComponent } from './page/user-signup/user-signup.component';
     ShopPaymentComponent,
     ShopProductComponent,
     ShopProductDetailComponent
+  ],
+  providers: [
+    NotificationService
   ]
 })
 export class UserModule { }

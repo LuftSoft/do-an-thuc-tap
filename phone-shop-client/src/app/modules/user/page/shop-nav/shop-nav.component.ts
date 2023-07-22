@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NotificationService } from 'src/app/core/service/notification.service';
 
 @Component({
   selector: 'app-shop-nav',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShopNavComponent implements OnInit {
 
-  constructor() { }
+  constructor(private notify: NotificationService) { }
 
   ngOnInit(): void {
   }
-
+  openNotify() {
+    this.notify.openSnackBar("test snack bar", "close");
+  }
 }

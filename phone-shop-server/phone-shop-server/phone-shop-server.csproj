@@ -28,11 +28,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="API\User\DTOs\" />
-	  <Folder Include="Business\" />
-	  <Folder Include="Database\Enum\" />
 	  <Folder Include="Database\Migrations\" />
-	  <Folder Include="wwwroot\" />
+	  <Folder Include="wwwroot\upload\" />
 	</ItemGroup>
 
 </Project>

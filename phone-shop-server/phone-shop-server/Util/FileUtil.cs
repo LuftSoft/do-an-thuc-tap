@@ -5,7 +5,12 @@ using Microsoft.Extensions.Hosting;
 
 namespace phone_shop_server.Util
 {
-    public class FileUtil
+    public interface IFileUtil
+    {
+        Task<string> UploadAsync(IFormFile fileUpload);
+        Task<IEnumerable<string>> MultiUploadAsync(IFormFile[] files);
+    }
+    public class FileUtil : IFileUtil
     {
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _environment;
@@ -58,7 +63,7 @@ namespace phone_shop_server.Util
         {
             try
             {
-                var cloudinary = new Cloudinary(_configuration.ToString());
+                var cloudinary = new Cloudinary(_configuration["CLOUDINARY_URL"].ToString());
                 cloudinary.Api.Secure = true;
                 var basePath = Path.Combine(_environment.WebRootPath, "upload");
                 if (!Directory.Exists(basePath))

@@ -5,15 +5,19 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserModule } from './modules/user/user.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AdminModule } from './modules/admin/admin.module';
+import { NotificationComponent } from './core/service/notification/notification.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     UserModule,
+    AdminModule,
     BrowserAnimationsModule,
     MatButtonModule
   ],
