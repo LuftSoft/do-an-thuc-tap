@@ -3,7 +3,7 @@ using phone_shop_server.Database.Entity;
 
 namespace phone_shop_server.Database.Repository
 {
-    public class ProvinceRepository
+    public class ProvinceRepository : IProvinceRepository
     {
         private readonly AppDbContext _appDbContext;
         public ProvinceRepository(AppDbContext appDbContext)

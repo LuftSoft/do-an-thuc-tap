@@ -30,6 +30,10 @@ namespace phone_shop_server.Database.Repository
         {
             return await _appDbContext.Users.SingleOrDefaultAsync(u => u.Id == id);
         }
+        public async Task<AppUser> GetByEmailAsync(string email)
+        {
+            return await _appDbContext.Users.SingleOrDefaultAsync(u => u.Email.Equals(email));
+        }
         public async Task<AppUser> CreateAsync(AppUser user)
         {
             _appDbContext.Users.Add(user);
@@ -72,6 +76,18 @@ namespace phone_shop_server.Database.Repository
                 return false;
             }
         }
+        public async Task<bool> AddNewPassword(AppUser user, string newPassword)
+        {
+            try
+            {
+                await _userManager.AddPasswordAsync(user, newPassword);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public async Task<bool> addUserRoleAsync(AppUser user, string role)
         {
             return (await _userManager.AddToRoleAsync(user, role)).Succeeded;
@@ -79,6 +95,38 @@ namespace phone_shop_server.Database.Repository
         public async Task<bool> removeUserRoleAsync(AppUser user, string role)
         {
             return (await _userManager.RemoveFromRoleAsync(user, role)).Succeeded;
+        }
+        public async Task<IEnumerable<string>> GetListRoleAsync(string userId) 
+        {
+            List<string> roles = new List<string>();
+            AppUser user = await GetAsync(userId);
+            if(user != null)
+            {
+                List<string> roleIds = _appDbContext.UserRoles.Where(urole => urole.UserId == userId).Select(ur => ur.RoleId).ToList();
+                foreach(var roleId in roleIds)
+                {
+                    roles.Add((await _appDbContext.Roles.FirstOrDefaultAsync(r => r.Id == roleId)).Id);
+                }
+            }
+            return roles;
+        }
+        public async Task<bool> IsEmailExist(string email)
+        {
+            AppUser user = await _appDbContext.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
+            if(user != null)
+            {
+                return true;
+            }
+            return false;
+        }
+        public async Task<bool> IsPhoneNumberExist(string phonenumber)
+        {
+            AppUser user = await _appDbContext.Users.FirstOrDefaultAsync(u => u.PhoneNumber.Equals(phonenumber));
+            if (user != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

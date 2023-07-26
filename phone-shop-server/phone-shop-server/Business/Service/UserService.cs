@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using phone_shop_server.Business.Converter;
+using phone_shop_server.Business.DTO.User;
 using phone_shop_server.Database.Entity;
+using phone_shop_server.Database.Enum;
 using phone_shop_server.Database.Repository;
 using phone_shop_server.Util;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,470 +10,409 @@ using System.Security.Claims;
 
 namespace phone_shop_server.Business.Service
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IJwtUtil _jwtUtil;
         private readonly IMailUtil _mailUtil;
-        private readonly IConfiguration _configuration;
         private readonly IFileUtil _fileUtil;
+        private readonly IConfiguration _configuration;
+        private readonly IUserConverter _userConverter;
         private readonly IUserRepository _userRepository;
         public UserService(
             IJwtUtil jwtUtil,
             IMailUtil sendMailUtil,
+            IFileUtil uploadFileUtil,
             IConfiguration configuration,
-            IUserRepository userRepository,
-            IFileUtil uploadFileUtil
+            IUserConverter userConverter,
+            IUserRepository userRepository
             )
         {
             _jwtUtil = jwtUtil;
             _mailUtil = sendMailUtil;
-            _configuration = configuration;
             _fileUtil = uploadFileUtil;
+            _configuration = configuration;
+            _userConverter = userConverter;
             _userRepository = userRepository;
         }
         public async Task<string?> GetUserIdFromToken(string token)
         {
-            string userName = jwtUtil.getUserNameFromToken(token);
+            string userName = _jwtUtil.getUserNameFromToken(token);
             if (userName == null)
             {
                 return null;
             }
-            return (await userRepository.findUserByEmailAsync(userName)).Id;
+            return (await _userRepository.GetAsync(userName)).Id;
 
         }
-        public async Task<UserDto?> getDetailAsync(string userName)
+        public async Task<string?> GetUserIdFromContext(HttpContext context)
         {
-            var user = await userRepository.findUserByEmailAsync(userName);
+            string userId = _jwtUtil.getUserIdFromToken(context.Request.Headers.Authorization.FirstOrDefault().Split(" ")[1]);
+            if (userId == null)
+            {
+                return null;
+            }
+            return (await _userRepository.GetAsync(userId)).Id;
+        }
+        public async Task<string> GetTokenFromContext(HttpContext context)
+        {
+            return context.Request.Headers.Authorization.FirstOrDefault();
+        }
+        public async Task<UserDto?> getUserDetailAsync(string userId)
+        {
+            var user = await _userRepository.GetAsync(userId);
             if (user != null)
             {
-                var roles = await userRepository.GetListRoleOfUser(user.Id);
-                return new UserDto()
-                {
-                    Id = user.Id,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Age = user.Age,
-                    Avatar = user.Avatar,
-                    PhoneNumber = user.PhoneNumber,
-                    Roles = roles.ToList()
-                };
+                return await _userConverter.UserToUserDto(user);
             }
             return null;
         }
-        public async Task<UserDto> GetByUserIdAsync(string userId)
+        public async Task<bool> DeleteAsync(string delUserId)
+        {
+            return await _userRepository.DeleteAsync(delUserId);
+        }
+        public async Task<APIResponse.APIResponse> UpdateAsync(UserUpdateDto dto)
         {
             try
             {
-                AppUser user = await userRepository.FindByIdAsync(userId);
-                if (user != null)
-                {
-                    return new UserDto()
+                //string userId = await this.GetTokenFromContext();
+                AppUser user = await _userRepository.GetAsync(dto.Id);
+                if (await _userRepository.IsEmailExist(dto.Email))
+                    return new APIResponse.APIResponse()
                     {
-                        Id = user.Id,
-                        Email = user.Email,
-                        FirstName = user.FirstName,
-                        LastName = user.LastName,
-                        Age = user.Age,
-                        Avatar = user.Avatar,
-                        PhoneNumber = user.PhoneNumber
+                        code = StatusCode.ERROR.ToString(),
+                        message = "Email already exist!"
                     };
-                }
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-        public async Task<AppUser> FindByIdAsync(string userId)
-        {
-            return await userRepository.FindByIdAsync(userId);
-        }
-        public async Task<IDeleteUserInteractor.Response> DeleteAsync(IDeleteUserInteractor.Request request)
-        {
-            string userId = await GetUserIdFromToken(request.token);
-            if (userId == null || userId == request.deleteId)
-            {
-                return new IDeleteUserInteractor.Response()
-                {
-                    Message = "Delete user failed",
-                    Success = false
-                };
-            }
-            var result = await userRepository.DeleteAsync(request.deleteId);
-            if (result)
-            {
-                return new IDeleteUserInteractor.Response()
-                {
-                    Message = "Delete user success",
-                    Success = true
-                };
-            }
-            return new IDeleteUserInteractor.Response()
-            {
-                Message = "Delete user failed",
-                Success = false
-            };
-        }
-        public async Task<IUpdateUserInteractor.Response> UpdateAsync(IUpdateUserInteractor.Request request)
-        {
-            try
-            {
-                UpdateUserDto updateUserDto = request.updateUserDto;
-                string userId = await GetUserIdFromToken(request.token);
-                AppUser user = await userRepository.findUserByEmailAsync(updateUserDto.Email);
-                if (user != null && user.Id != userId)
-                    return new IUpdateUserInteractor.Response()
+                AppUser updateUser = await _userConverter.ConvertUserUpdateToUser(dto);
+                var isSuccess = await _userRepository.UpdateAsync(updateUser);
+                if (isSuccess != null)
+                    return new APIResponse.APIResponse()
                     {
-                        Success = true,
-                        Message = "Email already used by another user"
+                        code = StatusCode.SUCCESS.ToString(),
+                        data = updateUser
                     };
-                string? avatar = "";
-                AppUser updateUser = await userRepository.FindByIdAsync(userId);
-                if (updateUserDto.Avatar != null)
+                return new APIResponse.APIResponse()
                 {
-                    avatar = await uploadFileUtil.UploadAsync(updateUserDto.Avatar);
-                    updateUser.Avatar = avatar;
-                }
-                updateUser.Age = updateUserDto.Age;
-                updateUser.Email = updateUserDto.Email;
-                updateUser.LastName = updateUserDto.LastName;
-                updateUser.FirstName = updateUserDto.FirstName;
-                updateUser.PhoneNumber = updateUserDto.PhoneNumber;
-                var isSuccess = await userRepository.updateUser(updateUser);
-                if (isSuccess)
-                    return new IUpdateUserInteractor.Response()
-                    {
-                        Success = true,
-                        Message = "Update user success"
-                    };
-                return new IUpdateUserInteractor.Response()
-                {
-                    Success = false,
-                    Message = "Update user failed"
+                    code = StatusCode.ERROR.ToString(),
+                    message = "Update uuser failed!"
                 };
             }
             catch (Exception ex)
             {
-                return new IUpdateUserInteractor.Response()
+                return new APIResponse.APIResponse()
                 {
-                    Success = false,
-                    Message = "Error occur when update user"
+                    code = StatusCode.ERROR.ToString(),
+                    message = "Error occur when update user"
                 };
             }
         }
-        public async Task<IUserLoginInteractor.Response> LoginService(IUserLoginInteractor.Request request)
+        public async Task<APIResponse.APIResponse> LoginService(UserLoginDto dto)
         {
-            var result = await userRepository.LoginRepository(request.loginDto);
-            if (result == null)
+            AppUser user = await _userRepository.GetByEmailAsync(dto.Email);
+            if(user == null)
             {
-                return new IUserLoginInteractor.Response(null, null, "login failed", false);
+                return new APIResponse.APIResponse()
+                {
+                    code = StatusCode.ERROR.ToString(),
+                    message = "Email is not exists in system!"
+                };
             }
-            var li = result.ToList();
-            var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtUtil.GenerateAccessToken(li, request.loginDto.UserName));
-            var refreshToken = new JwtSecurityTokenHandler().WriteToken(jwtUtil.GenerateRefreshToken(li, request.loginDto.UserName));
-            var user = await userRepository.findUserByEmailAsync(request.loginDto.UserName);
+            var result = await _userRepository.CheckPassWord(user.Id, dto.Password);
+            if (!result)
+            {
+                return new APIResponse.APIResponse()
+                {
+                    code = StatusCode.ERROR.ToString(),
+                    message = "Email or password is incorrect!"
+                };
+            }
+            var userRoles = await _userRepository.GetListRoleAsync(user.Id);
+            List<Claim> claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Email, dto.Email));
+            claims.Add(new Claim(ClaimTypes.Actor, user.Id));
+            foreach(var role in userRoles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+            var accessToken = new JwtSecurityTokenHandler().WriteToken(_jwtUtil.GenerateAccessToken(claims, user.Id));
+            var refreshToken = new JwtSecurityTokenHandler().WriteToken(_jwtUtil.GenerateRefreshToken(claims, user.Id));
             user.RefreshToken = refreshToken;
-            await userRepository.updateUser(user);
-            return new IUserLoginInteractor.Response(accessToken, refreshToken, "login success", true);
-        }
-        public async Task<IGetAllUserInteractor.Response> GetAllUser()
-        {
-            var users = await userRepository.GetAll();
-            List<UserDto> dtos = new List<UserDto>();
-            foreach (var user in users)
+            await _userRepository.UpdateAsync(user);
+            return new APIResponse.APIResponse()
             {
-                var roles = await userRepository.GetListRoleOfUser(user.Id);
-                dtos.Add(new UserDto()
+                code = StatusCode.SUCCESS.ToString(),
+                data = new
                 {
-                    Age = user.Age,
-                    Avatar = user.Avatar,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    Id = user.Id,
-                    IsBlock = user.IsBlock,
-                    LastName = user.LastName,
-                    PhoneNumber = user.PhoneNumber,
-                    Roles = roles.ToList()
-                });
-            }
-            return new IGetAllUserInteractor.Response()
-            {
-                Success = true,
-                Message = "Get all user success",
-                Users = dtos
-            };
-
-        }
-        public async Task<IAddRoleToUserInteractor.Response> AddRoleToUser(string userId, string role)
-        {
-            if (await userRepository.IsContainRole(userId, role))
-            {
-                return new IAddRoleToUserInteractor.Response()
-                {
-                    Success = false,
-                    Message = "User already has this role"
-                };
-            }
-            var success = await userRepository.AddRole(userId, role);
-            if (!success)
-            {
-                return new IAddRoleToUserInteractor.Response()
-                {
-                    Success = false,
-                    Message = "Add role to user failed service"
-                };
-            }
-            var user = await userRepository.FindByIdAsync(userId);
-            var tmpRoles = await userRepository.GetListRoleOfUser(userId);
-            return new IAddRoleToUserInteractor.Response()
-            {
-                Success = true,
-                Message = "Add role to user success",
-                userDto = new UserDto()
-                {
-                    Age = user.Age,
-                    Avatar = user.Avatar,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    Id = user.Id,
-                    IsBlock = user.IsBlock,
-                    LastName = user.LastName,
-                    PhoneNumber = user.PhoneNumber,
-                    Roles = tmpRoles.ToList()
+                    accessToken = accessToken,
+                    refreshToken = refreshToken
                 }
             };
         }
-        public async Task<IAddRoleToUserInteractor.Response> RemoveRoleFromUser(string userId, string role)
+        public async Task<APIResponse.APIResponse> GetAllUser()
         {
-            if (!(await userRepository.IsContainRole(userId, role)))
+            try
             {
-                return new IAddRoleToUserInteractor.Response()
+                var users = await _userRepository.GetAllAsync();
+                List<UserDto> dtos = (await _userConverter.ConvertToListUserDto(users)).ToList();
+                return new APIResponse.APIResponse()
                 {
-                    Success = false,
-                    Message = "User don't have this role"
+                    code = StatusCode.SUCCESS.ToString(),
+                    data = dtos
                 };
             }
-            var user = await userRepository.FindByIdAsync(userId);
-            var success = await userRepository.removeUserRoleAsync(user, role);
+            catch(Exception ex)
+            {
+                return new APIResponse.APIResponse()
+                {
+                    code = StatusCode.ERROR.ToString(),
+                    message = ex.Message
+                };
+            }
+        }
+        public async Task<APIResponse.APIResponse> AddRoleToUser(string userId, string role)
+        {
+            AppUser user = await _userRepository.GetAsync(userId);
+            var roles = await _userRepository.GetListRoleAsync(userId);
+            if (roles.Contains(role))
+            {
+                return new APIResponse.APIResponse()
+                {
+                    code = StatusCode.ERROR.ToString(),
+                    message = "Role already exist!"
+                };
+            }
+            var success = await _userRepository.addUserRoleAsync(user, role);
             if (!success)
             {
-                return new IAddRoleToUserInteractor.Response()
+                return new APIResponse.APIResponse()
                 {
-                    Success = false,
-                    Message = "Remove role to user failed"
+                    code = StatusCode.ERROR.ToString(),
+                    message = "Add Role failed!"
                 };
             }
-            var tmpRoles = await userRepository.GetListRoleOfUser(userId);
-            return new IAddRoleToUserInteractor.Response()
+            return new APIResponse.APIResponse
             {
-                Success = true,
-                Message = "Remove role to user success",
-                userDto = new UserDto()
-                {
-                    Age = user.Age,
-                    Avatar = user.Avatar,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    Id = user.Id,
-                    IsBlock = user.IsBlock,
-                    LastName = user.LastName,
-                    PhoneNumber = user.PhoneNumber,
-                    Roles = tmpRoles.ToList()
-                }
+                code = StatusCode.SUCCESS.ToString(),
+                data = _userConverter.UserToUserDto(user)
             };
         }
-        public async Task<IUserSignupInteractor.Response> SignupService(IUserSignupInteractor.Request request)
+        public async Task<APIResponse.APIResponse> RemoveRoleFromUser(string userId, string role)
         {
-            var dto = request.dto;
-            var userExist = await userRepository.userExist(request.dto.UserName);
+            var roles = await _userRepository.GetListRoleAsync(userId);
+            if (!roles.Contains(role))
+            {
+                return new APIResponse.APIResponse()
+                {
+                    code = StatusCode.ERROR.ToString(),
+                    message = "Role not exist in user!"
+                };
+            }
+            var user = await _userRepository.GetAsync(userId);
+            var success = await _userRepository.removeUserRoleAsync(user, role);
+            if (!success)
+            {
+                return new APIResponse.APIResponse()
+                {
+                    code = StatusCode.ERROR.ToString(),
+                    message = "Remove Role failed!"
+                };
+            }
+            return new APIResponse.APIResponse
+            {
+                code = StatusCode.SUCCESS.ToString(),
+                data = _userConverter.UserToUserDto(user)
+            };
+        }
+        public async Task<APIResponse.APIResponse> SignupService(UserSignUpDto dto)
+        {
+            if (!dto.Role.Contains(DbUserRole.ADMIN.ToString()) && !dto.Role.Contains(DbUserRole.CUSTOMER.ToString())
+                    && !dto.Role.Contains(DbUserRole.STAFF.ToString()))
+            {
+                return new APIResponse.APIResponse()
+                {
+                    code = StatusCode.ERROR.ToString(),
+                    message = "User must have role!"
+                };
+            }
+            var userExist = await _userRepository.GetByEmailAsync(dto.Email);
             if (userExist == null)
             {
                 AppUser user = new AppUser()
                 {
-                    Email = dto.UserName,
+                    Email = dto.Email,
                     SecurityStamp = Guid.NewGuid().ToString(),
-                    UserName = dto.UserName,
+                    UserName = dto.Email,
                     FirstName = dto.FirstName,
-                    LastName = dto.LastName
+                    LastName = dto.LastName,
                 };
-                var result = await userRepository.createUserAsync(user, dto.Password);
-                if (!result.Succeeded)
-                    return new IUserSignupInteractor.Response("Can't create user", false);
-                if (!await userRepository.roleExist(DbUserRole.User))
-                    await userRepository.createRoleAsync(new IdentityRole(DbUserRole.User));
-                if (!await userRepository.roleExist(DbUserRole.Admin))
+                if (dto.Avatar != null)
                 {
-                    await userRepository.createRoleAsync(new IdentityRole(DbUserRole.Admin));
+                    user.Avatar = await _fileUtil.UploadAsync(dto.Avatar);
                 }
-                if (!await userRepository.roleExist(DbUserRole.Owner))
-                {
-                    await userRepository.createRoleAsync(new IdentityRole(DbUserRole.Owner));
-                }
+                await _userRepository.AddNewPassword(user, dto.Password);
+                var result = await _userRepository.CreateAsync(user);
                 //role user is role default
-                await userRepository.addUserRoleAsync(user, DbUserRole.User);
-                if (!request.dto.Role.Contains(DbUserRole.User) && !request.dto.Role.Contains(DbUserRole.User)
-                    && !request.dto.Role.Contains(DbUserRole.User))
+                switch (dto.Role)
                 {
-                    return new IUserSignupInteractor.Response("User must has role (user, admin or owner)", false);
+                    case "ADMIN":
+                        await _userRepository.addUserRoleAsync(user, DbUserRole.ADMIN.ToString());
+                        break;
+                    case "STAFF":
+                        await _userRepository.addUserRoleAsync(user, DbUserRole.STAFF.ToString());
+                        break;
+                    case "CUSTOMER":
+                        await _userRepository.addUserRoleAsync(user, DbUserRole.CUSTOMER.ToString());
+                        break;
                 }
-                foreach (string userRole in request.dto.Role)
+                return new APIResponse.APIResponse()
                 {
-                    switch (userRole)
-                    {
-                        case DbUserRole.User:
-                            await userRepository.addUserRoleAsync(user, DbUserRole.User);
-                            break;
-                        case DbUserRole.Admin:
-                            await userRepository.addUserRoleAsync(user, DbUserRole.Admin);
-                            break;
-                        case DbUserRole.Owner:
-                            await userRepository.addUserRoleAsync(user, DbUserRole.Owner);
-                            break;
-                    }
-                }
-                return new IUserSignupInteractor.Response("Create user success", true);
+                    code = StatusCode.SUCCESS.ToString(),
+                    data = await _userConverter.UserToUserDto(user)
+                };
             }
-            return new IUserSignupInteractor.Response("User is already exists", false);
+            return new APIResponse.APIResponse()
+            {
+                code = StatusCode.ERROR.ToString(),
+                message = "Email already exist!"
+            };
         }
-        public async Task<IFogotPasswordInteractor.Response> fogotPasswordService(IFogotPasswordInteractor.Request request)
+        public async Task<APIResponse.APIResponse> fogotPasswordService(FogotPasswordDto dto)
         {
-            var user = await userRepository.findUserByEmailAsync(request.Email);
+            var user = await _userRepository.GetByEmailAsync(dto.Email);
             if (user == null)
-                return new IFogotPasswordInteractor.Response("Email is not exists", false);
-            else if (!jwtUtil.isTokenExpired(user.ResetPasswordToken))
+                return new APIResponse.APIResponse()
+                {
+                    code = StatusCode.ERROR.ToString(),
+                    message = "Email is not exists!"
+                };
+            //else if (!_jwtUtil.isTokenExpired(user.ResetPasswordToken))
+            //{
+            //    return new APIResponse.APIResponse()
+            //    {
+            //        code = StatusCode.ERROR.ToString(),
+            //        message = "Token is invalid!"
+            //    };
+            //}
+            var token = new JwtSecurityTokenHandler().WriteToken(_jwtUtil.GenerateResetPasswordApiToken(user.Id));
+            var result = await _mailUtil.SendMailAsync(user.Email, "Please click to the link bellow to reset your password",
+                $"{dto.Url}/{token}");
+            //user.ResetPasswordToken = token;
+            //if (result.Success == true) await _userRepository.UpdateAsync(user);
+            return new APIResponse.APIResponse()
             {
-                return new IFogotPasswordInteractor.Response("We already sent to your account! Please try again after 3 minute", false);
-            }
-            var token = new JwtSecurityTokenHandler().WriteToken(jwtUtil.GenerateResetPasswordApiToken(user.UserName));
-            var result = await sendMailUtil.SendMailAsync(user.Email, "Please click to the link bellow to reset your password",
-                $"{request.Url}/{token}");
-            if (result.Success == true) await userRepository.updateResetPasswordTokenAsync(user.UserName, token);
-            return new IFogotPasswordInteractor.Response(result.Message, result.Success);
+                code = StatusCode.SUCCESS.ToString(),
+                data = result
+            };
         }
-        public async Task<IResetPasswordInteractor.Response> resetPasswordService(IResetPasswordInteractor.Request request)
+        public async Task<APIResponse.APIResponse> resetPasswordService(ResetPasswordDto dto)
         {
-            string userName = jwtUtil.getUserNameFromToken(request.token);
-            bool isSuccess = await userRepository.updatePassword(userName, request.password);
+            string userName = _jwtUtil.getUserNameFromToken(dto.Token);
+            bool isSuccess = await _userRepository.ResetPassword(userName, dto.NewPassword);
             if (isSuccess)
             {
-                return new IResetPasswordInteractor.Response()
+                return new APIResponse.APIResponse()
                 {
-                    Message = "update new password success",
-                    Success = true
+                    code = StatusCode.SUCCESS.ToString()
                 };
             }
-            return new IResetPasswordInteractor.Response()
+            return new APIResponse.APIResponse()
             {
-                Message = "failed orcurr when update password",
-                Success = false
+                code = StatusCode.ERROR.ToString(),
+                message = "Reset password failed"
             };
         }
-        public async Task<IChangePasswordInteractor.Response> changePasswordService(IChangePasswordInteractor.Request request)
+        public async Task<APIResponse.APIResponse> changePasswordService(ChangePasswordDto dto, HttpContext context)
         {
-            string userId = await GetUserIdFromToken(request.token);
-            if (userId == null)
-                return new IChangePasswordInteractor.Response()
-                {
-                    Success = false,
-                    Message = "Change password failed"
-                };
-            bool isSuccess = await userRepository.ChangePassword(userId, request.oldPassword, request.newPassword);
+            string userId = await this.GetUserIdFromContext(context);
+            bool isSuccess = await _userRepository.ChangePassword(userId, dto.OldPassword, dto.NewPassword);
             if (isSuccess)
-                return new IChangePasswordInteractor.Response()
+                return new APIResponse.APIResponse()
                 {
-                    Success = true,
-                    Message = "Change password success"
+                    code = StatusCode.SUCCESS.ToString()
                 };
-            return new IChangePasswordInteractor.Response()
+            return new APIResponse.APIResponse()
             {
-                Success = false,
-                Message = "Change password failed"
+                code = StatusCode.ERROR.ToString(),
+                message = "Change password failed!"
             };
         }
-        public async Task<IBlockAndUnlockUserInteractor.Response> BlockUserAsync(IBlockAndUnlockUserInteractor.Request request)
+        //public async Task<IBlockAndUnlockUserInteractor.Response> BlockUserAsync(IBlockAndUnlockUserInteractor.Request request)
+        //{
+        //    string userId = await GetUserIdFromToken(request.token);
+        //    List<string> userRoles = (await _userRepository.GetListRoleOfUser(userId)).ToList();
+        //    List<string> blockUuserRoles = (await _userRepository.GetListRoleOfUser(request.userId)).ToList();
+        //    if (userRoles.Count == 0 || blockUuserRoles.Count == 0
+        //        || !userRoles.Contains(DbUserRole.Owner) || blockUuserRoles.Contains(DbUserRole.Owner))
+        //    {
+        //        return new IBlockAndUnlockUserInteractor.Response()
+        //        {
+        //            Success = false,
+        //            Message = "User don't have permission!"
+        //        };
+        //    }
+        //    await _userRepository.BlockAsync(request.userId);
+        //    return new IBlockAndUnlockUserInteractor.Response()
+        //    {
+        //        Success = true,
+        //        Message = "Block user success"
+        //    };
+        //}
+        //public async Task<IBlockAndUnlockUserInteractor.Response> UnlockUserAsync(IBlockAndUnlockUserInteractor.Request request)
+        //{
+        //    string userId = await GetUserIdFromToken(request.token);
+        //    List<string> userRoles = (await _userRepository.GetListRoleOfUser(userId)).ToList();
+        //    List<string> blockUuserRoles = (await _userRepository.GetListRoleOfUser(request.userId)).ToList();
+        //    if (userRoles.Count == 0 || blockUuserRoles.Count == 0
+        //        || !userRoles.Contains("owner"))
+        //    {
+        //        return new IBlockAndUnlockUserInteractor.Response()
+        //        {
+        //            Success = false,
+        //            Message = "User don't have permission!"
+        //        };
+        //    }
+        //    await _userRepository.UnlockAsync(request.userId);
+        //    return new IBlockAndUnlockUserInteractor.Response()
+        //    {
+        //        Success = true,
+        //        Message = "Unlock user success"
+        //    };
+        //}
+        public async Task<APIResponse.APIResponse> RefreshToken(string token, HttpContext context)
         {
-            string userId = await GetUserIdFromToken(request.token);
-            List<string> userRoles = (await userRepository.GetListRoleOfUser(userId)).ToList();
-            List<string> blockUuserRoles = (await userRepository.GetListRoleOfUser(request.userId)).ToList();
-            if (userRoles.Count == 0 || blockUuserRoles.Count == 0
-                || !userRoles.Contains(DbUserRole.Owner) || blockUuserRoles.Contains(DbUserRole.Owner))
-            {
-                return new IBlockAndUnlockUserInteractor.Response()
-                {
-                    Success = false,
-                    Message = "User don't have permission!"
-                };
-            }
-            await userRepository.BlockAsync(request.userId);
-            return new IBlockAndUnlockUserInteractor.Response()
-            {
-                Success = true,
-                Message = "Block user success"
-            };
-        }
-        public async Task<IBlockAndUnlockUserInteractor.Response> UnlockUserAsync(IBlockAndUnlockUserInteractor.Request request)
-        {
-            string userId = await GetUserIdFromToken(request.token);
-            List<string> userRoles = (await userRepository.GetListRoleOfUser(userId)).ToList();
-            List<string> blockUuserRoles = (await userRepository.GetListRoleOfUser(request.userId)).ToList();
-            if (userRoles.Count == 0 || blockUuserRoles.Count == 0
-                || !userRoles.Contains("owner"))
-            {
-                return new IBlockAndUnlockUserInteractor.Response()
-                {
-                    Success = false,
-                    Message = "User don't have permission!"
-                };
-            }
-            await userRepository.UnlockAsync(request.userId);
-            return new IBlockAndUnlockUserInteractor.Response()
-            {
-                Success = true,
-                Message = "Unlock user success"
-            };
-        }
-        public async Task<IRefreshTokenInteractor.Response> RefreshToken(string token)
-        {
-            string userId = await GetUserIdFromToken(token);
-            if (userId == null)
-            {
-                return new IRefreshTokenInteractor.Response()
-                {
-                    Success = false,
-                    Message = "Token is invalid"
-                };
-            }
-            AppUser user = await userRepository.FindByIdAsync(userId);
+            string userId = await this.GetUserIdFromContext(context);
+            AppUser user = await _userRepository.GetAsync(userId);
             if (user.RefreshToken != null && user.RefreshToken != token)
             {
-                return new IRefreshTokenInteractor.Response()
+                return new APIResponse.APIResponse()
                 {
-                    Success = false,
-                    Message = "Token is invalid"
+                    code = StatusCode.ERROR.ToString(),
+                    message = "Token is invalid!"
                 };
             }
-            var liRoles = await userRepository.GetListRoleOfUser(user.Id);
+            var liRoles = await _userRepository.GetListRoleAsync(user.Id);
             List<Claim> userRoles = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Actor, user.Id),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             foreach (var role in liRoles)
             {
                 userRoles.Add(new Claim(ClaimTypes.Role, role));
             }
-            string accessToken = new JwtSecurityTokenHandler().WriteToken(jwtUtil.GenerateAccessToken(userRoles, user.UserName));
-            string refreshToken = new JwtSecurityTokenHandler().WriteToken(jwtUtil.GenerateRefreshToken(userRoles, user.UserName));
+            string accessToken = new JwtSecurityTokenHandler().WriteToken(_jwtUtil.GenerateAccessToken(userRoles, user.Id));
+            string refreshToken = new JwtSecurityTokenHandler().WriteToken(_jwtUtil.GenerateRefreshToken(userRoles, user.Id));
             user.RefreshToken = refreshToken;
-            await userRepository.updateUser(user);
-            return new IRefreshTokenInteractor.Response()
+            await _userRepository.UpdateAsync(user);
+            return new APIResponse.APIResponse()
             {
-                Success = true,
-                Message = "success",
-                AccessToken = accessToken,
-                RefreshToken = refreshToken
+                code = StatusCode.SUCCESS.ToString(),
+                data = new
+                {
+                    accessToken = accessToken,
+                    refreshToken = refreshToken
+                }
             };
         }
     }

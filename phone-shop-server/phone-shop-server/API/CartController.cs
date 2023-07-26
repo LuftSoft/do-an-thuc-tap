@@ -1,127 +1,39 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Mvc;
 using phone_shop_server.Business.APIResponse;
 using phone_shop_server.Business.DTO.Brand;
+using phone_shop_server.Business.DTO.Cart;
 using phone_shop_server.Business.DTO.Phone;
 using phone_shop_server.Business.Service;
 
 namespace phone_shop_server.API
 {
     [ApiController]
-    [Route("api/v{version:apiVersion}/brand")]
-    public class CartController
+    [Route("api/v{version:apiVersion}/cart")]
+    public class CartController : ControllerBase
     {
-        private readonly IBrandService _brandService;
-        public CartController(IBrandService brandService)
+        private readonly ICartService _cartService;
+        public CartController(ICartService cartService)
         {
-            _brandService = brandService;
+            _cartService = cartService;
         }
 
         [HttpGet]
-        public async Task<APIResponse> Get()
-        {
-            //return await _brandService.GetAllAsync();
-            var data = await _brandService.GetAllAsync();
-            Console.WriteLine(data);
-            try
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.SUCCESS.ToString(),
-                    data = data
-                };
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.ERROR.ToString(),
-                    data = null
-                };
-            }
-        }
-
-        [HttpGet("{id}")]
-        public async Task<APIResponse> Get(string id)
-        {
-            try
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.SUCCESS.ToString(),
-                    data = await _brandService.GetOneAsync(id)
-                };
-            }
-            catch (Exception ex)
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.ERROR.ToString(),
-                    data = null
-                };
-            }
+        public async Task<IActionResult> Get()
+        {   
+             return Ok(await _cartService.GetAllAsync(HttpContext));
         }
 
         [HttpPost]
-        public async Task<APIResponse> Post([FromForm] BrandCreateDto dto)
+        public async Task<IActionResult> Post(CartCRUDDto dto)
         {
-            try
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.SUCCESS.ToString(),
-                    data = await _brandService.CreateAsync(dto)
-                };
-            }
-            catch (Exception ex)
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.ERROR.ToString(),
-                    data = null
-                };
-            }
+            return Ok(await _cartService.AddToCartAsync(HttpContext, dto));
         }
 
-        [HttpPut("{id}")]
-        public async Task<APIResponse> Put([FromBody] BrandDto dto)
-        {
-            try
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.SUCCESS.ToString(),
-                    data = await _brandService.UpdateAsync(dto)
-                };
-            }
-            catch (Exception ex)
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.ERROR.ToString(),
-                    data = null
-                };
-            }
-        }
         [HttpDelete("{id}")]
-        public async Task<APIResponse> Delete(string id)
+        public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.SUCCESS.ToString(),
-                    data = await _brandService.DeleteAsync(id)
-                };
-            }
-            catch (Exception ex)
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.ERROR.ToString(),
-                    data = null
-                };
-            }
+            return Ok(await _cartService.RemoveFromCartAsync(id, HttpContext));
         }
     }
 }

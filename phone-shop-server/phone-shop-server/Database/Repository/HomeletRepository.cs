@@ -3,7 +3,7 @@ using phone_shop_server.Database.Entity;
 
 namespace phone_shop_server.Database.Repository
 {
-    public class HomeletRepository
+    public class HomeletRepository : IHomeletRepository
     {
         private readonly AppDbContext _appDbContext;
         public HomeletRepository(AppDbContext appDbContext)
@@ -21,6 +21,14 @@ namespace phone_shop_server.Database.Repository
         public async Task<IEnumerable<Homelet>?> GetByDistrictIdAsync(string? id)
         {
             return await _appDbContext.Homelet.Where(h => h.DistrictId.Equals(id)).ToListAsync();
+        }
+        //Xa Nghia Trung, Huyen Tu Nghia, Tinh Quang Ngai
+        public async Task<string> HomeletAddress(string homeletId)
+        {
+            var homelet = await _appDbContext.Homelet.FirstOrDefaultAsync(h=>h.Id.Equals(homeletId));
+            var district = await _appDbContext.District.FirstOrDefaultAsync(d => d.Id.Equals(homelet.DistrictId));
+            var province = await _appDbContext.Province.FirstOrDefaultAsync(p => p.Id.Equals(district.ProvinceId));
+            return $"{homelet.Name}, {district.Name}, {province.Name}.";
         }
     }
 }

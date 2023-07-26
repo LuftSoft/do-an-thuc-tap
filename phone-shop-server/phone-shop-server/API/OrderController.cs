@@ -8,7 +8,7 @@ namespace phone_shop_server.API
 {
     [ApiController]
     [Route("api/v{version:apiVersion}/brand")]
-    public class OrderController
+    public class OrderController : ControllerBase
     {
         private readonly IBrandService _brandService;
         public OrderController(IBrandService brandService)
@@ -17,70 +17,21 @@ namespace phone_shop_server.API
         }
 
         [HttpGet]
-        public async Task<APIResponse> Get()
+        public async Task<IActionResult> Get()
         {
-            //return await _brandService.GetAllAsync();
-            var data = await _brandService.GetAllAsync();
-            Console.WriteLine(data);
-            try
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.SUCCESS.ToString(),
-                    data = data
-                };
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.ERROR.ToString(),
-                    data = null
-                };
-            }
+            return Ok("");
         }
 
         [HttpGet("{id}")]
-        public async Task<APIResponse> Get(string id)
+        public async Task<IActionResult> Get(string id)
         {
-            try
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.SUCCESS.ToString(),
-                    data = await _brandService.GetOneAsync(id)
-                };
-            }
-            catch (Exception ex)
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.ERROR.ToString(),
-                    data = null
-                };
-            }
+            return Ok("");
         }
 
         [HttpPost]
-        public async Task<APIResponse> Post([FromForm] BrandCreateDto dto)
+        public async Task<IActionResult> Post([FromForm] BrandCreateDto dto)
         {
-            try
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.SUCCESS.ToString(),
-                    data = await _brandService.CreateAsync(dto)
-                };
-            }
-            catch (Exception ex)
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.ERROR.ToString(),
-                    data = null
-                };
-            }
+            return Ok("");
         }
 
         [HttpPut("{id}")]

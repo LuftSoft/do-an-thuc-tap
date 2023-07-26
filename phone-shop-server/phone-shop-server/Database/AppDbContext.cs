@@ -58,6 +58,8 @@ namespace phone_shop_server.Database
                 opt.HasMany(u => u.WarehouseTicket).WithOne(a => a.User)
                  .HasForeignKey(a => a.UserId)
                  .HasConstraintName("FK_User_WarehouseTicket");
+                opt.HasIndex(u => u.Email).IsUnique();
+                opt.HasIndex(u => u.PhoneNumber).IsUnique();
             });
             builder.Entity<WarehouseTicket>(opt =>
             {

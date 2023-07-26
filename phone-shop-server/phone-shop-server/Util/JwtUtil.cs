@@ -8,11 +8,12 @@ namespace phone_shop_server.Util
     public interface IJwtUtil
     {
         bool isTokenExpired(string? token);
+        string? getUserIdFromToken(string token);
         string? getUserNameFromToken(string token);
         string? getTokenFromHeader(HttpContext context);
-        JwtSecurityToken GenerateResetPasswordApiToken(string username);
-        JwtSecurityToken GenerateAccessToken(List<Claim> authClaims, string username);
-        JwtSecurityToken GenerateRefreshToken(List<Claim> authClaims, string username);
+        JwtSecurityToken GenerateResetPasswordApiToken(string userid);
+        JwtSecurityToken GenerateAccessToken(List<Claim> authClaims, string userid);
+        JwtSecurityToken GenerateRefreshToken(List<Claim> authClaims, string userid);
     }
     public class JwtUtil : IJwtUtil
     {
@@ -44,6 +45,16 @@ namespace phone_shop_server.Util
                 return "username is null";
             return userId.Value;
         }
+        public string? getUserIdFromToken(string token)
+        {
+            var jwt = new JwtSecurityTokenHandler().ReadJwtToken(token);
+            if (jwt == null)
+                return "jwt is null";
+            var userId = jwt.Claims.FirstOrDefault(c => c.Type == "UserId");
+            if (userId == null)
+                return "userid is null";
+            return userId.Value;
+        }
         public string? getTokenFromHeader(HttpContext context)
         {
             var listAuth = context.Request.Headers.Authorization.ToList();
@@ -54,11 +65,11 @@ namespace phone_shop_server.Util
             }
             return null;
         }
-        public JwtSecurityToken GenerateResetPasswordApiToken(string username)
+        public JwtSecurityToken GenerateResetPasswordApiToken(string userid)
         {
             List<Claim> authClaims = new List<Claim>();
             authClaims.Add(new Claim(type: "ResetPassword", "true"));
-            authClaims.Add(new Claim(type: "UserName", value: username));
+            authClaims.Add(new Claim(type: "UserName", value: userid));
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWTConfig:RefreshPasswordSecret"]));
             var token = new JwtSecurityToken(
                 issuer: configuration["JWTConfig:ValidIssuer"],
@@ -70,10 +81,10 @@ namespace phone_shop_server.Util
 
             return token;
         }
-        public JwtSecurityToken GenerateAccessToken(List<Claim> authClaims, string username)
+        public JwtSecurityToken GenerateAccessToken(List<Claim> authClaims, string userid)
         {
             authClaims.Add(new Claim(type: "AccessToken", "true"));
-            authClaims.Add(new Claim(type: "UserName", value: username));
+            authClaims.Add(new Claim(type: "UserId", value: userid));
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWTConfig:AccessSecret"]));
 
             var token = new JwtSecurityToken(
@@ -86,10 +97,10 @@ namespace phone_shop_server.Util
 
             return token;
         }
-        public JwtSecurityToken GenerateRefreshToken(List<Claim> authClaims, string username)
+        public JwtSecurityToken GenerateRefreshToken(List<Claim> authClaims, string userid)
         {
             authClaims.Add(new Claim(type: "RefreshToken", "true"));
-            authClaims.Add(new Claim(type: "UserName", value: username));
+            authClaims.Add(new Claim(type: "UserName", value: userid));
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWTConfig:RefreshSecret"]));
 
             var token = new JwtSecurityToken(
