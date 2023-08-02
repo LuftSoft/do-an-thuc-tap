@@ -28,7 +28,7 @@ namespace phone_shop_server.Business.Converter
                 UserId = address.UserId,
                 HomeletId = address.HomeletId,
                 DetailAddress = address.DetailAddress,
-                HomeletAddress = await _homeletRepository.HomeletAddress(address.HomeletId)
+                HomeletAddress = await _homeletRepository.GetHomeletAddress(address.HomeletId)
             };
         }
         public async Task<IEnumerable<AddressDto>> ConvertToListAddressDto(IEnumerable<Address> address)

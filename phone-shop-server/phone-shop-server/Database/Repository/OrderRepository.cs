@@ -15,7 +15,7 @@ namespace phone_shop_server.Database.Repository
         {
             try
             {
-                return await _appDbContext.Order.ToListAsync();
+                return await _appDbContext.Order.Include(o => o.Address).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -32,6 +32,11 @@ namespace phone_shop_server.Database.Repository
             {
                 throw new ApplicationException(ex.Message);
             }
+        }
+        public async Task<IEnumerable<Order>> GetByUserIdAsync(string userId)
+        {
+            return await _appDbContext.Order.Where(o => o.UserId.Equals(userId))
+                .Include(o => o.Address).ToListAsync();
         }
         public async Task<Order> CreateAsync(Order order)
         {
@@ -72,6 +77,5 @@ namespace phone_shop_server.Database.Repository
                 throw new ApplicationException(ex.Message);
             }
         }
-
     }
 }

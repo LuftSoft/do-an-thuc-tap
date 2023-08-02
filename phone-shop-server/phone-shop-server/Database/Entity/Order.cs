@@ -13,6 +13,9 @@ namespace phone_shop_server.Database.Entity
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
         public string UserId { get; set; }
+        public string PaymentStatus { set; get; }
+        public string PaymentMethod { set; get; }
+        public string? PaymentOnlineReceipt { set; get; }
         public ICollection<OrderDetail> OrderDetail { get; set; }
         public ICollection<OrderStatus> OrderStatus { get; set; }
 

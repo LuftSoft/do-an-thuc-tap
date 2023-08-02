@@ -23,7 +23,7 @@ namespace phone_shop_server.Database.Repository
             return await _appDbContext.Homelet.Where(h => h.DistrictId.Equals(id)).ToListAsync();
         }
         //Xa Nghia Trung, Huyen Tu Nghia, Tinh Quang Ngai
-        public async Task<string> HomeletAddress(string homeletId)
+        public async Task<string> GetHomeletAddress(string homeletId)
         {
             var homelet = await _appDbContext.Homelet.FirstOrDefaultAsync(h=>h.Id.Equals(homeletId));
             var district = await _appDbContext.District.FirstOrDefaultAsync(d => d.Id.Equals(homelet.DistrictId));

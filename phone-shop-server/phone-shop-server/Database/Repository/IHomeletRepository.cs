@@ -7,7 +7,7 @@ namespace phone_shop_server.Database.Repository
         Task<Homelet?> GetOneAsync(string? id);
         Task<IEnumerable<Homelet>?> GetByNameAsync(string? key);
         Task<IEnumerable<Homelet>?> GetByDistrictIdAsync(string? id);
-        Task<string> HomeletAddress(string homeletId);
+        Task<string> GetHomeletAddress(string homeletId);
 
     }
 }

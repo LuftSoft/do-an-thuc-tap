@@ -1,78 +1,54 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using phone_shop_server.Business.APIResponse;
 using phone_shop_server.Business.DTO.Brand;
+using phone_shop_server.Business.DTO.Order;
 using phone_shop_server.Business.DTO.Phone;
 using phone_shop_server.Business.Service;
 
 namespace phone_shop_server.API
 {
     [ApiController]
-    [Route("api/v{version:apiVersion}/brand")]
+    [Route("api/v{version:apiVersion}/order")]
     public class OrderController : ControllerBase
     {
-        private readonly IBrandService _brandService;
-        public OrderController(IBrandService brandService)
+        private readonly IOrderService _orderService;
+        public OrderController(IOrderService orderService)
         {
-            _brandService = brandService;
+            _orderService = orderService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok("");
+            return Ok(await _orderService.GetAllAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            return Ok("");
+            return Ok(await _orderService.GetOneAsync(id));
+        }
+        [HttpGet("user")]
+        public async Task<IActionResult> GetByUser()
+        {
+            return Ok(await _orderService.GetByUserIdAsync(HttpContext));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromForm] BrandCreateDto dto)
+        public async Task<IActionResult> Post([FromBody] OrderCreateDto dto)
         {
-            return Ok("");
+            return Ok(await _orderService.CreateAsync(dto, HttpContext));
         }
 
-        [HttpPut("{id}")]
-        public async Task<APIResponse> Put([FromBody] BrandDto dto)
+        [HttpPut()]
+        public async Task<IActionResult> Put([FromBody] OrderPaymentUpdateDto dto)
         {
-            try
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.SUCCESS.ToString(),
-                    data = await _brandService.UpdateAsync(dto)
-                };
-            }
-            catch (Exception ex)
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.ERROR.ToString(),
-                    data = null
-                };
-            }
+            return Ok(await _orderService.UpdatePaymentStatus(dto, HttpContext));
         }
         [HttpDelete("{id}")]
-        public async Task<APIResponse> Delete(string id)
+        public async Task<IActionResult> CancelOrder(string id)
         {
-            try
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.SUCCESS.ToString(),
-                    data = await _brandService.DeleteAsync(id)
-                };
-            }
-            catch (Exception ex)
-            {
-                return new APIResponse()
-                {
-                    code = Database.Enum.StatusCode.ERROR.ToString(),
-                    data = null
-                };
-            }
+            return Ok(await _orderService.CancelOrder(HttpContext, id));
         }
     }
 }

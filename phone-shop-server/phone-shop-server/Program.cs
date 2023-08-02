@@ -128,7 +128,7 @@ app.UseStaticFiles();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseCors("CrossOrigin");
 app.MapControllers();
 
 app.Run();

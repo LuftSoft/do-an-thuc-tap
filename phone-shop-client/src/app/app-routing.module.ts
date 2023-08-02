@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ShopNavComponent } from './modules/user/page/shop-nav/shop-nav.component';
 
 const routes: Routes = [
-  { path: '', component: ShopNavComponent }
+  {
+    path: '', loadChildren: () => import('./modules/page.module').then(m => m.PageModule)
+  }
 ];
 
 @NgModule({

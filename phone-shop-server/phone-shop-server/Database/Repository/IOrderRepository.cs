@@ -9,6 +9,7 @@ namespace phone_shop_server.Database.Repository
         Task<Order> CreateAsync(Order order);
         Task<Order> UpdateAsync(Order order);
         Task<bool> DeleteAsync(string orderId);
+        Task<IEnumerable<Order>> GetByUserIdAsync(string userId);
 
     }
 }

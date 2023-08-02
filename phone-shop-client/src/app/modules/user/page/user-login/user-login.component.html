@@ -1,1 +1,45 @@
-<p>user-login works!</p>
+<div class="body">
+    <div class="container form-contain">
+        <div class="container-fluid">
+            <form class="form-main" action="" method="post" (submit)="onSubmit()" [formGroup]="form">
+                <div style="
+            text-align: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--basecolor);
+            padding-bottom: 7px;
+          ">
+                    <label for="" style="font-size: 40px; font-weight: 600">ĐĂNG NHẬP</label>
+                </div>
+                <div class="mb-3 mt-2">
+                    <mat-form-field>
+                        <mat-label>Email</mat-label>
+                        <input type="email" matInput formControlName="email">
+                        <mat-error *ngIf="form.controls['email'].invalid" class="mt-2">Email không hợp lệ</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="mb-3">
+                    <mat-form-field>
+                        <mat-label>Mật khẩu</mat-label>
+                        <input type="text" matInput formControlName="password">
+                        <mat-error *ngIf="form.controls['password'].invalid" class="mt-2">Mật khẩu không hợp
+                            lệ.</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="mb-3" style="text-align: right;">
+                    <div>
+                        <a [routerLink]="'/fogot-password'" style="text-decoration: none; color: var(--basecolor)">Quên
+                            mật khẩu</a>
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="btn-common-base w-100" mat-button>Đăng nhập</button>
+                </div>
+                <div style="text-align: right">
+                    <label for="" class="mt-4">Bạn chưa có tài khoản?
+                        <a [routerLink]="'/signup'" style="text-decoration: none; color: var(--basecolor)">Đăng
+                            ký</a></label>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

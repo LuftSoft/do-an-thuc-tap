@@ -61,6 +61,13 @@ namespace phone_shop_server.Business.Service
             Phone updatePhone = await _phoneRepository.UpdateAsync(phone);
             return await _phoneConverter.ConvertToPhoneDto(updatePhone);
         }
+        public async Task<bool> UpdateQuantityAsync(string phoneId, int quantity)
+        {
+            Phone phone = await _phoneRepository.GetOneAsync(phoneId);
+            phone.Quantity += quantity;
+            var result = await _phoneRepository.UpdateAsync(phone);
+            return result != null;
+        }
         public async Task<bool> DeleteAsync(string id)
         {
             return await _phoneRepository.DeleteAsync(id);

@@ -99,6 +99,7 @@ namespace phone_shop_server.Database
                     .HasConstraintName("FK_Phone_OrderDetails");
                 opt.HasCheckConstraint<Phone>("CK_Phone_Price_ImportSold", "ImportPrice <= SoldPrice");
                 opt.HasCheckConstraint<Phone>("CK_Phone_Quantity", "Quantity >= 0");
+                opt.HasIndex(p => p.Slug).IsUnique();
             });
             builder.Entity<Promote>(opt =>
             {
@@ -114,6 +115,8 @@ namespace phone_shop_server.Database
                 opt.HasMany(order => order.OrderStatus).WithOne(os => os.Order)
                     .HasForeignKey(os => os.OrderId)
                     .HasConstraintName("FK_Order_OrderStatus");
+                opt.HasCheckConstraint("CK_Order_PaymentStatus", "PaymentMethod = 'COD' OR PaymentMethod='ONLINE'");
+                opt.HasCheckConstraint("CK_Order_PaymentMethod", "PaymentStatus = 'UNPAID' OR PaymentStatus='PAID' OR PaymentStatus='CONFIRMING'");
             });
             builder.Entity<Status>(opt =>
             {
@@ -148,8 +151,14 @@ namespace phone_shop_server.Database
                     .HasForeignKey(sup => sup.HomeletId)
                     .HasConstraintName("FK_Homelet_Supplier");
             });
-
-
+            builder.Entity<OrderStatus>(opt => 
+            {
+                opt.HasIndex(o => new { o.OrderId, o.StatusId }).IsUnique();
+            });
+            builder.Entity<PromoteDetail>(opt =>
+            {
+                opt.HasIndex(o => new { o.PromoteId, o.PhoneId }).IsUnique();
+            });
         }
     }
 }

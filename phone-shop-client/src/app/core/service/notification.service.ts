@@ -14,5 +14,37 @@ export class NotificationService {
       duration: 1000
     });
   }
+  notifySuccess(message:string){
+    this.snackbar.open(message,"X",{
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      duration: 1000,
+      panelClass:'notify-panel-success'
+    });
+  }
+  notifyError(message:string){
+    this.snackbar.open(message,"X",{
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      duration: 1000,
+      panelClass:'notify-panel-error'
+    });
+  }
+  notifyWarning(message:string){
+    this.snackbar.open(message,"X",{
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      duration: 1000,
+      panelClass:'notify-panel-warning'
+    });
+  }
+  notifyInfo(message:string){
+    this.snackbar.open(message,"X",{
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      duration: 1000,
+      panelClass:'notify-panel-info'
+    });
+  }
 
 }

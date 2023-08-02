@@ -1,4 +1,5 @@
-﻿using phone_shop_server.Business.DTO.User;
+﻿using phone_shop_server.Business.DTO.Address;
+using phone_shop_server.Business.DTO.User;
 
 namespace phone_shop_server.Business.Service
 {
@@ -19,5 +20,6 @@ namespace phone_shop_server.Business.Service
         Task<APIResponse.APIResponse> resetPasswordService(ResetPasswordDto dto);
         Task<APIResponse.APIResponse> changePasswordService(ChangePasswordDto dto, HttpContext context);
         Task<APIResponse.APIResponse> RefreshToken(string token, HttpContext context);
+        Task<AddressDto> CheckAddressBelongToUser(string userId, string addressId);
     }
 }

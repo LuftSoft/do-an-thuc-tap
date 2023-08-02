@@ -10,6 +10,8 @@ namespace phone_shop_server.Business.DTO.Order
         public DateTime? CreateDate { get; set; }
         public AddressDto? Address { get; set; }
         public UserDto? User { get; set; }
+        public string? PaymentMethod { get; set; }
+        public string? PaymentStatus { get; set; }
         public IEnumerable<OrderDetailDto> OrderDetail { get; set; }
         public IEnumerable<OrderStatusDto> OrderStatus { get; set; }
     }

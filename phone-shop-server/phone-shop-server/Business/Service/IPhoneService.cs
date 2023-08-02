@@ -8,6 +8,7 @@ namespace phone_shop_server.Business.Service
         Task<PhoneDto> GetOneAsync(string id);
         Task<PhoneDto> CreateAsync(PhoneCreateDto phoneCreateDto);
         Task<PhoneDto> UpdateAsync(PhoneUpdateDto phoneDto);
+        Task<bool> UpdateQuantityAsync(string phoneId, int quantity);
         Task<bool> DeleteAsync(string id);
 
     }

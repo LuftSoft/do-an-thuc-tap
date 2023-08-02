@@ -238,7 +238,7 @@ namespace phone_shop_server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
@@ -261,6 +261,10 @@ namespace phone_shop_server.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -268,6 +272,10 @@ namespace phone_shop_server.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique()
+                        .HasFilter("[PhoneNumber] IS NOT NULL");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -288,9 +296,12 @@ namespace phone_shop_server.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Brand");
                 });
@@ -384,6 +395,17 @@ namespace phone_shop_server.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentOnlineReceipt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -393,6 +415,10 @@ namespace phone_shop_server.Migrations
                     b.HasIndex("AddressId");
 
                     b.ToTable("Order");
+
+                    b.HasCheckConstraint("CK_Order_PaymentMethod", "PaymentStatus = 'UNPAID' OR PaymentStatus='PAID' OR PaymentStatus='CONFIRMING'");
+
+                    b.HasCheckConstraint("CK_Order_PaymentStatus", "PaymentMethod = 'COD' OR PaymentMethod='ONLINE'");
                 });
 
             modelBuilder.Entity("phone_shop_server.Database.Entity.OrderDetail", b =>
@@ -436,9 +462,10 @@ namespace phone_shop_server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
-
                     b.HasIndex("StatusId");
+
+                    b.HasIndex("OrderId", "StatusId")
+                        .IsUnique();
 
                     b.ToTable("OrderStatus");
                 });
@@ -451,14 +478,14 @@ namespace phone_shop_server.Migrations
 
                     b.Property<string>("BehindCamera")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<Guid>("BrandId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CPU")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -466,18 +493,18 @@ namespace phone_shop_server.Migrations
 
                     b.Property<string>("FrontCamera")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<double>("ImportPrice")
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("Operation")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("OtherBenefit")
                         .IsRequired()
@@ -485,21 +512,22 @@ namespace phone_shop_server.Migrations
 
                     b.Property<string>("PIN")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<string>("RAM")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ROM")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<double>("ScreenResolution")
-                        .HasColumnType("float");
+                    b.Property<string>("ScreenResolution")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<double>("ScreenSize")
                         .HasColumnType("float");
@@ -508,12 +536,19 @@ namespace phone_shop_server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1000)");
+
                     b.Property<double>("SoldPrice")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
 
                     b.ToTable("Phone");
 
@@ -586,7 +621,8 @@ namespace phone_shop_server.Migrations
 
                     b.HasIndex("PhoneId");
 
-                    b.HasIndex("PromoteId");
+                    b.HasIndex("PromoteId", "PhoneId")
+                        .IsUnique();
 
                     b.ToTable("PromoteDetail");
                 });

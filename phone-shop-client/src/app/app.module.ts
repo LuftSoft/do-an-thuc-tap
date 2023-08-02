@@ -1,27 +1,39 @@
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserModule } from '@angular/platform-browser';
-import { MatButtonModule } from '@angular/material/button'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UserModule } from './modules/user/user.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AdminModule } from './modules/admin/admin.module';
+import { LoadingServiceComponent } from './core/service/loading-service/loading-service.component';
 import { NotificationComponent } from './core/service/notification/notification.component';
+import { AdminModule } from './modules/admin/admin.module';
+import { PageModule } from './modules/page.module';
+import { ShopFooterComponent } from './modules/user/page/shop-footer/shop-footer.component';
+import { ShopLayoutComponent } from './modules/user/page/shop-layout/shop-layout.component';
+import { ShopNavComponent } from './modules/user/page/shop-nav/shop-nav.component';
+import { UserService } from './modules/user/user.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NotificationComponent
+    NotificationComponent,
+    LoadingServiceComponent
+    // ShopNavComponent,
+    // ShopFooterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    UserModule,
     AdminModule,
+    PageModule,
     BrowserAnimationsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinnerModule
   ],
-  providers: [],
+  providers: [
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

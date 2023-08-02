@@ -63,7 +63,7 @@ namespace phone_shop_server.Business.Converter
             phone.Description = phoneUpdateDto.Description;
             phone.Operation = phoneUpdateDto.Operation;
             phone.OtherBenefit = phoneUpdateDto.OtherBenefit;
-            phone.ScreenResolution = (double) phoneUpdateDto.ScreenResolution;
+            phone.ScreenResolution = phoneUpdateDto.ScreenResolution;
             phone.ScreenSize = (double)phoneUpdateDto.ScreenSize;
             phone.ScreenTouch = phoneUpdateDto.ScreenTouch;
             phone.ImportPrice = phoneUpdateDto.ImportPrice;
@@ -111,7 +111,7 @@ namespace phone_shop_server.Business.Converter
             phone.Description = phoneDto.Description ;
             phone.Operation = phoneDto.Operation ;
             phone.OtherBenefit = phoneDto.OtherBenefit;
-            phone.ScreenResolution = (double)phoneDto.ScreenResolution ;
+            phone.ScreenResolution = phoneDto.ScreenResolution ;
             phone.ScreenSize = (double)phoneDto.ScreenSize ;
             phone.ScreenTouch = phoneDto.ScreenTouch ;
             phone.Quantity = (int)phoneDto.Quantity ;

@@ -15,7 +15,7 @@ namespace phone_shop_server.Business.DTO.Phone
         public string? ROM { get; set; }
         public string? PIN { get; set; }
         public double? ScreenSize { get; set; }
-        public double? ScreenResolution { get; set; }
+        public string? ScreenResolution { get; set; }
         public string? FrontCamera { get; set; }
         public string? BehindCamera { get; set; }
         //mat kinh cam ung

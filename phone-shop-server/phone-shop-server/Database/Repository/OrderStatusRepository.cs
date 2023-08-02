@@ -24,12 +24,11 @@ namespace phone_shop_server.Database.Repository
                 throw new ApplicationException(ex.InnerException.ToString());
             }
         }
-        public async Task<IEnumerable<Status>> GetByOrderIdAsync(string orderId)
+        public async Task<IEnumerable<OrderStatus>> GetByOrderIdAsync(string orderId)
         {
             try
             {
-                return await _appDbContext.OrderStatus.Where(os => os.OrderId.ToString().Equals(orderId))
-                .Select(os => os.Status).ToListAsync();
+                return await _appDbContext.OrderStatus.Where(os => os.OrderId.ToString().Equals(orderId)).ToListAsync();
             }
             catch(Exception ex)
             {

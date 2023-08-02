@@ -1,20 +1,78 @@
-<div class="bg-dark" style="width: 100vw;">
+<div class="navbar-contain-css">
     <div class="container">
-        <nav class="navbar">
-            <a href="" class="nav-logo">PShop</a>
-            <input type="text" class="search-input">
-            <a href="">Tra cứu đơn hàng</a>
-            <a href="">Giỏ hàng</a>
-            <a href="">Tên user</a>
-            <ul class="detail-user-list">
-                <li (click)="openNotify()">
-                    <a>Tài khoản</a>
-                </li>
-                <li>
-                    <a href="">Đăng xuất</a>
-                    <i class="fa fa-american-sign-language-interpreting fa-5x" aria-hidden="true"> </i>
-                </li>
-            </ul>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg">
+            <!-- Container wrapper -->
+            <div class="container-fluid navbar-custom-css">
+                <!-- Toggle button -->
+                <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                    data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </button>
+
+                <!-- Collapsible wrapper -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Navbar brand -->
+                    <a class="navbar-brand mt-2 mt-lg-0" [routerLink]="''">
+                        <img src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp" height="15"
+                            alt="MDB Logo" loading="lazy" />
+                    </a>
+                    <!-- Left links -->
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" [routerLink]="'product'">Product</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" [routerLink]="'product'">Team</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" [routerLink]="'product'">Projects</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex me-3 search-form">
+                        <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-search" type="submit">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                    <!-- Left links -->
+                </div>
+                <!-- Collapsible wrapper -->
+
+                <!-- Right elements -->
+                <div class="d-flex align-items-center">
+                    <!-- Icon -->
+                    <a class="text-reset me-3" [routerLink]="'cart'" matTooltip="Giỏ hàng">
+                        <i class="fa fa-shopping-cart right-icon" aria-hidden="true"></i>
+                    </a>
+                    <!-- Avatar -->
+                    <a class="btn btn-common-orange me-2" [routerLink]="'/login'">Đăng nhập</a>
+                    <a class="btn btn-common-orange" [routerLink]="'/signup'">Đăng ký</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle d-flex align-items-center hidden-arrow right-icon" href="#"
+                            id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown"
+                            aria-expanded="false">
+                            <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
+                                height="25" alt="Black and White Portrait of a Man" loading="lazy" />
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                            <li>
+                                <a class="dropdown-item" href="#">My profile</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">Settings</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Right elements -->
+            </div>
+            <!-- Container wrapper -->
         </nav>
+        <!-- Navbar -->
     </div>
 </div>

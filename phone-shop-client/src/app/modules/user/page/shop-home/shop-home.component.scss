@@ -1,0 +1,247 @@
+/* You can add global styles to this file, and also import other style files */
+
+.card-product {
+    transition: .2s;
+    -moz-transition: .2s;
+    -webkit-transition: .2s;
+    -o-transition: .2s
+}
+
+.card-product .card-hidden {
+    background-color: #fff;
+    border-bottom: 1px solid #e9edec;
+    border-left: 1px solid #e9edec;
+    border-radius: .4375rem;
+    border-right: 1px solid #e9edec;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    left: 0;
+    margin-top: -1.25rem;
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    transition: all .15s ease-in-out;
+    visibility: hidden;
+    width: 100%;
+    z-index: 1
+}
+
+.card-product .product-action-btn {
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateX(10px);
+    transition: opacity .25s cubic-bezier(.17, .62, .44, .99), transform .25s cubic-bezier(.17, .62, .44, .99)
+}
+
+.card-product .card-product-action {
+    bottom: 15%;
+    left: 50%;
+    opacity: 0;
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    transition: all .3s ease 0s;
+    visibility: hidden;
+    width: 100%;
+    z-index: 9
+}
+
+.card-product:hover {
+    border: 1px solid #0aad0a;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, .12);
+    transition: .2s;
+    -moz-transition: .2s;
+    -webkit-transition: .2s;
+    -o-transition: .2s
+}
+
+.card-product:hover .card-hidden,
+.card-product:hover .card-product-action {
+    opacity: 1;
+    visibility: visible
+}
+
+.card-product:hover .product-action-btn {
+    opacity: 1;
+    transform: translateX(0)
+}
+
+.card-product .btn-action {
+    align-items: center;
+    background-color: #fff;
+    border-radius: .5rem;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+    color: #21313c;
+    display: inline-flex;
+    font-size: 14px;
+    height: 34px;
+    justify-content: center;
+    line-height: 34px;
+    text-align: center;
+    transition: all .3s ease 0s;
+    vertical-align: middle;
+    width: 34px
+}
+
+.card-product .btn-action:hover {
+    background-color: #0aad0a;
+    color: #fff
+}
+
+.card-product-v2 {
+    cursor: pointer;
+    transition: z-index .2s cubic-bezier(.28, .12, .22, 1);
+    z-index: 1
+}
+
+.card-product-v2 .product-content-fade {
+    background-color: #fff;
+    bottom: 0;
+    box-shadow: 5px 15px 30px rgba(62, 68, 90, .1);
+    left: -1px;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: -1px;
+    top: -1px;
+    transition: opacity .2s cubic-bezier(.28, .12, .22, 1);
+    will-change: opacity;
+    z-index: -1
+}
+
+.card-product-v2 .product-fade-block {
+    background-color: #fff;
+    border-radius: .5rem;
+    left: 0;
+    opacity: 0;
+    padding: 0 .9375rem;
+    position: absolute;
+    right: 0;
+    transform: translateY(5px);
+    transition: all .2s cubic-bezier(.28, .12, .22, 1);
+    visibility: hidden;
+    will-change: opacity, transform
+}
+
+.card-product-v2 .product-action-btn {
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateX(10px);
+    transition: opacity .25s cubic-bezier(.17, .62, .44, .99), transform .25s cubic-bezier(.17, .62, .44, .99)
+}
+
+.card-product-v2 .btn-action {
+    align-items: center;
+    background-color: #fff;
+    border-radius: .5rem;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+    color: #21313c;
+    display: inline-flex;
+    font-size: 14px;
+    height: 34px;
+    justify-content: center;
+    line-height: 34px;
+    text-align: center;
+    transition: all .3s ease 0s;
+    vertical-align: middle;
+    width: 34px
+}
+
+.card-product-v2 .btn-action:hover {
+    background-color: #0aad0a;
+    color: #fff
+}
+
+.card-product-v2:hover .product-fade-block {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible
+}
+
+.card-product-v2:hover .product-content-fade {
+    opacity: 1
+}
+
+.card-product-v2:hover .product-action-btn {
+    opacity: 1;
+    transform: translateX(0)
+}
+
+.card-product-v2 .product-content-fade.border-info {
+    border: 1px solid #0aad0a !important;
+    border-radius: .5rem
+}
+
+.card-product-v2:hover.card {
+    border: none;
+    z-index: 2
+}
+
+.card-image {
+    transition: box-shadow .25s ease, transform .25s ease
+}
+
+.card-image:hover {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+    transform: translate3d(0, -3px, 0)
+}
+
+.salessection {
+    padding: 4rem;
+}
+
+
+.dropdown-item {
+    border: 0;
+    clear: both;
+    color: #5c6c75;
+    display: block;
+    font-weight: 400;
+    padding: .125rem .75rem;
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    width: 100%
+}
+
+nav {
+    background-color: white;
+}
+
+
+.nav-name {
+    color: #0aad0a;
+}
+
+.form-control {
+    border: none;
+}
+
+.btn-search-icon {
+    /* border-radius:30px ; */
+    background-color: #0aad0a;
+    border: none;
+    padding: .25rem;
+    width: 40px;
+}
+
+
+
+.bg-image {
+    padding: 40px;
+}
+
+.badges {
+    background-color: yellow;
+    color: dark;
+    font-weight: bold;
+    padding: 3px;
+    border-radius: 20px;
+}

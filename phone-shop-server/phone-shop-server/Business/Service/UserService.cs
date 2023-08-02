@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using phone_shop_server.Business.Converter;
+using phone_shop_server.Business.DTO.Address;
 using phone_shop_server.Business.DTO.User;
 using phone_shop_server.Database.Entity;
 using phone_shop_server.Database.Enum;
@@ -18,13 +19,15 @@ namespace phone_shop_server.Business.Service
         private readonly IConfiguration _configuration;
         private readonly IUserConverter _userConverter;
         private readonly IUserRepository _userRepository;
+        private readonly IAddressRepository _addressRepository;
         public UserService(
             IJwtUtil jwtUtil,
             IMailUtil sendMailUtil,
             IFileUtil uploadFileUtil,
             IConfiguration configuration,
             IUserConverter userConverter,
-            IUserRepository userRepository
+            IUserRepository userRepository,
+            IAddressRepository addressRepository
             )
         {
             _jwtUtil = jwtUtil;
@@ -33,6 +36,7 @@ namespace phone_shop_server.Business.Service
             _configuration = configuration;
             _userConverter = userConverter;
             _userRepository = userRepository;
+            _addressRepository = addressRepository;
         }
         public async Task<string?> GetUserIdFromToken(string token)
         {
@@ -414,6 +418,11 @@ namespace phone_shop_server.Business.Service
                     refreshToken = refreshToken
                 }
             };
+        }
+        public async Task<AddressDto> CheckAddressBelongToUser(string userId, string addressId)
+        {
+            var address = await _addressRepository.GetByUserIdAsync(userId);
+            return address.Where(ad => ad.Id.ToString().Equals(addressId)).FirstOrDefault();
         }
     }
 }
