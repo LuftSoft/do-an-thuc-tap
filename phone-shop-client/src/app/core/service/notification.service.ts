@@ -14,37 +14,42 @@ export class NotificationService {
       duration: 1000
     });
   }
-  notifySuccess(message:string){
-    this.snackbar.open(message,"X",{
+  notifySuccess(message: string) {
+    this.snackbar.open(message, "X", {
       verticalPosition: 'top',
       horizontalPosition: 'center',
       duration: 1000,
-      panelClass:'notify-panel-success'
+      panelClass: 'notify-panel-success'
     });
   }
-  notifyError(message:string){
-    this.snackbar.open(message,"X",{
+  notifyError(message: string) {
+    this.snackbar.open(message, "X", {
       verticalPosition: 'top',
       horizontalPosition: 'center',
       duration: 1000,
-      panelClass:'notify-panel-error'
+      panelClass: 'notify-panel-error'
     });
   }
-  notifyWarning(message:string){
-    this.snackbar.open(message,"X",{
+  notifyWarning(message: string) {
+    this.snackbar.open(message, "X", {
       verticalPosition: 'top',
       horizontalPosition: 'center',
       duration: 1000,
-      panelClass:'notify-panel-warning'
+      panelClass: 'notify-panel-warning'
     });
   }
-  notifyInfo(message:string){
-    this.snackbar.open(message,"X",{
+  notifyInfo(message: string) {
+    this.snackbar.open(message, "X", {
       verticalPosition: 'top',
       horizontalPosition: 'center',
       duration: 1000,
-      panelClass:'notify-panel-info'
+      panelClass: 'notify-panel-info'
     });
   }
 
+}
+export class Helpers {
+  static clonDeep(obj: any) {
+    return JSON.parse(JSON.stringify(obj));
+  }
 }

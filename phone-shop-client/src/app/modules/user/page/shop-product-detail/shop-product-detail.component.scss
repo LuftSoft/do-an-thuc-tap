@@ -1,0 +1,184 @@
+.slide {
+    width: 100%;
+    height: 500px;
+    border-radius: 10px;
+    position: relative;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid var(--dark-gray);
+}
+
+.rightArrow,
+.leftArrow {
+    background-color: rgba($color: #000000, $alpha: 0.5);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 45px;
+    color: #fff;
+    z-index: 1;
+    cursor: pointer;
+    width: 50px;
+    display: flex;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+
+    &::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        border-right: 5px solid #fff;
+        border-top: 5px solid #fff;
+    }
+}
+
+.rightArrow {
+    right: 10px;
+
+    &::after {
+        position: absolute;
+        right: 6px;
+        transform: scale(0.5) rotate(45deg);
+    }
+}
+
+.leftArrow {
+    left: 10px;
+
+    &::after {
+        position: absolute;
+        left: 6px;
+
+        transform: scale(-0.5) rotate(45deg);
+    }
+}
+
+.product-title {
+    padding: 16px 0;
+    font-weight: 600 !important;
+    font-size: 1.5rem !important;
+    margin: auto 12px;
+    border-bottom: 1px solid var(--dark-gray);
+}
+
+.slider {
+    position: relative;
+    height: 100%;
+}
+
+.dotsContainer {
+    margin: 15px auto;
+    display: flex;
+    justify-content: center;
+}
+
+.dot {
+    height: 50px;
+    width: 50px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0 3px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+//
+.phone-contain {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    width: auto;
+    justify-content: center;
+    height: 475px !important;
+}
+
+.card-price {
+    color: var(--red);
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.custom-btn {
+    background-color: #000000 !important;
+    color: #fff !important;
+    width: 100%;
+    width: 100%;
+    padding: 20px 0;
+    border-radius: 37px !important;
+}
+
+.card-chip {
+    border-radius: 5px !important;
+    padding: 3px 5px;
+    margin: 0 3px;
+    display: inline-block;
+    background-color: #fff;
+    border: 1px solid #bbb;
+    color: #000;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-common-base {
+    text-align: center !important;
+    border-radius: 5px !important;
+    cursor: pointer;
+}
+
+.card-chip-contain {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.card-image {
+    margin-top: 12px !important;
+    cursor: pointer;
+}
+
+.card-title {
+    color: #000;
+    font-size: 1.3rem !important;
+    font-weight: 600 !important;
+    padding: 5px 0;
+}
+
+.card-price {
+    color: var(--red);
+    font-weight: 600;
+    font-size: 1.1rem !important;
+}
+
+.card-description {
+    max-height: 50px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product-quantity-contain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .icon-quantity {
+        font-size: 2rem !important;
+        margin: 0 5px !important;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .input-product-quantity {
+        line-height: 2rem !important;
+        text-align: center !important;
+    }
+}

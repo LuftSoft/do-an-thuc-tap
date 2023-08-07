@@ -8,8 +8,11 @@ export const API = {
     },
     SHOP: {
         PHONE: 'phone',
+        CART: 'cart',
         ORDER: 'order',
         PAYMENT: 'payment',
+        BRAND: 'brand',
+        STATUS: 'status',
     },
     USER: 'user',
     ADMIN: 'admin',

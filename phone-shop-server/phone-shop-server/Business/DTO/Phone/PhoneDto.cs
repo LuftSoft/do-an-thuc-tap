@@ -24,6 +24,7 @@ namespace phone_shop_server.Business.DTO.Phone
         public int? Quantity { get; set; }
         public double ImportPrice { get; set; }
         public double SoldPrice { get; set; }
+        public string Slug { get; set; }
         public BrandDto Brand { get; set; }
         public List<PhoneImageDto>? PhoneImages { get; set; }
     }

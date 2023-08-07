@@ -14,6 +14,7 @@ namespace phone_shop_server.Business.Service
         Task<APIResponse.APIResponse> CancelOrder(HttpContext context, string orderId);
         Task<APIResponse.APIResponse> CreateAsync(OrderCreateDto orderCreateDto, HttpContext context);
         Task<APIResponse.APIResponse> UpdatePaymentStatus(OrderPaymentUpdateDto dto, HttpContext context);
+        Task<APIResponse.APIResponse> UpdateOrderStatus(OrderStatusCreateDto dto, HttpContext context);
 
     }
     public class OrderService : IOrderService
@@ -266,6 +267,32 @@ namespace phone_shop_server.Business.Service
             catch(Exception ex) 
             {
                 throw new ApplicationException(ex.InnerException.ToString());
+            }
+        }
+
+        public async Task<APIResponse.APIResponse> UpdateOrderStatus(OrderStatusCreateDto dto, HttpContext context)
+        {
+            try
+            {
+                var statusId = await _statusRepository.GetByNameAsync(dto.Status);
+                await _orderStatusRepository.CreateOrderStatusAsync(new OrderStatus() {
+                    OrderId = Guid.Parse(dto.OrderId),
+                    StatusId = statusId.Id,
+                    Created = DateTime.Now
+                });
+                return new APIResponse.APIResponse()
+                {
+                    code = StatusCode.SUCCESS.ToString(),
+                    message = "create success"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new APIResponse.APIResponse()
+                {
+                    code = StatusCode.ERROR.ToString(),
+                    message = "create failed"
+                };
             }
         }
     }

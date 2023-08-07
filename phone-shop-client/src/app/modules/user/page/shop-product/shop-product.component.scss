@@ -1,0 +1,97 @@
+.phone-contain {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+    gap: 20px;
+}
+
+.brand-image-contain {
+    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    text-align: center;
+
+    .brand-image-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 12px;
+        border: 2px solid #ccc;
+        height: 50px;
+        width: 150px;
+
+        &:hover {
+            cursor: pointer;
+            transform: translate(1.03);
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        img {
+            object-fit: contain;
+            width: 97% !important;
+        }
+    }
+}
+
+.card {
+    width: auto;
+    text-align: left;
+    cursor: pointer;
+
+    .card-image {
+        margin-top: 12px !important;
+    }
+
+    .card-title {
+        color: #000;
+        font-size: 1.3rem !important;
+        font-weight: 600 !important;
+        padding: 5px 0;
+    }
+
+    .card-price {
+        color: var(--red);
+        font-weight: 600;
+        font-size: 1.1rem !important;
+    }
+
+    .card-description {
+        max-height: 50px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .btn-common-base {
+        text-align: center !important;
+        border-radius: 5px !important;
+    }
+
+    .btn-common-base-outline {
+        text-align: center !important;
+        border-radius: 5px !important;
+    }
+
+    .card-chip {
+        border-radius: 5px !important;
+        padding: 3px 5px;
+        margin: 0 3px;
+        display: inline-block;
+        background-color: #fff;
+        border: 1px solid #bbb;
+        color: #000;
+        max-width: 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .card-chip-contain {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .card-description {
+        margin: 5px 0;
+        color: #8c8c8c;
+    }
+}

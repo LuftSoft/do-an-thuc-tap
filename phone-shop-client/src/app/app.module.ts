@@ -13,12 +13,16 @@ import { ShopFooterComponent } from './modules/user/page/shop-footer/shop-footer
 import { ShopLayoutComponent } from './modules/user/page/shop-layout/shop-layout.component';
 import { ShopNavComponent } from './modules/user/page/shop-nav/shop-nav.component';
 import { UserService } from './modules/user/user.service';
+import { ConfirmDialogComponent } from './modules/confirm-dialog/confirm-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
     AppComponent,
     NotificationComponent,
-    LoadingServiceComponent
+    LoadingServiceComponent,
+    ConfirmDialogComponent
     // ShopNavComponent,
     // ShopFooterComponent
   ],
@@ -29,7 +33,9 @@ import { UserService } from './modules/user/user.service';
     PageModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    MatPaginatorModule
   ],
   providers: [
     UserService

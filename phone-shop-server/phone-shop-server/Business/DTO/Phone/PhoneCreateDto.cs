@@ -21,6 +21,7 @@
         public int Quantity { get; set; }
         public double ImportPrice { get; set; }
         public double SoldPrice { get; set; }
+        public string? Slug { get; set; }
         public List<IFormFile> PhoneImages { get; set; }
     }
 }

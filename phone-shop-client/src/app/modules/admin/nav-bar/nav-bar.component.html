@@ -1,0 +1,78 @@
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
+  style="width: 280px;height: 100vh;position: fixed;">
+  <a [routerLink]="['/admin']"
+    class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+    <svg class="bi me-2" width="40" height="32">
+      <use xlink:href="#bootstrap" />
+    </svg>
+    <span class="fs-4">Sidebar</span>
+  </a>
+  <hr>
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li (click)="onSideBarSelect(sidebarValue.dashboard.value)">
+      <a [routerLink]="['/admin']" class="nav-link text-white"
+        [ngClass]="sidebarValue.dashboard.isSelected?'active':'text-white'">
+        <i class="fa fa-table me-2" aria-hidden="true"></i>
+        Dashboard
+      </a>
+    </li>
+    <li (click)="onSideBarSelect(sidebarValue.product.value)">
+      <a [routerLink]="['product']" class="nav-link" [ngClass]="false?'active':'text-white'" aria-current="page"
+        [ngClass]="sidebarValue.product.isSelected?'active':'text-white'">
+        <i class="fa fa-mobile me-2" aria-hidden="true"></i>
+        Quản lý sản phẩm
+      </a>
+    </li>
+    <li (click)="onSideBarSelect(sidebarValue.warehouse.value)">
+      <a [routerLink]="['warehouse']" class="nav-link text-white"
+        [ngClass]="sidebarValue.warehouse.isSelected?'active':'text-white'">
+        <i class="fa fa-wrench me-2" aria-hidden="true"></i>
+        Quản lý kho
+      </a>
+    </li>
+    <li (click)="onSideBarSelect(sidebarValue.order.value)">
+      <a [routerLink]="['order']" class="nav-link text-white"
+        [ngClass]="sidebarValue.order.isSelected?'active':'text-white'">
+        <i class="fa fa-list-alt me-2" aria-hidden="true"></i>
+        Quản lý đơn hàng
+      </a>
+    </li>
+    <li (click)="onSideBarSelect(sidebarValue.staff.value)">
+      <a [routerLink]="['staff']" class="nav-link text-white"
+        [ngClass]="sidebarValue.staff.isSelected?'active':'text-white'">
+        <i class="fa fa-user-o me-2" aria-hidden="true"></i>
+        Quản lý nhân viên
+      </a>
+    </li>
+    <li (click)="onSideBarSelect(sidebarValue.promotion.value)">
+      <a [routerLink]="['promotion']" class="nav-link text-white"
+        [ngClass]="sidebarValue.promotion.isSelected?'active':'text-white'">
+        <i class="fa fa-percent me-2" aria-hidden="true"></i>
+        Quản lý khuyến mãi
+      </a>
+    </li>
+    <li (click)="onSideBarSelect(sidebarValue.report.value)">
+      <a [routerLink]="['report']" class="nav-link text-white"
+        [ngClass]="sidebarValue.report.isSelected?'active':'text-white'">
+        <i class="fa fa-file-text me-2" aria-hidden="true"></i>
+        Báo cáo, thống kê
+      </a>
+    </li>
+  </ul>
+  <hr>
+  <div class="dropdown">
+    <a [routerLink]="['user-information']"
+      class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1"
+      data-bs-toggle="dropdown" aria-expanded="false">
+      <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+      <strong>User name</strong>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+      <li><a class="dropdown-item" [routerLink]="['user-information']">Thông tin cá nhân</a></li>
+      <li>
+        <hr class="dropdown-divider">
+      </li>
+      <li><a class="dropdown-item" (click)="onLogout()">Đăng xuất</a></li>
+    </ul>
+  </div>
+</div>

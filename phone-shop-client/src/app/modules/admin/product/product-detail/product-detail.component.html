@@ -1,0 +1,137 @@
+<div class="product-detail-contain">
+  <h1 class="title mb-3">{{data.title || 'Chi tiết sản phẩm'}}</h1>
+  <form class="mb-3" [formGroup]="form" [enctype]="data.type==='add'?'multipart/form-data':''">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <label for="" class="form-label">Tên sản phẩm</label>
+        <mat-form-field *ngIf="data.type !== 'view'">
+          <input matInput placeholder="" required formControlName="name">
+        </mat-form-field>
+        <p *ngIf="data.type === 'view'">{{form.controls['name'].value || '--' }}</p>
+
+        <label for="" class="form-label">Hệ điều hành</label>
+        <mat-form-field *ngIf="data.type !== 'view'">
+          <input matInput placeholder="" required formControlName="operation">
+        </mat-form-field>
+        <p *ngIf="data.type === 'view'">{{form.controls['operation'].value || '--' }}</p>
+
+        <label for="" class="form-label">CPU</label>
+        <mat-form-field *ngIf="data.type !== 'view'">
+          <input matInput placeholder="" required formControlName="cpu">
+        </mat-form-field>
+        <p *ngIf="data.type === 'view'">{{form.controls['cpu'].value || '--' }}</p>
+
+        <label for="" class="form-label">RAM</label>
+        <mat-form-field *ngIf="data.type !== 'view'">
+          <input matInput placeholder="" required formControlName="ram">
+        </mat-form-field>
+        <p *ngIf="data.type === 'view'">{{form.controls['ram'].value || '--' }}</p>
+
+        <label for="" class="form-label">Dung lượng bộ nhớ</label>
+        <mat-form-field *ngIf="data.type !== 'view'">
+          <input matInput placeholder="" required formControlName="rom">
+        </mat-form-field>
+        <p *ngIf="data.type === 'view'">{{form.controls['rom'].value || '--' }}</p>
+
+        <label for="" class="form-label">Thời lượng pin</label>
+        <mat-form-field *ngIf="data.type !== 'view'">
+          <input matInput placeholder="" required formControlName="pin">
+        </mat-form-field>
+        <p *ngIf="data.type === 'view'">{{form.controls['pin'].value || '--' }}</p>
+
+        <label for="" class="form-label">Độ lớn màn hình</label>
+        <mat-form-field *ngIf="data.type !== 'view'">
+          <input matInput placeholder="" type="number" required formControlName="screenSize" type="number" min="0">
+        </mat-form-field>
+        <p *ngIf="data.type === 'view'">{{form.controls['screenSize'].value || '--' }}</p>
+
+        <label for="" class="form-label">Độ phân giải</label>
+        <mat-form-field *ngIf="data.type !== 'view'">
+          <input matInput placeholder="" required formControlName="screenResolution" type="number" min="0">
+        </mat-form-field>
+        <p *ngIf="data.type === 'view'">{{form.controls['screenResolution'].value || '--' }}</p>
+      </div>
+      <div class="col-12 col-md-6">
+        <label for="" class="form-label">Camera trước</label>
+        <mat-form-field *ngIf="data.type !== 'view'">
+          <input matInput placeholder="" required formControlName="frontCamera">
+        </mat-form-field>
+        <p *ngIf="data.type === 'view'">{{form.controls['frontCamera'].value || '--' }}</p>
+
+        <label for="" class="form-label">Camera sau</label>
+        <mat-form-field *ngIf="data.type !== 'view'">
+          <input matInput placeholder="" required required formControlName="behindCamera">
+        </mat-form-field>
+        <p *ngIf="data.type === 'view'">{{form.controls['behindCamera'].value || '--'}}</p>
+
+        <label for="" class="form-label">Cảm ứng màn hình</label>
+        <mat-form-field *ngIf="data.type !== 'view'">
+          <input matInput placeholder="" required required formControlName="screenTouch">
+        </mat-form-field>
+        <p *ngIf="data.type === 'view'">{{form.controls['screenTouch'].value || '--'}}</p>
+
+        <!-- <label for="" class="form-label" *ngIf="data.type !== 'add'">Số lượng trong kho</label>
+        <mat-form-field *ngIf="data.type !== 'add'">
+          <input matInput placeholder="" required required formControlName="quantity" type="number" min="0">
+        </mat-form-field> -->
+        <p *ngIf="data.type === 'view'">{{form.controls['quantity'].value || '--'}}</p>
+
+        <label for="" class="form-label">Giá nhập</label>
+        <mat-form-field *ngIf="data.type !== 'view'">
+          <input matInput placeholder="" type="number" min="0" required required formControlName="importPrice">
+        </mat-form-field>
+        <p *ngIf="data.type === 'view'">{{form.controls['importPrice'].value || '--'}}</p>
+
+        <label for="" class="form-label">Giá bán</label>
+        <mat-form-field *ngIf="data.type !== 'view'">
+          <input matInput placeholder="" type="number" min="{{form.controls['importPrice'].value}}" required required
+            formControlName="soldPrice" type="number" min="0">
+        </mat-form-field>
+        <p *ngIf="data.type === 'view'">{{form.controls['soldPrice'].value || '--'}}</p>
+
+        <label for="" class="form-label">Hãng sản xuất</label>
+        <mat-form-field *ngIf="data.type !== 'view'">
+          <mat-select matNativeControl required formControlName="brandId" [value]="this.form.controls['brandId'].value">
+            <mat-option *ngFor="let brand of brandList" value="{{brand.id}}">{{brand.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <p *ngIf="data.type === 'view'">{{form.controls['brand'].value.name || '--'}}</p>
+
+        <label for="" class="form-label">Slug</label>
+        <mat-form-field *ngIf="data.type !== 'view'">
+          <input matInput placeholder="" required required formControlName="slug">
+        </mat-form-field>
+        <p *ngIf="data.type === 'view'">{{form.controls['slug'].value || '--'}}</p>
+      </div>
+      <div class="mt-3" *ngIf="data.type === 'add'">
+        <!-- <div class="mb-2"><label for="file" class="form-label">Ảnh sản phẩm</label></div>
+        <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+        <input hidden (change)="onFileSelected($event)" #fileInput type="file" multiple id="file"
+          accept="image/x-png,image/jpeg,image/webp">
+        <div class="mt-2" *ngIf="fileStr !== ''">{{fileStr}} files choosed</div> -->
+        <input #fileInput type="file" multiple id="file" formControlName="phoneImages">
+      </div>
+      <div class="mt-2">
+        <label for="" class="form-label">Tính năng khác</label>
+        <textarea *ngIf="data.type !== 'view'" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" formControlName="otherBenefit"></textarea>
+        <p *ngIf="data.type === 'view'">{{form.controls['otherBenefit'].value || '--'}}</p>
+      </div>
+
+      <div class="mt-2">
+        <label for="" class="form-label">Mô tả</label>
+        <textarea *ngIf="data.type !== 'view'" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="7" cdkAutosizeMaxRows="10" formControlName="description"></textarea>
+        <p *ngIf="data.type === 'view'">{{form.controls['description'].value || '--'}}</p>
+      </div>
+    </div>
+  </form>
+  <div class="d-flex btn-container">
+    <button class="me-3 btn btn-common-base" (click)="onCreate()" *ngIf="data.type === 'add'" [disabled]="form.invalid"
+      [ngClass]="form.invalid?'disabled':''">Tạo mới</button>
+    <button class="me-3 btn btn-common-base" (click)="onUpdate()" *ngIf="data.type === 'edit'" [disabled]="form.invalid"
+      [mat-dialog-close]="true" [ngClass]="form.invalid?'disabled':''">Cập nhật</button>
+    <!-- [mat-dialog-close]="true" -->
+    <button class="btn btn-common-reject" mat-dialog-close>Thoát</button>
+  </div>
+</div>

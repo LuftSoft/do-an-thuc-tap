@@ -21,5 +21,6 @@
         public double ImportPrice { get; set; }
         public double SoldPrice { get; set; }
         public string BrandId { get; set; }
+        public string? Slug { get; set; }
     }
 }

@@ -50,22 +50,19 @@
                     <a class="btn btn-common-orange me-2" [routerLink]="'/login'">Đăng nhập</a>
                     <a class="btn btn-common-orange" [routerLink]="'/signup'">Đăng ký</a>
                     <div class="dropdown">
-                        <a class="dropdown-toggle d-flex align-items-center hidden-arrow right-icon" href="#"
-                            id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown"
-                            aria-expanded="false">
-                            <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
-                                height="25" alt="Black and White Portrait of a Man" loading="lazy" />
+                        <!-- [routerLink]="['user-information']" -->
+                        <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                            id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                            <img src="https://github.com/mdo.png" alt="" width="32" height="32"
+                                class="rounded-circle me-2">
+                            <strong>User name</strong>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                            <li><a class="dropdown-item" [routerLink]="['user-information']">Thông tin cá nhân</a></li>
                             <li>
-                                <a class="dropdown-item" href="#">My profile</a>
+                                <hr class="dropdown-divider">
                             </li>
-                            <li>
-                                <a class="dropdown-item" href="#">Settings</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">Logout</a>
-                            </li>
+                            <li><a class="dropdown-item" (click)="onLogout()">Đăng xuất</a></li>
                         </ul>
                     </div>
                 </div>

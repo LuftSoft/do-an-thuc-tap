@@ -1,1 +1,35 @@
-<p>shop-product works!</p>
+<div class="container">
+    <div>
+        <div class="mb-3 mt-3 brand-image-contain">
+            <div class="brand-image-item" *ngFor="let brand of brandList" (click)="filterByBrand(brand.id)">
+                <img src="{{brand.logo}}" alt="{{brand.name}}">
+            </div>
+        </div>
+        <div class="mb-3">
+            <h2>Chọn theo nhu cầu</h2>
+            <div>Gia cao - thap</div>
+            <div>Gia thap - cao</div>
+        </div>
+    </div>
+    <div class="phone-contain mb-3">
+        <div class="card" *ngFor="let cartItem of cart; let i = index;">
+            <div class="card-image" (click)="onDetail(cartItem.id)">
+                <img src="{{cartItem.phoneImages[0].link}}" alt="phone-image" class="img-fluid">
+            </div>
+            <div class="card-title" (click)="onDetail(cartItem.id)">{{cartItem.name}}</div>
+            <div class="card-chip-contain">
+                <div class="card-chip" [matTooltip]="cartItem.ram" matTooltipPosition="left">{{cartItem.ram}}</div>
+                <div class="card-chip" [matTooltip]="cartItem.rom" matTooltipPosition="left">{{cartItem.rom}}</div>
+                <div class="card-chip" [matTooltip]="cartItem.pin" matTooltipPosition="left">{{cartItem.pin}}</div>
+            </div>
+            <div class="card-price">{{cartItem.soldPrice}}</div>
+            <div class="card-description" [matTooltip]="cartItem.description" matTooltipPosition="left">
+                {{cartItem.description}}</div>
+            <div class="btn-common-base-outline mb-2">Mua ngay</div>
+            <div class="btn-common-base" (click)="addToCart(cartItem.id)">Thêm vào giỏ hàng</div>
+        </div>
+    </div>
+    <mat-paginator #p [length]="datasource.data.length" [pageSize]="pageSize" [pageSizeOptions]="pageOption"
+        (page)="onPaging(p)" aria-label="Select page">
+    </mat-paginator>
+</div>

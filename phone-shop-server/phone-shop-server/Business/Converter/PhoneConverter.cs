@@ -46,6 +46,7 @@ namespace phone_shop_server.Business.Converter
             phone.ScreenTouch = phoneCreateDto.ScreenTouch;
             phone.ImportPrice = phoneCreateDto.ImportPrice;
             phone.SoldPrice = phoneCreateDto.SoldPrice;
+            phone.Slug = phoneCreateDto.Slug;
             return phone;
         }
         public Phone ConvertPhoneUpdateDtoToPhone(PhoneUpdateDto phoneUpdateDto)
@@ -68,6 +69,7 @@ namespace phone_shop_server.Business.Converter
             phone.ScreenTouch = phoneUpdateDto.ScreenTouch;
             phone.ImportPrice = phoneUpdateDto.ImportPrice;
             phone.SoldPrice = phoneUpdateDto.SoldPrice;
+            phone.Slug = phoneUpdateDto.Slug;
             return phone;
         }
         public async Task<PhoneDto> ConvertToPhoneDto(Phone phone)
@@ -94,6 +96,7 @@ namespace phone_shop_server.Business.Converter
             phoneDto.Quantity = phone.Quantity;
             phoneDto.ImportPrice = phone.ImportPrice;
             phoneDto.SoldPrice = phone.SoldPrice;
+            phoneDto.Slug = phone.Slug;
             return phoneDto;
         }
         public Phone ConvertPhoneDtoToPhone(PhoneDto phoneDto)
@@ -117,6 +120,7 @@ namespace phone_shop_server.Business.Converter
             phone.Quantity = (int)phoneDto.Quantity ;
             phone.ImportPrice = phoneDto.ImportPrice ;
             phone.SoldPrice = phoneDto.SoldPrice ;
+            phone.Slug = phoneDto.Slug;
             return phone;
         }
         public async Task<IEnumerable<PhoneDto>> ConvertToListPhoneDto(IEnumerable<Phone> phones)

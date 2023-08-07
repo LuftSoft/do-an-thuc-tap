@@ -45,10 +45,16 @@ namespace phone_shop_server.API
         {
             return Ok(await _orderService.UpdatePaymentStatus(dto, HttpContext));
         }
+        [HttpPut("status")]
+        public async Task<IActionResult> PutStatus([FromBody] OrderStatusCreateDto dto)
+        {
+            return Ok(await _orderService.UpdateOrderStatus(dto, HttpContext));
+        }
         [HttpDelete("{id}")]
         public async Task<IActionResult> CancelOrder(string id)
         {
             return Ok(await _orderService.CancelOrder(HttpContext, id));
         }
+
     }
 }

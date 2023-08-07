@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <form class="form-main" (submit)="onSubmit()" method="post" [formGroup]="form">
                 <div
-                    style="text-align: center;margin-bottom: 15px;border-bottom: 1px solid #a29bfe;padding-bottom: 7px;">
+                    style="text-align: center;margin-bottom: 15px;border-bottom: 1px solid var(--basecolor);padding-bottom: 7px;">
                     <img src="/src/assets/wave.svg" alt="">
                     <label for="" style="font-size: 45px;font-weight: 600;">ĐĂNG KÝ</label>
                 </div>
@@ -43,14 +43,14 @@
                     </mat-form-field>
                 </div>
                 <div class="mb-3">
+                    <div class="mb-2"><label for="file" class="form-label">Ảnh đại diện</label></div>
                     <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
                     <input hidden (change)="onFileSelected()" #fileInput type="file" id="file" formControlName="avatar">
                 </div>
-                <button type="submit" class="btn w-100" style="padding: 10px 5px;background-color: #a29bfe;">Đăng
-                    ký</button>
+                <button type="submit" class="btn-common-base w-100" mat-button>Đăng ký</button>
                 <div style="text-align: right;">
-                    <label for="" class="mt-4">Bạn đã có tài khoản? <a [routerLink]="'login'"
-                            style="text-decoration: none;color: #a29bfe;">Đăng nhập</a></label>
+                    <label for="" class="mt-4">Bạn đã có tài khoản? <a [routerLink]="'login'" class="common-link">Đăng
+                            nhập</a></label>
                 </div>
             </form>
         </div>

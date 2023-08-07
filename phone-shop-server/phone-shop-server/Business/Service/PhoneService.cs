@@ -33,7 +33,7 @@ namespace phone_shop_server.Business.Service
             {
                 //filter dto here
             }
-            phones = phones.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+            //phones = phones.Skip(pageIndex * pageSize).Take(pageSize).ToList();
             return (await _phoneConverter.ConvertToListPhoneDto(phones)).ToList();
         }
         public async Task<PhoneDto> GetOneAsync(string id)

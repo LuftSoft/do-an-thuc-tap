@@ -1,1 +1,255 @@
-<p>shop-payment works!</p>
+<div class="container" style="min-height: 800px;" *ngIf="false">
+    <div class="row mt-5 non-product" style="height: 500px;">
+        <div style="font-size: 20px;font-weight: 300;
+        position: relative;top: 68%;text-align: center;">Chưa có sản phẩm nào</div>
+    </div>
+</div>
+
+<div class="container" style="min-height: 800px;position: relative;margin-bottom: 70px;">
+    <div class="row list-items mb-4">
+        <h5 style="font-weight: 700;">THANH TOÁN</h5>
+    </div>
+    <div class="row list-items mb-4">
+        <div class="col">
+            <h5 style="font-weight: 700;position: relative;">ĐỊA CHỈ NHẬN HÀNG<a
+                    style="position: absolute;right: 30px;display: none;" id="change_locate_link">Thay đổi</a></h5>
+            <div class="row">
+                <label for="locate_choose" class="locate-label" id="label_show_locate">
+
+                </label>
+                <input type="text" style="display: none;" value="1" id="check_case">
+                <form action="http://localhost:3000/fermeh/payment" method="post" class="col-8"
+                    id="form_submit_a_locate" style="display: block;" onsubmit="return validate()">
+                    <div class="mt-3">
+                        <input type="text" required placeholder="Họ và tên" class="form-control" id="inputName">
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-7">
+                            <input type="email" required placeholder="Email" class="form-control" id="inputMail">
+                        </div>
+                        <div class="col-5">
+                            <input type="text" required placeholder="Số điện thoại" class="form-control" id="inputSDT">
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <input type="text" required placeholder="Địa chỉ" class="form-control" id="inputDC">
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <select name="" id="selectTinh" class="form-select">
+                                <option value="tinh" selected>Tỉnh/ Thành phố</option>
+
+                                <option value="">ten</option>
+
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <select name="" id="selectHuyen" class="form-select">
+                                <option value="huyen" selected>Quận/ Huyện</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <select name="" id="selectXa" class="form-select">
+                                <option value="xa" selected>Xã/ Phường/ Thị trấn</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h6 style="color: red;margin-bottom: 15px;" id="textWarning"></h6>
+                        <button type="submit" class="btn btn-dark" id="btn_confirm_user_locate">Xác
+                            nhận</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="row">
+                <label for="locate_choose" class="locate-label" id="label_show_locate">
+
+                </label>
+                <input type="text" style="display: none;" value="2" id="check_case">
+                <form action="http://localhost:3000/fermeh/payment" method="post" class="col-8"
+                    id="form_submit_a_locate" onsubmit="return validate()">
+                    <div class="mt-3">
+                        <input type="text" required placeholder="Họ và tên" class="form-control" id="inputName">
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-7">
+                            <input type="email" required placeholder="Email" class="form-control" id="inputMail">
+                        </div>
+                        <div class="col-5">
+                            <input type="text" required placeholder="Số điện thoại" class="form-control" id="inputSDT">
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <input type="text" required placeholder="Địa chỉ" class="form-control" id="inputDC">
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <select name="" id="selectTinh" class="form-select">
+                                <option value="tinh" selected>Tỉnh/ Thành phố</option>
+
+                                <option value="<%=j.MATP%>">tinh</option>
+
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <select name="" id="selectHuyen" class="form-select">
+                                <option value="huyen" selected>Quận/ Huyện</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <select name="" id="selectXa" class="form-select">
+                                <option value="xa" selected>Xã/ Phường/ Thị trấn</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h6 style="color: red;margin-bottom: 15px;" id="textWarning"></h6>
+                        <button type="submit" class="btn btn-dark" id="btn_confirm_user_locate">Xác
+                            nhận</button>
+                    </div>
+                </form>
+            </div>
+
+            <div>
+                <label id="label_show_locate" class="locate-label">
+                    <h6 style="display: inline-block; margin-right: 40px;">sdt</h6>
+                    diachi
+                </label>
+                <input type="text" style="display: none;" value="3" id="check_case">
+            </div>
+            <form action="" method="post">
+
+                <div style="padding: 3px 0;" class="user-locate">
+                    <input type="radio" name="locate_choose" id="locate_choose_<%=i%>">
+                    <label for="locate_choose_<%=i%>" class="locate-label">
+                        <h6 style="display: inline-block; margin-right: 40px;">sdt</h6>
+                        diachi
+                    </label>
+                </div>
+
+                <div class="row mt-2 btn-user-locate-contain">
+                    <div class="col-4">
+                        <button type="button" class="btn" style="background-color: #171c24;color: #fff;"
+                            id="btn_user_locate_submit">Hoàn thành</button>
+                        <button type="button" class="btn" id="btn_user_locate_back"
+                            style="border: 1px solid #171c24;color: #171c24;background-color: #fff;">Trở
+                            lại</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="list-items col product detail_product" id="product_<%=i.MASP%>_id">
+            <div class="d-flex contain-product">
+                <div class="product-img">
+                    <img src="" alt="product" class="img-fluid" style="width: 100%;height: 100%;">
+                </div>
+                <div style="width: 100%;">
+                    <div class="row">
+                        <div class="col" style="position: relative;">
+                            <div class="ps-3">
+                                <h4>
+                                    ten
+                                </h4>
+                                <p>
+                                    loadi
+                                </p>
+                                <div class="d-flex" style="margin-top: 25px;">
+                                    <div class="size-choice border-choice" style="max-height: 30px;z-index: 700;">
+                                        Size: <span style="margin-right: 3px;">
+                                            id
+                                        </span>
+                                    </div>
+                                    <div class="ms-3 quantity-choice border-choice"
+                                        style="max-height: 30px;z-index: 700;">
+                                        Số lượng: <span style="margin-right: 3px;">
+                                            sp luong
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <h5 style="text-align: center;" id="price_<%=i.MASP%>_id" title="<%=i.GIA*i.SOLUONG%>">
+                                gia
+                            </h5>
+                            <form action="/fermeh/cart/del-product" method="post">
+                                <!-- <button class="btn btn-dark delete_btn"
+                                                    value="<%=i.MASP%>_id">Xóa</button> -->
+                                <input type="text" style="display: none;" name="masp" value="<%=i.MASP%>">
+                                <input type="text" style="display: none;" name="size" value="id">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4 bg-light">
+        <form action="http://localhost:3000/fermeh/pay-success" method="post" onsubmit="return validateDC()">
+            <div class="row" style="width: 100%;">
+                <div class="col-7">
+                    <div style="border: 1px solid #171c24;">
+                        <input type="radio" name="radio_method_dilivery" id="method_delivery_offline"
+                            style="margin-left: 5px;" required>
+                        <label for="method_delivery_offline" style="width: 96%;padding: 15px 0;"
+                            class="label-dilivery">Thanh toán trực tiếp khi nhận hàng</label>
+                    </div>
+                    <div style="border: 1px solid #171c24;" class="mt-2">
+                        <input type="radio" name="radio_method_dilivery" id="method_delivery_online"
+                            style="margin-left: 5px;" required>
+                        <label for="method_delivery_online" style="width: 96%;padding: 15px 0;"
+                            class="label-dilivery">Thanh toán qua ví momo</label>
+                    </div>
+                </div>
+                <div class="col-5 bg-light">
+                    <div style="margin-top: 15px">
+                        <div class="row">
+                            <div class="col-7 pe-0">
+                                <h5>Tổng cộng</h5>
+                                <p>Phí giao hàng</p>
+                                <hr>
+                                <h5>Tổng than toán</h5>
+                                <hr>
+                            </div>
+                            <div class="col-5 ps-0">
+                                <h5 id="price_before" title="<%=tongtien%>">
+                                    tien pipe
+                                </h5>
+                                <p>
+                                    tien pipe
+                                </p>
+                                <hr>
+                                <h5 id="price_total" title="<%=parseInt(30000)+tongtien%>">
+                                    tong tien
+                                </h5>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+
+                            <div>
+                                <div class="mb-2"><label for="" style="color: red;font-size: 18px;"
+                                        id="label_warning_submit"></label></div>
+                                <button class="btn btn-dark" id="btn_submit_buy" type="submit">MUA HÀNG</button>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

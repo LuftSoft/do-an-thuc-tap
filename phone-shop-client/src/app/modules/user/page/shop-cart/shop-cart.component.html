@@ -1,1 +1,119 @@
-<p>shop-cart works!</p>
+<div class="container" style="min-height: 800px;" *ngIf="false">
+    <div class="row mt-5 non-product" style="height: 500px;">
+        <div style="font-size: 20px;font-weight: 300;
+    position: relative;top: 68%;text-align: center;">Chưa có sản phẩm nào</div>
+    </div>
+</div>
+
+<form action="http://localhost:3000/fermeh/payment" method="get" *ngIf="true">
+    <div class="container" style="min-height: 800px;display: none;">
+        <div class="row mt-5 non-product" style="height: 500px;">
+            <div style="font-size: 20px;font-weight: 300;
+        position: relative;top: 68%;text-align: center;">Chưa có sản phẩm nào</div>
+        </div>
+    </div>
+    <div class="container" style="min-height: 800px;position: relative;margin-bottom: 70px;">
+        <div class="row list-items mb-4">
+            <h5 style="font-weight: 700;">GIỎ HÀNG</h5>
+        </div>
+        <div class="row">
+            <div class="list-items col-8 contain_product_item" id="product_<%=i.MASP%>_id">
+                <div title="" style="display: none;"></div>
+                <div class="d-flex contain-product">
+                    <div class="d-flex align-items-center">
+                        <input type="checkbox" name="" id="" class="form-check-input me-2 chkbox_choose_product">
+                    </div>
+                    <div class="product-img">
+                        <img src="/public/img/product/" alt="product" class="img-fluid"
+                            style="width: 100%;height: 100%;">
+                    </div>
+                    <div style="width: 100%;">
+                        <div class="row">
+                            <div class="col-8" style="position: relative;">
+                                <div class="ps-3">
+                                    <h4>
+                                        ten
+                                    </h4>
+                                    <p>
+                                        loadi
+                                    </p>
+                                    <div class="d-flex" style="margin-top: 25px;">
+                                        <div class="size-choice border-choice" style="max-height: 30px;z-index: 700;">
+                                            Size: <span style="margin-right: 3px;">
+                                                id
+                                            </span><i class="fa-solid fa-chevron-down"></i>
+                                        </div>
+                                        <div class="size-detail" style="display: none;z-index: 1000;">
+                                            <ul style="list-style: none;padding: 0;margin-bottom: 0;">
+                                                i
+                                                <li>
+                                                    i
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="ms-3 quantity-choice border-choice"
+                                            style="max-height: 30px;z-index: 700;">
+                                            Số lượng: <span style="margin-right: 3px;">
+                                                so luong
+                                            </span><i class="fa-solid fa-chevron-down"></i>
+                                        </div>
+                                        <div style="display: none;z-index: 1000;" class="quantity-detail">
+                                            <ul style="list-style: none;padding: 0;margin-bottom: 0;">
+                                                <li>1</li>
+                                                <li>2</li>
+                                                <li>3</li>
+                                                <li>4</li>
+                                                <li>5</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <h5 style="text-align: center;" id="price__id" title="">
+                                    gia pipe vnd
+                                </h5>
+                                <!-- <form action="/fermeh/cart/del-product" method="post"> -->
+                                <button class="btn btn-dark delete_btn" value="id">Xóa</button>
+                                <input type="text" style="display: none;" value="id">
+                                <input type="text" style="display: none;" value="id">
+                                <!-- </form> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="padding: 0 20px;margin-top: 15px;width: 33.32%;position: absolute;right: 0;top: 80px;">
+            <div class="row">
+                <div class="col-7 pe-0">
+                    <h5>Tổng cộng</h5>
+                    <p>Phí giao hàng</p>
+                    <hr>
+                    <h5>Tổng than toán</h5>
+                    <hr>
+                </div>
+                <div class="col-5 ps-0">
+                    <h5 id="price_before" title="0">
+                        0
+                    </h5>
+                    <p id="price_delivery" title="30000">
+                        0
+                    </p>
+                    <hr>
+                    <h5 id="price_total" title="0">
+                        0
+                    </h5>
+                    <hr>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div>
+                    <button class="btn btn-dark " id="buy_btn">MUA HÀNG</button>
+                </div>
+            </div>
+            <!-- </div> -->
+        </div>
+    </div>
+</form>

@@ -1,1 +1,76 @@
-<p>shop-product-detail works!</p>
+<div class="container">
+    <div class="row mt-3">
+        <h3 class="product-title mb-3">
+            {{productDetail.name}}
+        </h3>
+        <div class="col-7">
+            <div class="slider">
+                <div class="slide" [ngStyle]="{ 'background-image': getCurrentSlideUrl() }">
+                    <div (click)="goToPrevious()" class="leftArrow"></div>
+                    <div (click)="goToNext()" class="rightArrow"></div>
+                </div>
+                <div class="dotsContainer">
+                    <div *ngFor="let slide of productDetail.phoneImages; let slideIndex = index;" class="dot"
+                        (click)="goToSlide(slideIndex)" style="background-image: url('{{slide.link}}')">
+                    </div>
+                </div>
+            </div>
+            <div class="product-detail-info">
+                <h1 class="upper-case">Thông tin sản phẩm</h1>
+            </div>
+        </div>
+        <div class="col-5">
+            <h3 class="product-title mb-3">
+                {{productDetail.name}}
+            </h3>
+            <div class="card-chip-contain">
+                <div class="card-chip" [matTooltip]="productDetail.ram" matTooltipPosition="left">{{productDetail.ram}}
+                </div>
+                <div class="card-chip" [matTooltip]="productDetail.rom" matTooltipPosition="left">{{productDetail.rom}}
+                </div>
+                <div class="card-chip" [matTooltip]="productDetail.pin" matTooltipPosition="left">{{productDetail.pin}}
+                </div>
+            </div>
+            <h3 class="my-3" style="font-size: 1.3rem !important;font-weight: 600;">Chọn số lượng:</h3>
+            <div class="product-quantity-contain">
+                <i class="fa fa-minus-square icon-quantity" aria-hidden="true" (click)="minusProductQuantity()"></i>
+                <input type="number" min="1" [value]="productCount" class="input-product-quantity">
+                <i class="fa fa-plus-square icon-quantity" aria-hidden="true" (click)="plusProductQuantity()"></i>
+            </div>
+            <div class="mb-3 mt-3">
+                <button class="btn-common-base upper-case custom-btn">Mua ngay</button>
+            </div>
+            <div class="mb-2">
+                <button class="btn-common-base upper-case custom-btn">Thêm vào giỏ hàng</button>
+            </div>
+            <div class="product-detail-info">
+                <h1 class="upper-case">Thông số kỹ thuật</h1>
+            </div>
+        </div>
+    </div>
+    <div>
+        sản phẩm tương tự
+        <div class="container">
+            <div class="phone-contain mb-3">
+                <div class="card" *ngFor="let phone of productList; let i = index;" (click)="onDetail(phone.id)">
+                    <div class="card-image image-fluid">
+                        <img src="{{phone.phoneImages[0].link}}" alt="phone-image">
+                    </div>
+                    <div class="card-title my-2" (click)="onDetail(phone.id)">{{phone.name}}</div>
+                    <div class="card-chip-contain">
+                        <div class="card-chip" [matTooltip]="phone.ram" matTooltipPosition="left">{{phone.ram}}</div>
+                        <div class="card-chip" [matTooltip]="phone.rom" matTooltipPosition="left">{{phone.rom}}</div>
+                        <div class="card-chip" [matTooltip]="phone.pin" matTooltipPosition="left">{{phone.pin}}</div>
+                    </div>
+                    <div class="card-price my-2">{{phone.soldPrice}}</div>
+                    <div class="card-description" [matTooltip]="phone.description" matTooltipPosition="left">
+                        {{phone.description}}</div>
+                    <div class="btn-common-base">Mua ngay</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPaging()"
+        aria-label="Select page">
+    </mat-paginator>
+</div>

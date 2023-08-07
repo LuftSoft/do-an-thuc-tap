@@ -15,4 +15,5 @@ export class ShopNavComponent implements OnInit {
   openNotify() {
     this.notify.openSnackBar("test snack bar", "close");
   }
+  onLogout() { }
 }
