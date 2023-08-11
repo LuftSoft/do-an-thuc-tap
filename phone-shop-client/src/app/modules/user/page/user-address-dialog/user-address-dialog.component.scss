@@ -1,0 +1,126 @@
+.prevent-scrolling {
+    overflow-y: hidden;
+}
+
+.contain-all {
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.contain-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.display-block {
+    display: block !important;
+}
+
+.display-none {
+    display: none;
+}
+
+.setting-item {
+    padding: 15px 0;
+    margin: 10px 0 5px 0;
+    transition: all 0.2s;
+    align-items: center;
+}
+
+.setting-item:hover {
+    cursor: pointer;
+    background-color: #ccc !important;
+}
+
+.setting-item p {
+    display: inline-block;
+    color: rgb(53, 53, 255);
+    font-size: 18px;
+    margin: 0 0 0 7px;
+    text-decoration: none;
+}
+
+.setting-item p:hover {
+    color: rgb(53, 53, 255);
+    text-decoration: underline;
+}
+
+.setting-item form {
+    display: none;
+}
+
+.user-location {
+    display: none;
+}
+
+
+h3 {
+    padding-left: 0 !important;
+    margin-bottom: 0;
+}
+
+h4 {
+    margin-bottom: 0;
+}
+
+.width-100 {
+    width: 100% !important;
+}
+
+.location_label {
+    /* width: 30%; */
+    display: inline-block;
+    text-align: right;
+    /* margin-right: 15px; */
+    color: #F10;
+}
+
+.form-edit-locate {
+    padding: 40px 30px 30px 30px;
+    width: 550px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.radio-type-locate {
+    display: inline-block;
+    padding: 7px 12px;
+    color: #000;
+    border: 1px solid #ccc;
+}
+
+.radio-type-locate:hover {
+    cursor: pointer;
+}
+
+.radio-type-locate input:hover {
+    cursor: pointer;
+}
+
+.radio-type-locate label:hover {
+    cursor: pointer;
+}
+
+.radio-checked {
+    border: 1px solid #ff3d00;
+    color: #ff3d00;
+}
+
+.form-select:hover {
+    cursor: pointer;
+}
+
+#edit_locate_form_contain {
+    display: none;
+}
+
+.input-border-warning {
+    border: 1px solid red;
+    color: red;
+}

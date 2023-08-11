@@ -32,6 +32,10 @@
     }
 }
 
+.selected {
+    border: 2px solid black !important;
+}
+
 .card {
     width: auto;
     text-align: left;
@@ -46,6 +50,14 @@
         font-size: 1.3rem !important;
         font-weight: 600 !important;
         padding: 5px 0;
+    }
+
+    .card-btn-contain {
+        position: absolute;
+        bottom: 7px;
+        left: 0;
+        padding: 0 7px;
+        width: 100%;
     }
 
     .card-price {

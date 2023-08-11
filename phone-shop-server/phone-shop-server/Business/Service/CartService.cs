@@ -54,9 +54,9 @@ namespace phone_shop_server.Business.Service
         {
             try
             {
-                var cartExist = await _cartRepository.GetAsync(dto.Id);
                 string userId = await _userService.GetUserIdFromContext(context);
                 dto.UserId = userId;
+                var cartExist = await _cartRepository.GetByPhoneAndUserAsync(dto.PhoneId, dto.UserId);
                 if (cartExist == null)
                 {
                     //add to cart
@@ -67,6 +67,16 @@ namespace phone_shop_server.Business.Service
                         data = await _cartConverter.ConvertCartToCartDto(cartCreate)
                     };
                 }
+                dto.Quantity += cartExist.Quantity;
+                if(dto.Quantity > 5)
+                {
+                    return new APIResponse.APIResponse()
+                    {
+                        code = StatusCode.ERROR.ToString(),
+                        message = "Số lượng sản phẩm này trong giỏ hàng đã đạt tối đa 5 sản phẩm!"
+                    };
+                }
+                dto.Id = cartExist.Id;
                 //edit cart
                 var cartUpdate = await _cartRepository.UpdateAsync(_cartConverter.ConvertCartCRUDDtoToCart(dto));
                 return new APIResponse.APIResponse()

@@ -4,7 +4,8 @@ export const API = {
         LOGIN: 'login',
         SIGNUP: 'signup',
         RESET_PASSWORD: 'reset-password',
-        FOGOT_PASSWORD: 'fogot-password'
+        FOGOT_PASSWORD: 'fogot-password',
+        SELF_INFORMATION: 'self-information'
     },
     SHOP: {
         PHONE: 'phone',

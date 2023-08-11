@@ -20,8 +20,9 @@ const routes: Routes = [
       { path: 'signup', component: UserSignupComponent },
       { path: 'forgot-password', component: UserFogotPasswordComponent },
       { path: 'reset-password/:token', component: UserResetPasswordComponent },
-      { path: 'info', component: UserInfoComponent },
+      { path: 'user-info', component: UserInfoComponent },
       { path: 'order', component: UserOrderComponent },
+      { path: 'promotion', component: UserOrderComponent },
       //shop
       { path: '', component: ShopHomeComponent },
       { path: 'cart', component: ShopCartComponent },
@@ -31,7 +32,8 @@ const routes: Routes = [
           { path: ':id', component: ShopProductDetailComponent }
         ]
       },
-      { path: 'payment', component: ShopPaymentComponent }
+      { path: 'payment', component: ShopPaymentComponent },
+      { path: 'payment/:id', component: ShopPaymentComponent }
     ]
   }
 ];

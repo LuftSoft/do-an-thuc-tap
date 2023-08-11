@@ -6,8 +6,11 @@ import { ShopNavComponent } from './user/page/shop-nav/shop-nav.component';
 import { ShopLayoutComponent } from './user/page/shop-layout/shop-layout.component';
 import { AppModule } from '../app.module';
 import { SharedModule } from '../shared/shared.module';
+import { VNDPipe } from '../core/service/custom.pipe';
 @NgModule({
-    declarations: [],
+    declarations: [
+
+    ],
     imports: [
         PageRoutes,
         UserModule,

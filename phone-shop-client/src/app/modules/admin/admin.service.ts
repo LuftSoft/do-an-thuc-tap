@@ -14,7 +14,7 @@ export class AdminService {
   getAllBrand(): Observable<any> { return this.http.get<any>(`${API.BASE_URL}/${API.SHOP.BRAND}`); }
   getAllProduct(): Observable<any> { return this.http.get<any>(`${API.BASE_URL}/${API.SHOP.PHONE}`); }
   getOneProduct(id: string): Observable<any> { return this.http.get<any>(`${API.BASE_URL}/${API.SHOP.PHONE}/${id}`); }
-  createProduct(data: any): Observable<any> { return this.http.post<any>(`${API.BASE_URL}/${API.SHOP.PHONE}`, data); }
+  createProduct(data: any): Observable<any> { return this.http.post<any>(`${API.BASE_URL}/${API.SHOP.PHONE}`, { FormData: data }); }
   updateProduct(data: any): Observable<any> { return this.http.put<any>(`${API.BASE_URL}/${API.SHOP.PHONE}`, data); }
   deleteProduct(id: string): Observable<any> { return this.http.delete<any>(`${API.BASE_URL}/${API.SHOP.PHONE}/${id}`); }
   //

@@ -1,5 +1,10 @@
-body {
-    background-color: #f5f5f5;
+.container {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
+}
+
+.has-value-contain {
+    height: fit-content;
+    padding-bottom: 30px;
 }
 
 .head-item {
@@ -16,8 +21,9 @@ body {
 }
 
 .non-product {
-    background: url("/public/img/New_folder/download.png");
-    width: 1320px;
+
+    background: url("https://foodhub.vn/assets/images/no-cart.png");
+    width: 1290px;
     position: absolute;
     background-repeat: no-repeat;
     background-position: center;
@@ -117,4 +123,23 @@ body {
 
 .disabled-item {
     color: #ccc;
+}
+
+.delivery-contain {
+    display: flex;
+    gap: 10px;
+    padding: 15px 10px;
+    background-color: #fff;
+    border-bottom: 5px solid var(--basecolor) !important;
+    align-items: center;
+    border: 1px solid black;
+
+    input {
+        height: 30px !important;
+        width: 30px !important;
+    }
+
+    label {
+        text-transform: uppercase;
+    }
 }

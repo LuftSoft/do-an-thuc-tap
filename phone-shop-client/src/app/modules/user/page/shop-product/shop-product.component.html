@@ -1,18 +1,99 @@
 <div class="container">
     <div>
         <div class="mb-3 mt-3 brand-image-contain">
-            <div class="brand-image-item" *ngFor="let brand of brandList" (click)="filterByBrand(brand.id)">
+            <div class="brand-image-item" *ngFor="let brand of brandList"
+                (click)="filterByBrand(brand.id);toggleBrand(brand.id);" [ngClass]="brand.isSelect?'selected':''">
                 <img src="{{brand.logo}}" alt="{{brand.name}}">
             </div>
         </div>
         <div class="mb-3">
-            <h2>Chọn theo nhu cầu</h2>
-            <div>Gia cao - thap</div>
-            <div>Gia thap - cao</div>
+            <h2 class="bold dot-three-rem">Chọn theo nhu cầu</h2>
+            <div class="w-100 d-flex mb-2" style="gap: 15px;">
+                <mat-form-field>
+                    <mat-label>Giá</mat-label>
+                    <mat-select (valueChange)="changePrice(price)" #price>
+                        <mat-option [value]="-1">
+                            Mặc định
+                        </mat-option>
+                        <mat-option *ngFor="let priceOption of priceOptions; let i = index;" [value]="i">
+                            {{priceOptions[i]}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Chip xử lý</mat-label>
+                    <mat-select (valueChange)="changeCpu(cpu)" #cpu>
+                        <mat-option [value]="-1">
+                            Mặc định
+                        </mat-option>
+                        <mat-option *ngFor="let cpuOption of cpuOptions | keyvalue" [value]="cpuOption.value.value">
+                            {{cpuOption.value.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Dung lượng RAM</mat-label>
+                    <mat-select (valueChange)="changeRam(ram)" #ram>
+                        <mat-option [value]="-1">
+                            Mặc định
+                        </mat-option>
+                        <mat-option *ngFor="let ramOption of ramOptions | keyvalue" [value]="ramOption.value.value">
+                            {{ramOption.value.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Dung lượng ROM</mat-label>
+                    <mat-select (valueChange)="changeRom(rom)" #rom>
+                        <mat-option [value]="-1">
+                            Mặc định
+                        </mat-option>
+                        <mat-option *ngFor="let romOption of romOptions | keyvalue" [value]="romOption.value.value">
+                            {{romOption.value.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="w-100 mb-2">
+                <div class="d-flex" style="gap: 15px;width: calc(50% - 7.5px);">
+                    <mat-form-field>
+                        <mat-label>Kích thước màn hình</mat-label>
+                        <mat-select (valueChange)="changeSize(size)" #size>
+                            <mat-option [value]="-1">
+                                Mặc định
+                            </mat-option>
+                            <mat-option *ngFor="let screenSizeOption of screenSizeOptions | keyvalue"
+                                [value]="screenSizeOption.value.value">
+                                {{screenSizeOption.value.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Tần số quét</mat-label>
+                        <mat-select (valueChange)="changeHz(hz)" #hz>
+                            <mat-option [value]="-1">
+                                Mặc định
+                            </mat-option>
+                            <mat-option *ngFor="let hzOption of hzOptions | keyvalue" [value]="hzOption.value.value">
+                                {{hzOption.value.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
         </div>
     </div>
+    <!-- cartttttt -->
+    <div style="text-align: center;
+        color: black;
+        font-weight: bold;
+        padding: 40px 0;
+        font-size: 1.5rem !important;
+        text-transform: uppercase;
+        " *ngIf="cartFilter.length === 0">
+        Không tìm thấy kết quả!</div>
     <div class="phone-contain mb-3">
-        <div class="card" *ngFor="let cartItem of cart; let i = index;">
+        <div class="card" *ngFor="let cartItem of cartFilter; let i = index;">
             <div class="card-image" (click)="onDetail(cartItem.id)">
                 <img src="{{cartItem.phoneImages[0].link}}" alt="phone-image" class="img-fluid">
             </div>
@@ -25,8 +106,10 @@
             <div class="card-price">{{cartItem.soldPrice}}</div>
             <div class="card-description" [matTooltip]="cartItem.description" matTooltipPosition="left">
                 {{cartItem.description}}</div>
-            <div class="btn-common-base-outline mb-2">Mua ngay</div>
-            <div class="btn-common-base" (click)="addToCart(cartItem.id)">Thêm vào giỏ hàng</div>
+            <div class="card-btn-contain">
+                <div class="btn-common-base-outline mb-2" (click)="onBuyNow(cartItem)">Mua ngay</div>
+                <div class="btn-common-base" (click)="addToCart(cartItem)">Thêm vào giỏ hàng</div>
+            </div>
         </div>
     </div>
     <mat-paginator #p [length]="datasource.data.length" [pageSize]="pageSize" [pageSizeOptions]="pageOption"

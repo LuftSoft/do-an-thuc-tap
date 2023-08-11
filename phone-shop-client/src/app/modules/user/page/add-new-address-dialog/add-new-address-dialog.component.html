@@ -1,0 +1,64 @@
+<form class="bg-light form-edit-locate" (submit)="onSubmit()" id="formEditLocate" method="post">
+  <h4 class="mb-3">Chỉnh sửa địa chỉ, Địa chỉ mới</h4>
+  <div class="mb-3">
+    <label for="inputEditLocateName" class="form-label">Họ và tên</label>
+    <input type="text" class="form-control" id="inputEditLocateName" required>
+    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+  </div>
+  <div class="mb-3">
+    <label for="inputEditLocatePhone" class="form-label">Số điện thoại </label>
+    <input type="text" class="form-control" id="inputEditLocatePhone" required>
+  </div>
+  <div class="row mb-3">
+    <div class="col">
+      <select class="form-select">
+        <option selected value="tinh">Tỉnh/Thành phố</option>
+      </select>
+    </div>
+    <div class="col">
+      <select class="form-select">
+        <option selected value="huyen">Quận/Huyện</option>
+      </select>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-6">
+      <select class="form-select">
+        <option selected value="xa">Phường/Xã</option>
+      </select>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="inputEditLocateDetail" class="form-label">Địa chỉ cụ thể</label>
+    <!-- <textarea type="text" class="form-control" id="inputEditLocateDetail"> -->
+    <textarea style="max-height: 100px !important;" id="inputEditLocateDetail" rows="3" cols="10" style="width: 100%;"
+      required></textarea>
+  </div>
+  <div>Loại địa chỉ</div>
+  <div style="margin: 10px 0;">
+    <div class="radio-type-locate">
+      <input type="radio" placeholder="Nhà riêng" name="loai_dia_chi" id="radioEditLocateHome" value="home">
+      <label for="radioEditLocateHome">Nhà riêng</label>
+    </div>
+    <div class="radio-type-locate">
+      <input type="radio" placeholder="Nhà riêng" name="loai_dia_chi" id="radioEditLocateOffice" value="office">
+      <label for="radioEditLocateOffice">Văn phòng</label>
+    </div>
+  </div>
+  <div class="mb-2">
+    <input type="checkbox" name="" id="checkboxEditLocate" class="form-check-input">
+    <label for="checkboxEditLocate" class="form-check-label">Đặt làm địa chỉ mặc định</label>
+  </div>
+  <div class="mb-3">
+    <span style="color: red;" id="spanWarningLocateForm"></span>
+  </div>
+  <div style="display: flex;justify-content: right;">
+    <button type="button" class="btn" id="btnEditLocateBack"
+      style="border: 1px solid #000;margin-right: 15px;width: 110px;">Trở lại</button>
+    <button type="submit" class="btn" id="btnAddLocateSubmit"
+      style="background-color: #ff3d00;color: #fff;width: 110px;">Hoàn thành</button>
+    <button type="submit" class="btn" id="btnEditLocateSubmit"
+      style="background-color: #ff3d00;color: #fff;width: 110px;">Chỉnh sửa</button>
+    <input type="text" value="" id="inputIDDCEditLocate">
+  </div>
+</form>

@@ -20,6 +20,11 @@ import { ShopNavComponent } from './page/shop-nav/shop-nav.component';
 import { ShopLayoutComponent } from './page/shop-layout/shop-layout.component';
 import { UserFogotPasswordComponent } from './page/user-fogot-password/user-fogot-password.component';
 import { UserResetPasswordComponent } from './page/user-reset-password/user-reset-password.component';
+import { VNDPipe } from 'src/app/core/service/custom.pipe';
+import { UserAddressDialogComponent } from './page/user-address-dialog/user-address-dialog.component';
+import { ConfirmPaymentDialogComponent } from './page/confirm-payment-dialog/confirm-payment-dialog.component';
+import { PaySuccessDialogComponent } from './page/pay-success-dialog/pay-success-dialog.component';
+import { AddNewAddressDialogComponent } from './page/add-new-address-dialog/add-new-address-dialog.component';
 
 @NgModule({
   imports: [
@@ -43,7 +48,12 @@ import { UserResetPasswordComponent } from './page/user-reset-password/user-rese
     ShopCartComponent,
     ShopPaymentComponent,
     ShopProductComponent,
-    ShopProductDetailComponent
+    ShopProductDetailComponent,
+    UserAddressDialogComponent,
+    ConfirmPaymentDialogComponent,
+    PaySuccessDialogComponent,
+    AddNewAddressDialogComponent,
+    VNDPipe
   ],
   exports: [
   ],

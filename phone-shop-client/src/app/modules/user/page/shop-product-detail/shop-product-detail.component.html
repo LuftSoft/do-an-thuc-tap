@@ -14,9 +14,12 @@
                         (click)="goToSlide(slideIndex)" style="background-image: url('{{slide.link}}')">
                     </div>
                 </div>
-            </div>
-            <div class="product-detail-info">
-                <h1 class="upper-case">Thông tin sản phẩm</h1>
+                <div class="product-detail-info">
+                    <h1 class="upper-case bold">Thông tin sản phẩm</h1>
+                    <div>
+                        {{productDetail.description}}
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-5">
@@ -38,18 +41,23 @@
                 <i class="fa fa-plus-square icon-quantity" aria-hidden="true" (click)="plusProductQuantity()"></i>
             </div>
             <div class="mb-3 mt-3">
-                <button class="btn-common-base upper-case custom-btn">Mua ngay</button>
+                <button class="btn-common-base upper-case custom-btn" (click)="buyNow(productDetail)">Mua ngay</button>
             </div>
             <div class="mb-2">
-                <button class="btn-common-base upper-case custom-btn">Thêm vào giỏ hàng</button>
+                <button class="btn-common-base upper-case custom-btn" (click)="addToCart(productDetail)">Thêm vào giỏ
+                    hàng</button>
             </div>
             <div class="product-detail-info">
                 <h1 class="upper-case">Thông số kỹ thuật</h1>
+                <div>
+                    {{productDetail.otherBenefit}}
+                </div>
             </div>
         </div>
+        <hr class="my-4">
     </div>
-    <div>
-        sản phẩm tương tự
+    <div class="my-4 mb-5">
+        <h1 class="upper-case bold" style="margin: 0;">sản phẩm tương tự</h1>
         <div class="container">
             <div class="phone-contain mb-3">
                 <div class="card" *ngFor="let phone of productList; let i = index;" (click)="onDetail(phone.id)">
@@ -70,7 +78,4 @@
             </div>
         </div>
     </div>
-    <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPaging()"
-        aria-label="Select page">
-    </mat-paginator>
 </div>

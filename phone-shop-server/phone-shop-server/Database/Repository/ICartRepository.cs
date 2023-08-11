@@ -9,6 +9,7 @@ namespace phone_shop_server.Database.Repository
         Task<Cart> CreateAsync(Cart cart);
         Task<Cart> UpdateAsync(Cart cart);
         Task<bool> DeleteAsync(int cartId);
+        Task<Cart> GetByPhoneAndUserAsync(string phoneId, string userId);
 
     }
 }

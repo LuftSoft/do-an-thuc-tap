@@ -1,0 +1,99 @@
+<div class="container-fluid contain-all">
+    <div class="contain-header">
+        <h2 class="bold dot-three-rem">Địa chỉ của tôi</h2>
+        <button class="btn btn-dark" (click)="openAddNewAddress()">Thêm địa chỉ mới</button>
+    </div>
+    <hr>
+    <div *ngIf="isAddNewAddress" class="mb-2">
+        <form (submit)="addNewAddress()">
+            <div class="row mb-3">
+                <div class="col-6">
+                    <select name="" id="selectTinh" class="form-select">
+                        <option value="tinh" selected>Tỉnh/ Thành phố</option>
+
+                        <option value="">ten</option>
+
+                    </select>
+                </div>
+                <div class="col-6">
+                    <select name="" id="selectHuyen" class="form-select">
+                        <option value="huyen" selected>Quận/ Huyện</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <select name="" id="selectXa" class="form-select">
+                        <option value="xa" selected>Xã/ Phường/ Thị trấn</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="inputEditLocateDetail" class="form-label">Địa chỉ cụ thể</label>
+                <!-- <textarea type="text" class="form-control" id="inputEditLocateDetail"> -->
+                <textarea style="max-height: 100px !important;" id="inputEditLocateDetail" rows="3" cols="10"
+                    style="width: 100%;" required></textarea>
+            </div>
+            <div>Loại địa chỉ</div>
+            <div class="my-2">
+                <div class="radio-type-locate bold">
+                    <input type="radio" name="user_location" class="me-3" value="home" id="radioEditLocateHome">
+                    <label for="radioEditLocateHome">Nhà riêng</label>
+                </div>
+                <div class="radio-type-locate bold">
+                    <input type="radio" name="user_location" value="office" class="me-3" id="radioEditLocateOffice">
+                    <label for="radioEditLocateOffice">Văn phòng</label>
+                </div>
+            </div>
+            <div class="mb-3 bold">
+                <input type="checkbox" class="me-3" id="checkboxEditLocate" style="height: 20px;width: 20px">
+                <label for="checkboxEditLocate" class="form-check-label">Đặt làm địa chỉ mặc định</label>
+            </div>
+            <div class="mb-3">
+                <h6 style="color: red;margin-bottom: 15px;" id="textWarning"></h6>
+                <button type="submit" class="btn btn-dark" id="btn_confirm_user_locate">Xác
+                    nhận</button>
+            </div>
+        </form>
+    </div>
+    <div>
+        <h2>Địa chỉ</h2>
+        <div>
+            <div class="mt-2 row detailUserLocate mb-3" style="padding: 5px;">
+                <div class="col-8">
+                    <div class="row" style="position: relative;">
+                        <span class="location_label col-4">Họ và tên</span>
+                        <span class="col-8">tenuser</span>
+                        <span style="background-color: #00bfa5;color: #fff;border-radius:3px ;margin-left: 10px;
+                                    padding: 1px 5px;position: absolute;top: 0;right: 10px;width: auto;"
+                            class="spanDefaultLocateLabel">Mặc định</span>
+                    </div>
+                    <div class="row">
+                        <span class="location_label col-4">Số điện thoại</span>
+                        <span class="col-8">sdtuser</span>
+                    </div>
+                    <div class="row">
+                        <span class="location_label col-4">Địa chỉ</span>
+                        <span class="col-8">dia chi</span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="mb-3">
+                        <button class="btn btn-edit-locate me-3" style="background-color: #ff3d00;color: #fff;"
+                            (click)="onEdit()">Cập nhật</button>
+                        <button class="btn btn-delete-locate" (click)="onDelete()"
+                            style="background-color: #ff3d00;color: #fff;">Xóa</button>
+                    </div>
+                    <div>
+                        <button (click)="onDefault()" class="btn btn-setdefault-locate"
+                            style="background-color: #ff3d00;color: #fff;">Thiết
+                            lập mặc
+                            định</button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div style="height: 5px;border-bottom: 1px solid #fff;"></div>
+        </div>
+    </div>
+</div>

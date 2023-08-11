@@ -1,1 +1,309 @@
-<p>user-info works!</p>
+<div class="container" style="height: fit-content;background-color: #fff;">
+    <div class="contain">
+        <div class="row" style="padding: 70px 0 20px 0; border-bottom: 2px solid #ccc;">
+            <h3 style="text-transform: uppercase;">Cài đặt tài khoản</h3>
+        </div>
+        <div class="row">
+            <div class="row">
+                <label for="locate_choose" class="locate-label" id="label_show_locate"></label>
+                <form action="http://localhost:3000/fermeh/payment" method="post" class="col-8"
+                    id="form_submit_a_locate" style="display: block;" onsubmit="return validate()">
+                    <div class="mt-3">
+                        <input type="text" required placeholder="Họ và tên" class="form-control" id="inputName">
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-7">
+                            <input type="email" required placeholder="Email" class="form-control" id="inputMail">
+                        </div>
+                        <div class="col-5">
+                            <input type="text" required placeholder="Số điện thoại" class="form-control" id="inputSDT">
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <input type="text" required placeholder="Địa chỉ" class="form-control" id="inputDC">
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <select name="" id="selectTinh" class="form-select">
+                                <option value="tinh" selected>Tỉnh/ Thành phố</option>
+
+                                <option value="">ten</option>
+
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <select name="" id="selectHuyen" class="form-select">
+                                <option value="huyen" selected>Quận/ Huyện</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <select name="" id="selectXa" class="form-select">
+                                <option value="xa" selected>Xã/ Phường/ Thị trấn</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h6 style="color: red;margin-bottom: 15px;" id="textWarning"></h6>
+                        <button type="submit" class="btn btn-dark" id="btn_confirm_user_locate">Xác
+                            nhận</button>
+                    </div>
+                </form>
+            </div>
+            <div class="d-flex setting-item" style="flex-wrap: wrap;">
+                <div class="w-25">
+                    <h4 style="padding-left: 10px;">Tên người dùng</h4>
+                </div>
+                <div class="w-50">
+                    <h4>
+                        ten user
+                    </h4>
+                </div>
+                <div class="w-25">
+                    <i class="fa-solid fa-pen"></i>
+                    <p href="#" class="">Chỉnh sửa</p>
+                </div>
+                <!-- form -->
+                <form class="ps-0 w-50" style="margin: 0 auto;" method="post"
+                    action="http://localhost:3000/fermeh/user/change-username">
+                    <div class="mb-3">
+                        <label for="currentName" class="form-label">Tên hiện tại</label>
+                        <input type="text" class="form-control" id="currentName" required readonly placeholder="tenkh">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newName" class="form-label">Tên mới</label>
+                        <input type="text" class="form-control" name="newName" id="newName"
+                            placeholder="Nhập tên bạn muốn thay đổi!" required>
+                        <div style="color: red;" id="label_warning_change_username"></div>
+                    </div>
+                    <button type="submit" class="btn btn-dark" id="btnChangeUsername">Lưu thay đổi</button>
+                    <button type="button" class="btn btn-dark">Hủy</button>
+                </form>
+            </div>
+            <div style="height: 5px;border-bottom: 1px solid #ccc;"></div>
+            <div class="d-flex setting-item" style="flex-wrap: wrap;">
+                <div class="w-25">
+                    <h4 style="padding-left: 10px;">Số điện thoại</h4>
+                </div>
+                <div class="w-50">
+                    <h4>
+                        sdt
+                    </h4>
+                </div>
+                <div class="w-25">
+                    <i class="fa-solid fa-pen"></i>
+                    <p href="#" class="">Chỉnh sửa</p>
+                </div>
+                <!-- form -->
+                <form class="ps-0 w-50" style="margin: 0 auto;"
+                    action="http://localhost:3000/fermeh/user/changePhoneNumber" method="post">
+                    <div class="mb-3">
+                        <label for="currentPhone" class="form-label">Số điện thoại</label>
+                        <input type="text" class="form-control" id="currentPhone" required readonly placeholder="sdt">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPhone" class="form-label">Số điện thoại mới</label>
+                        <input type="text" class="form-control" id="newPhone" name="newPhone" required
+                            placeholder="Nhập số điện thoại mới!">
+                        <div style="color: red;" id="label_warning_change_phone"></div>
+                    </div>
+                    <button type="submit" class="btn btn-dark" id="btnChangePhoneNumber">Lưu thay đổi</button>
+                    <button type="button" class="btn btn-dark">Hủy</button>
+                </form>
+            </div>
+            <div style="height: 5px;border-bottom: 1px solid #ccc;"></div>
+            <div class="d-flex setting-item" style="flex-wrap: wrap;">
+                <div class="w-25">
+                    <h4 style="padding-left: 10px;">Email</h4>
+                </div>
+                <div class="w-50">
+                    <h4 id="email_after_update">
+                        email
+                    </h4>
+                </div>
+                <div class="w-25">
+                    <i class="fa-solid fa-pen"></i>
+                    <p class="">Chỉnh sửa</p>
+                </div>
+                <!-- form -->
+                <form class="ps-0 w-50" style="margin: 0 auto;" action="http://localhost:3000/fermeh/user/changeEmail"
+                    method="post">
+                    <div class="mb-3">
+                        <label for="curentEmail" class="form-label">Email hiện tại</label>
+                        <input type="text" class="form-control" id="curentEmail" required readonly
+                            placeholder="user email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newEmail" class="form-label">Email mới</label>
+                        <input type="email" class="form-control" name="newEmail" id="newEmail" required
+                            placeholder="Nhập email mới!">
+                        <div style="color: red;" id="label_warning_change_email"></div>
+                    </div>
+                    <button type="submit" class="btn btn-dark" id="btnChangeEmail">Lưu thay đổi</button>
+                    <button type="button" class="btn btn-dark">Hủy</button>
+                </form>
+            </div>
+            <div style="height: 5px;border-bottom: 1px solid #ccc;"></div>
+            <div class="d-flex setting-item" style="flex-wrap: wrap;">
+                <div class="w-25">
+                    <h4 style="padding-left: 10px;">Mật khẩu</h4>
+                </div>
+                <div class="w-50">
+                    <h4>**********</h4>
+                </div>
+                <div class="w-25">
+                    <i class="fa-solid fa-pen"></i>
+                    <p class="">Chỉnh sửa</p>
+                </div>
+                <!-- form -->
+                <form class="ps-0 w-50" style="margin: 0 auto;" action="http://localhost:3000/fermeh/user/changePass"
+                    method="post">
+                    <div class="mb-3" style="position: relative;">
+                        <label for="rewritePass" class="form-label">Mật khẩu hiện tại</label>
+                        <input type="password" class="form-control" id="rewritePass" name="currentPass" required
+                            placeholder="Nhập mật khẩu hiện tại">
+                        <span style="position: absolute;top: 40px;left: 96%;color: #aaa;" id="eyeRewritePass"><i
+                                class="fa-solid fa-eye"></i></span>
+                    </div>
+                    <div class="mb-3" style="position: relative;">
+                        <label for="newPass" class="form-label">Mật khẩu mới</label>
+                        <input type="password" class="form-control" name="newPass" id="newPass" required
+                            placeholder="Nhập mật khẩu mới">
+                        <span style="position: absolute;top: 40px;left: 96%;color: #aaa;" id="eyeNewPass"><i
+                                class="fa-solid fa-eye"></i></span>
+                        <div style="color: red;" id="label_warning_change_password"></div>
+                    </div>
+                    <button type="submit" class="btn btn-dark" id="btnChangePassword">Lưu thay đổi</button>
+                    <button type="button" class="btn btn-dark">Hủy</button>
+                </form>
+            </div>
+            <div style="height: 5px;border-bottom: 1px solid #ccc;"></div>
+            <div class="d-flex setting-item" style="flex-wrap: wrap;">
+                <div class="w-25">
+                    <h4 style="padding-left: 10px;">Địa chỉ của bạn</h4>
+                </div>
+                <div class="w-50">
+                </div>
+                <div class="w-25">
+                    <i class="fa-solid fa-pen"></i>
+                    <p class="">Chỉnh sửa</p>
+                </div>
+                <div class="ps-0 w-50 user-location" style="margin: 0 auto 35px;">
+                    <div style="height: 5px;border-bottom: 1px solid #fff;"></div>
+                    <!-- Liet ke danh sach dia chi -->
+                    <div>
+                        <div class="row detailUserLocate mb-3" style="margin-top: 25px;">
+                            <div class="col-8">
+                                <div class="row" style="position: relative;">
+                                    <span class="location_label col-4">Họ và tên</span>
+                                    <span class="col-8">tenuser</span>
+                                    <span style="background-color: #00bfa5;color: #fff;border-radius:3px ;margin-left: 10px;
+                                                padding: 1px 5px;position: absolute;top: 0;right: 10px;width: auto;"
+                                        class="spanDefaultLocateLabel">Mặc định</span>
+                                </div>
+                                <div class="row">
+                                    <span class="location_label col-4">Số điện thoại</span>
+                                    <span class="col-8">sdtuser</span>
+                                </div>
+                                <div class="row">
+                                    <span class="location_label col-4">Địa chỉ</span>
+                                    <span class="col-8">dia chi</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="mb-3">
+                                    <button class="btn btn-edit-locate"
+                                        style="background-color: #ff3d00;color: #fff;">Sửa</button>
+                                    <button class="btn btn-delete-locate"
+                                        style="background-color: #ff3d00;color: #fff;">Xóa</button>
+                                </div>
+                                <div>
+                                    <button class="btn btn-setdefault-locate"
+                                        style="background-color: #ff3d00;color: #fff;">Thiết lập mặc
+                                        định</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height: 5px;border-bottom: 1px solid #fff;"></div>
+                    </div>
+                    <!-- Liet ke danh sach dia chi -->
+                    <button type="button" class="btn btn-dark" style="margin: 20px 0 0 0 ;" id="btnEditAddLocate"><i
+                            class="fa-solid fa-plus" style="margin-right: 10px;"></i>Thêm địa chỉ mới</button>
+                    <button type="button" class="btn btn-dark" style="margin: 20px 0 0 0;">Hủy</button>
+                </div>
+            </div>
+            <div style="height: 5px;border-bottom: 1px solid #ccc;"></div>
+        </div>
+    </div>
+
+</div>
+
+<div class="" style="width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.3);">
+    <form class="bg-light form-edit-locate" action="http://localhost:3000/fermeh/user/setting/update-locate"
+        id="formEditLocate" method="post">
+        <h4 class="mb-3">Chỉnh sửa địa chỉ</h4>
+        <div class="mb-3">
+            <label for="inputEditLocateName" class="form-label">Họ và tên</label>
+            <input type="text" class="form-control" id="inputEditLocateName" required>
+            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+        </div>
+        <div class="mb-3">
+            <label for="inputEditLocatePhone" class="form-label">Số điện thoại </label>
+            <input type="text" class="form-control" id="inputEditLocatePhone" required>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <select class="form-select" id="selectEditLocateTinh">
+                    <option selected value="tinh">Tỉnh/Thành phố</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select" id="selectEditLocateHuyen">
+                    <option selected value="huyen">Quận/Huyện</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-6">
+                <select class="form-select" aria-label="Default select example" id="selectEditLocateXa">
+                    <option selected value="xa">Phường/Xã</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="inputEditLocateDetail" class="form-label">Địa chỉ cụ thể</label>
+            <!-- <textarea type="text" class="form-control" id="inputEditLocateDetail"> -->
+            <textarea name="" id="inputEditLocateDetail" rows="3" cols="10" style="width: 100%;" required></textarea>
+        </div>
+        <div>Loại địa chỉ</div>
+        <div style="margin: 10px 0;">
+            <div class="radio-type-locate">
+                <input type="radio" placeholder="Nhà riêng" name="loai_dia_chi" id="radioEditLocateHome" value="home">
+                <label for="radioEditLocateHome">Nhà riêng</label>
+            </div>
+            <div class="radio-type-locate">
+                <input type="radio" placeholder="Nhà riêng" name="loai_dia_chi" id="radioEditLocateOffice"
+                    value="office">
+                <label for="radioEditLocateOffice">Văn phòng</label>
+            </div>
+        </div>
+        <div class="mb-2">
+            <input type="checkbox" name="" id="checkboxEditLocate" class="form-check-input">
+            <label for="checkboxEditLocate" class="form-check-label">Đặt làm địa chỉ mặc định</label>
+
+        </div>
+        <div class="mb-3">
+            <span style="color: red;" id="spanWarningLocateForm"></span>
+        </div>
+        <div style="display: flex;justify-content: right;">
+            <button type="button" class="btn" id="btnEditLocateBack"
+                style="border: 1px solid #000;margin-right: 15px;width: 110px;">Trở lại</button>
+            <button type="submit" class="btn" id="btnAddLocateSubmit"
+                style="background-color: #ff3d00;color: #fff;width: 110px;">Hoàn thành</button>
+            <button type="submit" class="btn" id="btnEditLocateSubmit"
+                style="background-color: #ff3d00;color: #fff;width: 110px;">Chỉnh sửa</button>
+            <input type="text" value="" id="inputIDDCEditLocate">
+        </div>
+    </form>
+</div>

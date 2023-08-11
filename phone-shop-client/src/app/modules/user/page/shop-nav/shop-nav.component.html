@@ -3,7 +3,7 @@
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg">
             <!-- Container wrapper -->
-            <div class="container-fluid navbar-custom-css">
+            <div class="container-fluid navbar-custom-css" style="padding: 0 !important;">
                 <!-- Toggle button -->
                 <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
                     data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -21,13 +21,13 @@
                     <!-- Left links -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" [routerLink]="'product'">Product</a>
+                            <a class="nav-link" [routerLink]="'product'">Sản phẩm</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" [routerLink]="'product'">Team</a>
+                            <a class="nav-link" [routerLink]="'order'">Đơn mua</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" [routerLink]="'product'">Projects</a>
+                            <a class="nav-link" [routerLink]="'promotion'">Khuyến mãi</a>
                         </li>
                     </ul>
                     <form class="d-flex me-3 search-form">
@@ -43,26 +43,35 @@
                 <!-- Right elements -->
                 <div class="d-flex align-items-center">
                     <!-- Icon -->
-                    <a class="text-reset me-3" [routerLink]="'cart'" matTooltip="Giỏ hàng">
+                    <a class="text-reset me-3" [routerLink]="'cart'" matTooltip="Giỏ hàng" *ngIf="user">
                         <i class="fa fa-shopping-cart right-icon" aria-hidden="true"></i>
                     </a>
                     <!-- Avatar -->
-                    <a class="btn btn-common-orange me-2" [routerLink]="'/login'">Đăng nhập</a>
-                    <a class="btn btn-common-orange" [routerLink]="'/signup'">Đăng ký</a>
-                    <div class="dropdown">
+                    <div *ngIf="!user">
+                        <a class="btn btn-common-orange me-2" [routerLink]="'/login'">Đăng nhập</a>
+                        <a class="btn btn-common-orange" [routerLink]="'/signup'">Đăng ký</a>
+                    </div>
+                    <div class="dropdown" *ngIf="user">
                         <!-- [routerLink]="['user-information']" -->
                         <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                            id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
-                            <img src="https://github.com/mdo.png" alt="" width="32" height="32"
+                            data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                            <img src="{{user.avatar}}" alt="user avatar" width="32" height="32"
                                 class="rounded-circle me-2">
-                            <strong>User name</strong>
+                            <strong>{{user.firstName}} {{user.lastName}}</strong>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                            <li><a class="dropdown-item" [routerLink]="['user-information']">Thông tin cá nhân</a></li>
+                            <li>
+                                <a class="dropdown-item" [routerLink]="['/user-info']">Thông tin cá nhân</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" [routerLink]="['/order']">Đơn mua</a>
+                            </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" (click)="onLogout()">Đăng xuất</a></li>
+                            <li>
+                                <a class="dropdown-item" (click)="onLogout()" style="cursor: pointer;">Đăng xuất</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

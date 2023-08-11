@@ -324,6 +324,30 @@ textarea {
     transition: all 0.15s ease-in;
 }
 
+.bold {
+    font-weight: 600 !important;
+}
+
+.dot-five-rem {
+    font-size: 1.5rem !important;
+}
+
+.dot-three-rem {
+    font-size: 1.3rem !important;
+}
+
+.description-text {
+    font-size: 1rem !important;
+    font-style: italic;
+    color: #888888;
+}
+
+.overflow {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .card h3 {
     font-size: 1.15rem;
     font-weight: bold;

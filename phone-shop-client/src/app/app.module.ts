@@ -16,13 +16,15 @@ import { UserService } from './modules/user/user.service';
 import { ConfirmDialogComponent } from './modules/confirm-dialog/confirm-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { UserInfoService } from './core/service/user.info.service';
+import { VNDPipe } from './core/service/custom.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     NotificationComponent,
     LoadingServiceComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
     // ShopNavComponent,
     // ShopFooterComponent
   ],
@@ -38,7 +40,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatPaginatorModule
   ],
   providers: [
-    UserService
+    UserService,
+    UserInfoService
   ],
   bootstrap: [AppComponent]
 })

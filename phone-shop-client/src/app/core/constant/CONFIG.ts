@@ -4,6 +4,14 @@ export interface BaseAPIResponse {
     data?: any
 }
 export const CONFIG = {
+    AUTH: {
+        USER_ACCESS_TOKEN: 'user_access_token',
+        USER_REFRESH_TOKEN: 'user_refresh_token',
+        ADMIN_ACCESS_TOKEN: 'admin_access_token',
+        ADMIN_REFRESH_TOKEN: 'admin_refresh_token',
+        USER: 'user',
+        ADMIN: 'admin'
+    },
     STATUS_CODE: {
         SUCCESS: 'SUCCESS',
         ERROR: 'ERROR'

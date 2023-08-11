@@ -19,6 +19,11 @@ namespace phone_shop_server.Database.Repository
         {
             return await _appDbContext.Cart.FirstOrDefaultAsync(c => c.Id == cartId);
         }
+        public async Task<Cart> GetByPhoneAndUserAsync(string phoneId, string userId)
+        {
+            return await _appDbContext.Cart
+                .FirstOrDefaultAsync(c => c.PhoneId.ToString() == phoneId && c.UserId.Equals(userId));
+        }
         public async Task<Cart> CreateAsync(Cart cart)
         {
             _appDbContext.Cart.Add(cart);
@@ -32,7 +37,9 @@ namespace phone_shop_server.Database.Repository
                 await DeleteAsync(cart.Id);
                 return cart;
             }
-            _appDbContext.Cart.Update(cart);
+            var cartUpdate = await GetAsync(cart.Id);
+            cartUpdate.Quantity = cart.Quantity;
+            _appDbContext.Cart.Update(cartUpdate);
             await _appDbContext.SaveChangesAsync();
             return cart;
         }
