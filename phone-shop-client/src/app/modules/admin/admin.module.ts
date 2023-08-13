@@ -20,6 +20,8 @@ import { ProductDetailComponent } from './product/product-detail/product-detail.
 import { BrandDetailComponent } from './product/brand-detail/brand-detail.component';
 import { ImportWarehouseTicketComponent } from './warehouse/import-warehouse-ticket/import-warehouse-ticket.component';
 import { OrderDetailComponent } from './order-manage/order-detail/order-detail.component';
+import { AdminVNDPipe, VNDPipe } from 'src/app/core/service/custom.pipe';
+import { DashboardComponent } from './dashboard/dashboard.component';
 //const NgbModule = require('@ng-bootstrap/ng-bootstrap')
 
 @NgModule({
@@ -38,13 +40,15 @@ import { OrderDetailComponent } from './order-manage/order-detail/order-detail.c
         StaffManageComponent,
         ProductComponent,
         WarehouseComponent,
+        DashboardComponent,
         OrderManageComponent,
         PromotionComponent,
         ReportComponent,
         ProductDetailComponent,
         BrandDetailComponent,
         ImportWarehouseTicketComponent,
-        OrderDetailComponent
+        OrderDetailComponent,
+        AdminVNDPipe
     ],
     providers: [
         NotificationService,

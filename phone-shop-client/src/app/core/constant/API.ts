@@ -17,7 +17,15 @@ export const API = {
     },
     USER: 'user',
     ADMIN: 'admin',
-    DETAIL: 'detail'
+    DETAIL: 'detail',
+    FILTER: 'filter',
+    ADDRESS: 'address',
+    LOCATION: {
+        LOCATION: 'location',
+        PROVINCE: 'province',
+        DISTRICT: 'district',
+        HOMELET: 'homelet',
+    }
 }
 
 

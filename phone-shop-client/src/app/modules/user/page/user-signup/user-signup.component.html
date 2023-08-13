@@ -37,17 +37,24 @@
                 <div class="mb-3">
                     <mat-form-field>
                         <mat-label>Mật khẩu</mat-label>
-                        <input type="text" matInput formControlName="password">
+                        <div>
+                            <input type="password" matInput formControlName="password" class="form-password" #password>
+                            <i (click)="togglePassword(password)" class="fa fa-eye display-password-icon"
+                                aria-hidden="true" *ngIf="!isShowPassword"></i>
+                            <i (click)="togglePassword(password)" class="fa fa-eye-slash display-password-icon"
+                                aria-hidden="true" *ngIf="isShowPassword"></i>
+                        </div>
                         <mat-error *ngIf="form.controls['password'].invalid" class="mt-2">Mật khẩu không hợp
                             lệ.</mat-error>
                     </mat-form-field>
                 </div>
                 <div class="mb-3">
                     <div class="mb-2"><label for="file" class="form-label">Ảnh đại diện</label></div>
-                    <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
-                    <input hidden (change)="onFileSelected()" #fileInput type="file" id="file" formControlName="avatar">
+                    <button type="button" mat-raised-button (click)="fileUpload.click()">Choose File</button>
+                    <input hidden (change)="onFileSelected($event)" #fileUpload type="file" id="file">
                 </div>
-                <button type="submit" class="btn-common-base w-100" mat-button>Đăng ký</button>
+                <button type="submit" class="btn-common-base w-100" style="cursor: pointer;" mat-button
+                    [disabled]="form.invalid">Đăng ký</button>
                 <div style="text-align: right;">
                     <label for="" class="mt-4">Bạn đã có tài khoản? <a [routerLink]="'login'" class="common-link">Đăng
                             nhập</a></label>

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/modules/user/user.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -51,6 +53,20 @@ export class NotificationService {
 export class Helpers {
   static clonDeep(obj: any) {
     return JSON.parse(JSON.stringify(obj));
+  }
+  static parse(obj: any) {
+    return JSON.parse(obj);
+  }
+  static checkUser(router: Router) {
+    const user = localStorage.getItem('user');
+    if (!user) {
+      router.navigateByUrl("/login");
+      return false;
+    }
+    return true;
+  }
+  static naviGateToLogin(router: Router) {
+    router.navigateByUrl("/login");
   }
   static random(min: number, max: number) {
     return Math.floor(Math.random() * (max - min) + min);

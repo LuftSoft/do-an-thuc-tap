@@ -18,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { UserInfoService } from './core/service/user.info.service';
 import { VNDPipe } from './core/service/custom.pipe';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { VNDPipe } from './core/service/custom.pipe';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    FormsModule
   ],
   providers: [
     UserService,

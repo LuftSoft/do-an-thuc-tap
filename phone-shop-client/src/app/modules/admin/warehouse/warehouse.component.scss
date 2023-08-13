@@ -11,3 +11,15 @@
     text-decoration: none;
     color: #000;
 }
+
+.header-container {
+    justify-content: flex-end;
+}
+
+tr {
+    &.mat-row {
+        &:hover {
+            background-color: whitesmoke !important;
+        }
+    }
+}

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { LoadingService } from './core/service/loading.service';
-import { response } from 'express';
 import { delay } from 'rxjs';
 
 @Component({

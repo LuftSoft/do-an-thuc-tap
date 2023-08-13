@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CONFIG } from 'src/app/core/constant/CONFIG';
@@ -10,6 +10,8 @@ import { OpenDialogService } from 'src/app/core/service/dialog/opendialog.servic
 import { ProductDetailComponent } from '../product/product-detail/product-detail.component';
 import { BrandDetailComponent } from '../product/brand-detail/brand-detail.component';
 import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { finalize } from 'rxjs'
 
 @Component({
   selector: 'app-warehouse',
@@ -17,11 +19,12 @@ import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.comp
   styleUrls: ['./warehouse.component.scss']
 })
 export class WarehouseComponent implements OnInit {
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   dataSource: MatTableDataSource<any>;
   pageSizeOption = CONFIG.PAGING_OPTION;
   pageSize = this.pageSizeOption[0];
   pageLength = 100;
-  displayedColumns = ['name', 'image', 'brand', 'operation', 'edit'];
+  displayedColumns = ['name', 'image', 'brand', 'stock', 'edit'];
   constructor(
     private adminService: AdminService,
     private loader: LoadingService,
@@ -32,13 +35,14 @@ export class WarehouseComponent implements OnInit {
   }
 
   ngOnInit() {
-    //const load = this.loader.showProgressBar();
+    this.loader.showProgressBar();
     this.adminService.getAllProduct()
-      //.pipe(finalize(() => { this.loader.hideProgressBar() }))
+      .pipe(finalize(() => { this.loader.hideProgressBar() }))
       .subscribe((response) => {
         if (response.code === CONFIG.STATUS_CODE.SUCCESS) {
           this.dataSource.data = response.data;
           this.pageLength = this.dataSource.data.length;
+          this.dataSource.paginator = this.paginator;
         }
       })
   }

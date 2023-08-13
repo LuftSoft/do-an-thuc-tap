@@ -20,6 +20,7 @@ namespace phone_shop_server.Business.Service
     public class OrderService : IOrderService
     {
         private readonly IUserService _userService;
+        private readonly ICartRepository _cartRepository;
         private readonly IOrderConverter _orderConverter;
         private readonly IPhoneRepository _phoneRepository;
         private readonly IOrderRepository _orderRepository;
@@ -29,6 +30,7 @@ namespace phone_shop_server.Business.Service
         public OrderService(
             IUserService userService,
             IOrderConverter orderConverter,
+            ICartRepository cartRepository,
             IOrderRepository orderRepository,
             IPhoneRepository phoneRepository,
             IStatusRepository statusRepository,
@@ -37,6 +39,7 @@ namespace phone_shop_server.Business.Service
             )
         {
             _userService = userService;
+            _cartRepository = cartRepository;
             _orderConverter = orderConverter;
             _orderRepository = orderRepository;
             _phoneRepository = phoneRepository;
@@ -142,7 +145,7 @@ namespace phone_shop_server.Business.Service
                 });
                 return new APIResponse.APIResponse()
                 {
-                    code = StatusCode.ERROR.ToString(),
+                    code = StatusCode.SUCCESS.ToString(),
                     data = await _orderConverter.ConvertToOrderStatusDto(orderStatus)
                 };
             }
@@ -207,14 +210,22 @@ namespace phone_shop_server.Business.Service
                     StatusId = (await _statusRepository.GetByNameAsync(OrderStatusEnum.CREATED.ToString())).Id,
                 };
                 await _orderStatusRepository.CreateOrderStatusAsync(orderStatus);
+                var carts = await _cartRepository.GetAllAsync(userId);
                 foreach (var item in orderCreateDto.phones)
                 {
+                    //update quantity
+                    var phone = await _phoneRepository.GetOneAsync(item.phoneId);
+                    phone.Quantity -= item.quantity;
+                    await _phoneRepository.UpdateAsync(phone);
                     await _orderDetailRepository.CreateAsync(new OrderDetail()
                     {
                         OrderId = orderResult.Id,
                         PhoneId = Guid.Parse(item.phoneId),
                         Quantity = item.quantity,
                     });
+                    var deleteCartItem = carts.FirstOrDefault(c => c.PhoneId.ToString().Equals(item.phoneId));
+                    if(deleteCartItem != null)
+                        await _cartRepository.DeleteAsync(deleteCartItem.Id);
                 }
                 return new APIResponse.APIResponse()
                 {

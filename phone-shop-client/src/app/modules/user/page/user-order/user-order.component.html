@@ -1,1 +1,91 @@
-<p>user-order works!</p>
+<div class="container relative" style="min-height: 800px;" *ngIf="!order || order.length === 0">
+    <div class="row mt-5 mb-3 non-product" style="height: 500px;">
+    </div>
+    <div class="row absolute no-order-detail">
+        <div style="font-size: 20px;font-weight: 600;
+    position: relative;top: 68%;text-align: center;">Bạn chưa có đơn hàng nào</div>
+        <a [routerLink]="'/product'" class="btn btn-common-base">Mua hàng</a>
+    </div>
+</div>
+<div *ngIf="order.length > 0">
+    <div class="container" style="height: fit-content;position: relative;margin-bottom: 70px;">
+        <div class="row pt-5 pb-3 mb-3" style="border-bottom: 2px solid #ccc;">
+            <h5 class="bold dot-five-rem uppercase">đơn mua</h5>
+        </div>
+        <div class="row" style="min-height: 300px;">
+            <div *ngFor="let orderItem of order" [ngClass]="isOrderStatusCanceled(orderItem)?'list-items__disabled':''"
+                class="list-items mb-5 border-top-base col-12 contain_product_item">
+                <div class="row">
+                    <div class="col-8"></div>
+                    <div class="col-4 relative" style="justify-content: flex-end;display: flex;">
+                        <a class="btn btn-common-base me-3 order-tag" *ngIf="isOrderStatusDelivery(orderItem)"
+                            (click)="onTranfered(orderItem)">
+                            Đã nhận được hàng</a>
+                        <a class="btn btn-common-base me-3 order-tag order-tag__confirmed"
+                            *ngIf="isOrderStatusDelivery(orderItem)">
+                            Đang vận chuyển</a>
+                        <a class="btn btn-common-base me-3 order-tag order-tag__confirmed"
+                            *ngIf="isOrderStatusPrepared(orderItem)" [matTooltip]="'Đơn hàng đang được chuẩn bị'">
+                            Chuẩn bị hàng</a>
+                        <a class="btn btn-common-reject me-3 order-tag" (click)="onCanceled(orderItem)"
+                            *ngIf="isOrderStatusCreated(orderItem) || isOrderStatusPrepared(orderItem)">
+                            Hủy đơn hàng</a>
+                        <a disabled class="btn btn-common-reject order-tag order-tag__disabled"
+                            *ngIf="isOrderStatusCanceled(orderItem)">Đã hủy</a>
+                        <a disabled class="btn btn-common-base order-tag order-tag__confirmed"
+                            *ngIf="isOrderStatusTranfered(orderItem)">Đã nhận hàng</a>
+                    </div>
+                </div>
+                <hr>
+                <div *ngFor="let orderDetail of orderItem.orderDetail">
+                    <div class="d-flex contain-product">
+                        <div class="product-img">
+                            <img src="{{orderDetail.phone.phoneImages[0].link}}" alt="product" class="img-fluid"
+                                style="width: 100%;height: 100%;">
+                        </div>
+                        <div style="width: 100%;">
+                            <div class="row">
+                                <div class="col" style="position: relative;">
+                                    <div class="ps-3">
+                                        <a [routerLink]="['/product', orderDetail.phone.id]" class="cart-title">
+                                            <h4>
+                                                {{orderDetail.phone.name}}
+                                            </h4>
+                                        </a>
+                                        <p>
+                                            {{orderDetail.phone.description}}
+                                        </p>
+                                        <div class="d-flex" style="margin-top: 25px;">
+                                            <div class="border-choice" style="max-height: 30px;z-index: 700;">
+                                                Đơn giá: {{orderDetail.phone.soldPrice}}
+                                            </div>
+                                            <div class="ms-3 border-choice" style="max-height: 30px;z-index: 700;">
+                                                Số lượng: {{orderDetail.quantity}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <h5 style="text-align: center;font-size: 1.2rem;font-weight: 600;" id="price__id">
+                                        {{orderDetail.phone.soldPrice * orderDetail.quantity | vndPipe}}
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2" style="align-items: center;">
+                    <div class="col-8 d-flex" style="justify-content: flex-start;align-items: center;">
+                        <span class="me-3">Ngày tạo: {{orderItem.createDate | date: 'dd/MM/yyyy'}}</span>
+                        <a class="btn btn-common-base me-3 order-tag">Chi tiết</a>
+                    </div>
+                    <div class="col-4 relative d-flex" style="align-items: center;justify-content: center;">
+                        <h5 style="text-align: center;font-size: 1.2rem;font-weight: 600;" id="price__id">
+                            Thành tiền: {{ getTotalPrice(orderItem) | vndPipe}}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

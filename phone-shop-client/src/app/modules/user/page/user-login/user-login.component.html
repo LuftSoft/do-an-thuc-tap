@@ -20,7 +20,11 @@
                 <div class="mb-3">
                     <mat-form-field>
                         <mat-label>Mật khẩu</mat-label>
-                        <input type="password" matInput formControlName="password">
+                        <input type="password" matInput formControlName="password" class="form-password" #password>
+                        <i (click)="togglePassword(password)" class="fa fa-eye display-password-icon" aria-hidden="true"
+                            *ngIf="!isShowPassword"></i>
+                        <i (click)="togglePassword(password)" class="fa fa-eye-slash display-password-icon"
+                            aria-hidden="true" *ngIf="isShowPassword"></i>
                         <mat-error *ngIf="form.controls['password'].invalid" class="mt-2">Mật khẩu không hợp
                             lệ.</mat-error>
                     </mat-form-field>

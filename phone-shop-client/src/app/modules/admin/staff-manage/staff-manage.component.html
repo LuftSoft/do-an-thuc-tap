@@ -1,3 +1,64 @@
-<p>
-  staff-manage works!
-</p>
+<div class="row py-3 w-100 m-0 px-3">
+  <div class="col-8 d-flex" style="align-items: center;">
+    <h5 class="bold dot-three-rem uppercase" style="margin: 0;line-height: 40px;">Quản lý nhân viên</h5>
+  </div>
+  <div class="col-4 d-flex" style="align-items: center;justify-content: flex-end;">
+  </div>
+</div>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 mt-3 mb-5 w-100">
+  <!-- 'image', 'name', 'email', 'phone', 'age', 'edit' -->
+  <ng-container matColumnDef="image">
+    <th mat-header-cell *matHeaderCellDef> Ảnh đại diện </th>
+    <td mat-cell *matCellDef="let element; let i = index;" [ngClass]="i%2==0?'':'bg-whitesmoke'">
+      <img src="{{element.avatar}}" alt="phone_image" style="max-height: 90px;max-width: 
+        90px;width: 100%;object-fit: cover;object-position: top;">
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Họ tên </th>
+    <td mat-cell *matCellDef="let element; let i = index;" [ngClass]="i%2==0?'':'bg-whitesmoke'">
+      <span class="table-tag">
+        {{element.firstName}} {{element.lastName}}</span>
+    </td>
+  </ng-container>
+  <!-- ['createDate', 'paymentMethod', 'paymentStatus', 'orderStatus', 'total_product', 'total_money']; -->
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef> Email </th>
+    <td mat-cell *matCellDef="let element; let i = index;" [ngClass]="i%2==0?'':'bg-whitesmoke'">
+      <span class="table-tag">
+        {{element.email}}</span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="phone">
+    <th mat-header-cell *matHeaderCellDef> Số điện thoại </th>
+    <td mat-cell *matCellDef="let element; let i = index;" [ngClass]="i%2==0?'':'bg-whitesmoke'">
+      <span class="table-tag">
+        {{element.phone}}</span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="age">
+    <th mat-header-cell *matHeaderCellDef> Tuổi </th>
+    <td mat-cell *matCellDef="let element; let i = index;" [ngClass]="i%2==0?'':'bg-whitesmoke'">
+      {{element.age}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef> Chỉnh sửa </th>
+    <td mat-cell *matCellDef="let element; let i = index;" [ngClass]="i%2==0?'':'bg-whitesmoke'">
+      <button class="btn btn-common-base me-3">
+        <i class="fa fa-pencil" aria-hidden="true" [matTooltip]="'Chi tiết'" style="color: #fff;"></i>
+        Chi tiết
+      </button>
+      <button class="btn btn-common-reject"><i class="fa fa-trash-o me-2" style="color: #fff;" aria-hidden="true"
+          [matTooltip]="'Xóa nhân viên'"></i> Xóa</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator [length]="pageLength" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOption" aria-label="Select page">
+</mat-paginator>

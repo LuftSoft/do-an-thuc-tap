@@ -9,6 +9,7 @@
     /* background-color: #a29bfe; */
 }
 
+
 .form-main {
     padding: 50px 50px;
     background-color: #fff;
@@ -21,9 +22,6 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.form-main input {
-    padding: 10px 7px;
-}
 
 .form-main a:hover {
     text-decoration: underline !important;
@@ -31,4 +29,16 @@
 
 .warning {
     border: 1px solid red;
+}
+
+.display-password-icon {
+    position: absolute;
+    right: 5px;
+    font-size: 20px !important;
+    color: #727272;
+}
+
+.mat-button-disabled {
+    color: #000 !important;
+    background-color: #ccc !important;
 }

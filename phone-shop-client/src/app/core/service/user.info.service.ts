@@ -1,7 +1,9 @@
 import { Injectable, OnInit, EventEmitter } from '@angular/core';
-import { Helpers } from './notification.service';
+import { Helpers, NotificationService } from './notification.service';
 import { CONFIG } from '../constant/CONFIG';
-import { BehaviorSubject, Observable } from 'rxjs'
+import { BehaviorSubject, Observable, finalize, pipe } from 'rxjs'
+import { UserService } from 'src/app/modules/user/user.service';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,11 @@ export class UserInfoService {
   order: any[] = [];
   eventReload: BehaviorSubject<any>;
   userinfo$: Observable<any>;
-  constructor() {
+  constructor(
+    private userService: UserService,
+    private notity: NotificationService,
+    private load: LoadingService
+  ) {
     this.getUserInfo();
     this.eventReload = new BehaviorSubject<any>(this.user);
     this.userinfo$ = this.eventReload.asObservable();
@@ -20,9 +26,21 @@ export class UserInfoService {
   sendUserInfo() {
     this.eventReload.next(this.getUserInfo());
   }
+  resetOrder() {
+    this.order = [];
+  }
+  updateUserInfo() {
+    this.load.showProgressBar()
+    this.userService.getUserInfo()
+      .pipe(finalize(() => { this.load.hideProgressBar() }))
+      .subscribe((response: any) => {
+        localStorage.setItem('user', response);
+      });
+  }
+
   getUserInfo() {
     if (localStorage.getItem(CONFIG.AUTH.USER)) {
-      this.user = Helpers.clonDeep(localStorage.getItem(CONFIG.AUTH.USER));
+      this.user = Helpers.parse(localStorage.getItem(CONFIG.AUTH.USER));
     }
     else {
       this.user = null;

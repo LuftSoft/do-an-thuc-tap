@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { LoadingService } from 'src/app/core/service/loading.service';
 import { elementAt, finalize } from 'rxjs';
@@ -9,13 +9,15 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { BrandDetailComponent } from './brand-detail/brand-detail.component';
 import { NotificationService } from 'src/app/core/service/notification.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   dataSource: MatTableDataSource<any>;
   pageSizeOption = CONFIG.PAGING_OPTION;
   pageSize = this.pageSizeOption[0];
@@ -31,15 +33,22 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit() {
-    //const load = this.loader.showProgressBar();
+    this.getAllProduct();
+  }
+  getAllProduct() {
+    this.loader.showProgressBar();
     this.adminService.getAllProduct()
-      //.pipe(finalize(() => { this.loader.hideProgressBar() }))
+      .pipe(finalize(() => { this.loader.hideProgressBar() }))
       .subscribe((response) => {
         if (response.code === CONFIG.STATUS_CODE.SUCCESS) {
           this.dataSource.data = response.data;
+          this.dataSource.paginator = this.paginator;
           this.pageLength = this.dataSource.data.length;
         }
       })
+  }
+  ngAfterViewInit() {
+    //this.dataSource.paginator = this.paginator;
   }
   onPaging() { }
   onProductDetail(data: any) {

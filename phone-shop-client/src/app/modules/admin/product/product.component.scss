@@ -1,0 +1,11 @@
+.header-container {
+    justify-content: flex-end;
+}
+
+tr {
+    &.mat-row {
+        &:hover {
+            background-color: whitesmoke !important;
+        }
+    }
+}

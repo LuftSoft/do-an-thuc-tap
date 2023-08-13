@@ -1,64 +1,92 @@
-<form class="bg-light form-edit-locate" (submit)="onSubmit()" id="formEditLocate" method="post">
-  <h4 class="mb-3">Chỉnh sửa địa chỉ, Địa chỉ mới</h4>
-  <div class="mb-3">
-    <label for="inputEditLocateName" class="form-label">Họ và tên</label>
-    <input type="text" class="form-control" id="inputEditLocateName" required>
-    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-  </div>
-  <div class="mb-3">
-    <label for="inputEditLocatePhone" class="form-label">Số điện thoại </label>
-    <input type="text" class="form-control" id="inputEditLocatePhone" required>
-  </div>
-  <div class="row mb-3">
-    <div class="col">
-      <select class="form-select">
-        <option selected value="tinh">Tỉnh/Thành phố</option>
-      </select>
+<form class="bg-light ">
+  <h4 class="mb-2 bold dot-three-rem uppercase">{{data.type === 'add'?'Thêm địa chỉ mới' : 'Chỉnh sửa địa chỉ'}}</h4>
+  <div class="mb-2 row">
+    <div class="col-7">
+      <mat-form-field class="example-full-width">
+        <mat-label class="form-label">Họ và tên</mat-label>
+        <input type="text" matInput placeholder="Họ và tên" required maxlength="100" minlength="2" [(ngModel)]="name"
+          name="name">
+      </mat-form-field>
     </div>
-    <div class="col">
-      <select class="form-select">
-        <option selected value="huyen">Quận/Huyện</option>
-      </select>
+    <div class="col-5">
+      <mat-form-field class="example-full-width">
+        <mat-label class="form-label">Số điện thoại</mat-label>
+        <input type="text" maxlength="11" minlength="10" matInput placeholder="Số điện thoại" required
+          [(ngModel)]="phone" name="phone">
+      </mat-form-field>
     </div>
   </div>
-  <div class="row mb-3">
+  <div class="row mb-2">
+    <div class="col">
+      <mat-form-field>
+        <mat-label>Tỉnh/Thành phố</mat-label>
+        <mat-select #province (valueChange)="changeProvince(province)">
+          <!-- <mat-option disabled style="padding: 0;">
+            <input (ngModelChange)="onSearchProvince(provinceSearch)" #provinceSearch type="text"
+              class="province-search" placeholder="Nhập tên tỉnh/ thành phố">
+          </mat-option> -->
+          <mat-option *ngFor="let province of provinceFilter;" [value]="province.id">
+            {{province.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field>
+        <mat-label>Quận/Huyện</mat-label>
+        <mat-select #district (valueChange)="changeDistrict(district)" required>
+          <ng-container *ngIf="districts && districts.length > 0">
+            <mat-option *ngFor="let district of districts;" [value]="district.id">
+              {{district.name}}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row mb-2">
     <div class="col-6">
-      <select class="form-select">
-        <option selected value="xa">Phường/Xã</option>
-      </select>
+      <mat-form-field>
+        <mat-label>Phường/Xã</mat-label>
+        <mat-select #homelet (valueChange)="changeHomelet(homelet)" [(ngModel)]="homeletId" name="homeletId">
+          <ng-container *ngIf="homelets && homelets.length > 0">
+            <mat-option *ngFor="let homelet of homelets;" [value]="homelet.id">
+              {{homelet.name}}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
     </div>
   </div>
   <div class="mb-3">
     <label for="inputEditLocateDetail" class="form-label">Địa chỉ cụ thể</label>
     <!-- <textarea type="text" class="form-control" id="inputEditLocateDetail"> -->
     <textarea style="max-height: 100px !important;" id="inputEditLocateDetail" rows="3" cols="10" style="width: 100%;"
-      required></textarea>
+      required [(ngModel)]="detailAddress" name="detailAddress"></textarea>
   </div>
-  <div>Loại địa chỉ</div>
+  <div class="bold">Loại địa chỉ</div>
   <div style="margin: 10px 0;">
     <div class="radio-type-locate">
-      <input type="radio" placeholder="Nhà riêng" name="loai_dia_chi" id="radioEditLocateHome" value="home">
-      <label for="radioEditLocateHome">Nhà riêng</label>
+      <input type="radio" class="me-3" id="home_address" name="address_choose" value="home"
+        (focus)="onSelectAddress('home')" required>
+      <label for="home_address" class="bold">Nhà riêng</label>
     </div>
     <div class="radio-type-locate">
-      <input type="radio" placeholder="Nhà riêng" name="loai_dia_chi" id="radioEditLocateOffice" value="office">
-      <label for="radioEditLocateOffice">Văn phòng</label>
+      <input type="radio" class="me-3" id="office_address" name="address_choose" value="office"
+        (focus)="onSelectAddress('office')" required>
+      <label for="office_address" class="bold">Văn phòng</label>
     </div>
   </div>
-  <div class="mb-2">
-    <input type="checkbox" name="" id="checkboxEditLocate" class="form-check-input">
-    <label for="checkboxEditLocate" class="form-check-label">Đặt làm địa chỉ mặc định</label>
-  </div>
   <div class="mb-3">
-    <span style="color: red;" id="spanWarningLocateForm"></span>
+    <input type="checkbox" class="me-3" id="defaultLocate" [value]="isDefault">
+    <label for="defaultLocate" class="form-check-label bold">Đặt làm địa chỉ mặc định</label>
   </div>
   <div style="display: flex;justify-content: right;">
-    <button type="button" class="btn" id="btnEditLocateBack"
-      style="border: 1px solid #000;margin-right: 15px;width: 110px;">Trở lại</button>
-    <button type="submit" class="btn" id="btnAddLocateSubmit"
-      style="background-color: #ff3d00;color: #fff;width: 110px;">Hoàn thành</button>
-    <button type="submit" class="btn" id="btnEditLocateSubmit"
-      style="background-color: #ff3d00;color: #fff;width: 110px;">Chỉnh sửa</button>
-    <input type="text" value="" id="inputIDDCEditLocate">
+    <button class="btn btn-cancel me-3" [mat-dialog-close]="false">Trở lại</button>
+    <button type="button" class="btn btn-submit" *ngIf="data.type == 'add'" (click)="onSubmit('add')"
+      [disabled]="!formValid()">Hoàn thành</button>
+    <button type="button" class="btn btn-submit" *ngIf="data.type == 'edit'" (click)="onSubmit('edit')"
+      [disabled]="!formValid()">Chỉnh
+      sửa</button>
   </div>
 </form>

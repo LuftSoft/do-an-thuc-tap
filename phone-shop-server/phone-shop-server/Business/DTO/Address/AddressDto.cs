@@ -8,6 +8,7 @@ namespace phone_shop_server.Business.DTO.Address
         public string? DetailAddress { get; set; }
         //nha rieng, van phong, ...
         public string? Type { get; set; }
+        public bool? IsDefault { get; set; }
         public string? UserId { get; set; }
         public string? HomeletId { get; set; }
         public string? HomeletAddress { get; set; }

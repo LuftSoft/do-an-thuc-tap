@@ -10,12 +10,11 @@ import {
   timer,
 } from 'rxjs';
 import { UserService } from '../../user.service';
-import { response } from 'express';
 import { CONFIG } from 'src/app/core/constant/CONFIG';
 import { OpenDialogService } from 'src/app/core/service/dialog/opendialog.service';
 import { ConfirmDialogComponent } from 'src/app/modules/confirm-dialog/confirm-dialog.component';
 import { LoadingService } from 'src/app/core/service/loading.service';
-import { NotificationService } from 'src/app/core/service/notification.service';
+import { Helpers, NotificationService } from 'src/app/core/service/notification.service';
 interface SlideInterface {
   url: string;
   title: string;
@@ -94,8 +93,8 @@ export class ShopProductDetailComponent implements OnInit, OnDestroy {
     return this.cart.filter(p => p.phone.id == id)[0];
   }
   addToCart(product: any) {
+    Helpers.checkUser(this.router);
     let productCart = this.getProductIncart(product.id);
-    console.log(this.productCount, (productCart && (this.productCount + productCart.quantity)));
     if ((productCart && (this.productCount + productCart.quantity) > 5) || this.productCount > 5) {
       this.dialog.openDialog(ConfirmDialogComponent, {
         content: `
@@ -124,6 +123,7 @@ export class ShopProductDetailComponent implements OnInit, OnDestroy {
     this.getUserCart();
   }
   buyNow(product: any) {
+    Helpers.checkUser(this.router);
     let productCart = this.getProductIncart(product.id);
     if ((productCart && (this.productCount + productCart.quantity) > 5) || this.productCount > 5) {
       this.dialog.openDialog(ConfirmDialogComponent, {

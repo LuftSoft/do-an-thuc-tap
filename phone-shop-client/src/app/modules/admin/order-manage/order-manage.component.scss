@@ -11,3 +11,62 @@
     text-decoration: none;
     color: #000;
 }
+
+.mat-cell {
+    height: 60px !important;
+}
+
+tr {
+    &.mat-row {
+        &:hover {
+            background-color: whitesmoke !important;
+        }
+    }
+}
+
+.tag-prepared {
+    background-color: #00cec9 !important;
+    color: #fff !important;
+}
+
+.tag-online {
+    background-color: #55efc4 !important;
+    color: #fff !important;
+}
+
+.tag-offline {
+    color: #55efc4 !important;
+    border: 1px solid #55efc4 !important;
+    background-color: #fff !important;
+}
+
+.tag-paid {
+    background-color: #0984e3 !important;
+    color: #fff !important;
+}
+
+.tag-unpaid {
+    color: #0984e3 !important;
+    border: 1px solid #0984e3 !important;
+    background-color: #fff !important;
+}
+
+.tag-confirming {
+    background-color: #fdcb6e !important;
+    color: #000 !important;
+}
+
+.tag-confirmed {
+    background-color: #55efc4 !important;
+    color: #fff !important;
+}
+
+.tag-reject {
+    background-color: #d63031 !important;
+    color: #fff !important;
+}
+
+.table-tag {
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+}

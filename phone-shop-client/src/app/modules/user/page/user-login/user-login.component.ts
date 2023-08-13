@@ -16,6 +16,7 @@ import { ShopNavComponent } from '../shop-nav/shop-nav.component';
 })
 export class UserLoginComponent implements OnInit {
   form: FormGroup;
+  isShowPassword: boolean = false;
   constructor(
     private loading: LoadingService,
     private notification: NotificationService,
@@ -42,11 +43,11 @@ export class UserLoginComponent implements OnInit {
         if (response.code === CONFIG.STATUS_CODE.SUCCESS) {
           localStorage.setItem('user_access_token', response.data.accessToken);
           localStorage.setItem('user_refresh_token', response.data.refreshToken);
-          this.userService.getUserInfo().subscribe((response) => {
+          this.userService.getUserInfo().subscribe((response: any) => {
             if (response) {
               this.notification.notifySuccess("Đăng nhập thành công!");
               localStorage.setItem(CONFIG.AUTH.USER, JSON.stringify(response));
-              setInterval(() => {
+              setTimeout(() => {
                 this.router.navigate(['/'])
                   .then(() => {
                     window.location.reload();
@@ -59,5 +60,9 @@ export class UserLoginComponent implements OnInit {
         }
       })
     this.loading.showProgressBar();
+  }
+  togglePassword(e: any) {
+    this.isShowPassword = !this.isShowPassword;
+    this.isShowPassword ? e.type = "text" : e.type = "password";
   }
 }

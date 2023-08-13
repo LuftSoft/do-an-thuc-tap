@@ -13,6 +13,7 @@ namespace phone_shop_server.Database.Entity
         //nha rieng, van phong, ...
         public string Type { get; set; }
         public string UserId { get; set; }
+        public bool isDefault { get; set; }
         public AppUser User { get; set; }
         public string HomeletId { get; set; }
         public Homelet Homelet { get; set; }

@@ -25,10 +25,11 @@ export const CONFIG = {
         }
     },
     ORDER: {
+        MIN_DATE: "0001-01-01T00:00:00",
         PAYMENT: {
             METHOD: {
                 ONLINE: 'ONLINE',
-                OFFLINE: 'OFFLINE'
+                OFFLINE: 'COD'
             },
             STATUS: {
                 UNPAID: 'UNPAID',

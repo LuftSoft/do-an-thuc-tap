@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CONFIG } from 'src/app/core/constant/CONFIG';
-import { NotificationService } from 'src/app/core/service/notification.service';
+import { Helpers, NotificationService } from 'src/app/core/service/notification.service';
 import { UserInfoService } from 'src/app/core/service/user.info.service';
 import { finalize, delay } from 'rxjs'
 import { LoadingService } from 'src/app/core/service/loading.service';
@@ -20,12 +20,13 @@ export class ShopNavComponent implements OnInit {
     private loader: LoadingService
   ) {
     this.userInfoService.eventReload.subscribe(data => {
-      this.user = data;
+      this.user = Helpers.clonDeep(data);
     });
   }
 
   ngOnInit(): void {
     this.user = this.userInfoService.user;
+    console.log(this.user);
   }
   openNotify() {
     this.notify.openSnackBar("test snack bar", "close");

@@ -10,88 +10,56 @@
     <div class="row mb-4" style="background-color: #fff; padding: 30px 20px 20px;">
         <h5 class="bold dot-three-rem">THANH TOÁN</h5>
     </div>
-    <div class="row list-items mb-4">
+    <div class="row list-items mb-4 border-top-base">
         <div class="col">
-            <h5 style="font-weight: 700;position: relative;">ĐỊA CHỈ NHẬN HÀNG<a
-                    style="position: absolute;right: 30px;display: inline-block; cursor: pointer;"
-                    (click)="onChangeAddress()">Thay
-                    đổi</a>
+            <h5 class="bold" style="position: relative;"><i class="fa fa-map-marker me-3" aria-hidden="true"></i>ĐỊA CHỈ
+                NHẬN HÀNG
             </h5>
-            <!-- <div class="row">
-                <label for="locate_choose" class="locate-label" id="label_show_locate">
-
-                </label>
-                <input type="text" style="display: none;" value="1" id="check_case">
-                <form action="http://localhost:3000/fermeh/payment" method="post" class="col-8"
-                    id="form_submit_a_locate" style="display: block;" onsubmit="return validate()">
-                    <div class="mt-3">
-                        <input type="text" required placeholder="Họ và tên" class="form-control" id="inputName">
+            <div class="ps-0 w-100">
+                <div style="height: 5px;border-bottom: 1px solid #fff;"></div>
+                <!-- Liet ke danh sach dia chi -->
+                <div *ngIf="user && user.address && user.address.length >0">
+                    <div class="row detailUserLocate my-3" *ngFor="let userAddress of user.address; let i = index;">
+                        <ng-container *ngIf="userAddress.isDefault">
+                            <div class="col-8">
+                                <div class="row" style="position: relative;">
+                                    <span class="location_label col-4 bold">
+                                        <div>
+                                            {{user.firstName}} {{user.lastName}}
+                                        </div>
+                                        <div>
+                                            {{user.phone}}
+                                        </div>
+                                    </span>
+                                    <span class="col-8">{{userAddress.detailAddress}},
+                                        {{userAddress.homeletAddress}}</span>
+                                </div>
+                            </div>
+                            <div class="col-4" style="position: relative;">
+                                <span style="position: absolute;right: 0;">
+                                    <span style="background-color: #00bfa5;color: #fff;border-radius:3px ;
+                                            padding: 1px 5px; width: auto;" class="spanDefaultLocateLabel mx-3"
+                                        *ngIf="userAddress.isDefault">Mặc định</span>
+                                    <a class="bold"
+                                        style="display: inline-block; cursor: pointer;color: rgb(27, 145, 255);"
+                                        (click)="onChangeAddress()">Thay đổi</a>
+                                </span>
+                            </div>
+                        </ng-container>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-7">
-                            <input type="email" required placeholder="Email" class="form-control" id="inputMail">
-                        </div>
-                        <div class="col-5">
-                            <input type="text" required placeholder="Số điện thoại" class="form-control" id="inputSDT">
-                        </div>
-                    </div>
-                    <div class="mt-3">
-                        <input type="text" required placeholder="Địa chỉ" class="form-control" id="inputDC">
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-6">
-                            <select name="" id="selectTinh" class="form-select">
-                                <option value="tinh" selected>Tỉnh/ Thành phố</option>
-
-                                <option value="">ten</option>
-
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <select name="" id="selectHuyen" class="form-select">
-                                <option value="huyen" selected>Quận/ Huyện</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-6">
-                            <select name="" id="selectXa" class="form-select">
-                                <option value="xa" selected>Xã/ Phường/ Thị trấn</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="mt-3">
-                        <h6 style="color: red;margin-bottom: 15px;" id="textWarning"></h6>
-                        <button type="submit" class="btn btn-dark" id="btn_confirm_user_locate">Xác
-                            nhận</button>
-                    </div>
-                </form>
-            </div>  -->
-            <form action="" method="post">
-                <div style="padding: 3px 0;" class="user-locate">
-                    <input type="radio" name="locate_choose" id="locate_choose_<%=i%>">
-                    <label for="locate_choose_<%=i%>" class="locate-label">
-                        <h6 style="display: inline-block; margin-right: 40px;">sdt</h6>
-                        diachi
-                    </label>
+                    <div style="height: 5px;border-bottom: 1px solid #fff;"></div>
                 </div>
-
-                <div class="row mt-2 btn-user-locate-contain">
-                    <div class="col-4">
-                        <button type="button" class="btn" style="background-color: #171c24;color: #fff;"
-                            id="btn_user_locate_submit">Hoàn thành</button>
-                        <button type="button" class="btn" id="btn_user_locate_back"
-                            style="border: 1px solid #171c24;color: #171c24;background-color: #fff;">Trở
-                            lại</button>
-                    </div>
-                </div>
-            </form>
-
+            </div>
         </div>
     </div>
 
+    <div class="row">
+        <div class="col p-3 bold uppercase" style="background-color: #fff;">
+            sản phẩm
+        </div>
+    </div>
     <div class="row" *ngFor="let orderItem of order">
-        <div class="list-items col product detail_product">
+        <div class="list-items col product detail_product" style="margin-top: 0 !important;">
             <div class="d-flex contain-product">
                 <div class="product-img">
                     <img src="{{orderItem.phone.phoneImages[0].link}}" alt="product" class="img-fluid"
@@ -127,7 +95,7 @@
     <div class="row mt-4 bg-light">
         <div class="row" style="width: 100%;">
             <div class="col-7">
-                <div class="my-3 dot-three-rem">Phương thức thanh toán</div>
+                <div class="my-3 dot-three-rem bold">Phương thức thanh toán</div>
                 <div class="delivery-contain">
                     <input type="radio" name="radio_method_dilivery" id="method_delivery_offline"
                         style="margin-left: 5px;" checked>
@@ -153,16 +121,17 @@
                             <hr>
                         </div>
                         <div class="col-5 ps-0">
-                            <h5>{{30000 | vndPipe}}</h5>
+                            <h5 class="bold dot-three-rem">{{ total_price | vndPipe}}</h5>
                             <p>{{ship_cost | vndPipe}}</p>
                             <hr>
-                            <h5>{{30000 | vndPipe}}</h5>
+                            <h5 class="bold dot-three-rem">{{total_price + ship_cost | vndPipe}}</h5>
                             <hr>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div>
-                            <button class="btn btn-dark w-100" (click)="onOrder()">MUA HÀNG</button>
+                            <button class="btn btn-dark w-100" (click)="onOrder()" [disabled]="order.length === 0">MUA
+                                HÀNG</button>
                         </div>
                     </div>
                 </div>

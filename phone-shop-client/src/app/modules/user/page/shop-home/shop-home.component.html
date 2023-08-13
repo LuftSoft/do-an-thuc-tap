@@ -55,7 +55,7 @@
                 <h3>
                     {{phone.soldPrice}}
                 </h3>
-                <a [routerLink]="['/product/payment', phone.id]" class="btn btn-primary">Mua ngay</a>
+                <a (click)="onBuyNow(phone)" class="btn btn-primary btn-buy-now">Mua ngay</a>
             </div>
         </div>
     </div>
@@ -79,7 +79,7 @@
             <h3>
                 {{phone.soldPrice}}
             </h3>
-            <a [routerLink]="['/product/payment', phone.id]" class="btn btn-primary">Mua ngay</a>
+            <a (click)="onBuyNow(phone)" class="btn btn-primary btn-buy-now">Mua ngay</a>
         </div>
     </div>
 </div>

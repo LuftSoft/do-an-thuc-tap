@@ -7,6 +7,14 @@
     object-fit: contain !important;
 }
 
+.btn-buy-now {
+    position: absolute;
+    bottom: 15px;
+    width: 95%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .w-custom-24 {
     width: 24% !important;
 }

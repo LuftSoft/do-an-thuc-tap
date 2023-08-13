@@ -1,3 +1,247 @@
-<p>
-  dashboard works!
-</p>
+<div class="px-3">
+  <h2 class="bold dot-three-rem uppercase">tổng quan</h2>
+  <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-4">
+    <div class="col">
+      <div class="card radius-10">
+        <div class="card-body">
+          <div class="d-flex align-items-center text-align-left">
+            <div>
+              <p class="mb-0 text-secondary">Tổng số đơn hàng</p>
+              <h4 class="my-1">102</h4>
+            </div>
+            <div class="widget-icon-large bg-gradient-purple text-white ms-auto"><i class="bi bi-basket2-fill"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card radius-10">
+        <div class="card-body">
+          <div class="d-flex align-items-center text-align-left">
+            <div>
+              <p class="mb-0 text-secondary">Tổng doanh thu</p>
+              <h4 class="my-1">{{2000000}}</h4>
+              <p class="mb-0 font-13 text-success"></p>
+            </div>
+            <div class="widget-icon-large bg-gradient-success text-white ms-auto"><i
+                class="bi bi-currency-exchange"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card radius-10">
+        <div class="card-body">
+          <div class="d-flex align-items-center text-align-left">
+            <div>
+              <p class="mb-0 text-secondary">Tổng số khách hàng</p>
+              <h4 class="my-1">200</h4>
+              <!-- <i class="bi bi-caret-down-fill"></i> 2.7 from last week -->
+              <p class="mb-0 font-13 text-danger"></p>
+            </div>
+            <div class="widget-icon-large bg-gradient-danger text-white ms-auto"><i class="bi bi-people-fill"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card radius-10">
+        <div class="card-body">
+          <div class="d-flex align-items-cente text-align-left">
+            <div>
+              <p class="mb-0 text-secondary">Doanh thu hôm nay</p>
+              <h4 class="my-1">{{0 | adminVndPipe }}</h4>
+              <!-- <i class="bi bi-caret-up-fill"></i> 12.2% so với hôm qua -->
+              <p class="mb-0 font-13 text-success"></p>
+            </div>
+            <div class="widget-icon-large bg-gradient-info text-white ms-auto"><i class="bi bi-bar-chart-line-fill"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="row">
+    <div class="col-12 col-lg-6 col-xl-4 d-flex">
+      <div class="card radius-10 w-100">
+        <div class="card-header bg-transparent">
+          <div class="row g-3 align-items-center">
+            <div class="col">
+              <h5 class="mb-0">Top danh mục</h5>
+            </div>
+            <div class="col">
+              <div class="d-flex align-items-center justify-content-end gap-3 cursor-pointer">
+                <div class="dropdown">
+
+                  <!--  -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="categories">
+            <div class="progress-wrapper">
+              <p class="mb-2">IPhone<span class="float-end">120</span></p>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-gradient-purple progress-sneaker" role="progressbar"></div>
+              </div>
+            </div>
+            <div class="my-3 border-top"></div>
+            <div class="progress-wrapper">
+              <p class="mb-2">Samsung<span class="float-end">22</span></p>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-gradient-danger progress-casual" role="progressbar"></div>
+
+              </div>
+            </div>
+            <div class="my-3 border-top"></div>
+            <div class="progress-wrapper">
+              <p class="mb-2">Xiaomi <span class="float-end">123</span></p>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-gradient-success progress-formal" role="progressbar"></div>
+
+              </div>
+            </div>
+            <div class="my-3 border-top"></div>
+            <div class="progress-wrapper">
+              <p class="mb-2">Nokia<span class="float-end">99</span></p>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-gradient-info progress-heel" role="progressbar"></div>
+
+              </div>
+            </div>
+            <div class="my-3 border-top"></div>
+            <div class="progress-wrapper">
+              <p class="mb-2">Oneplus<span class="float-end">32</span></p>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-gradient-warning progress-sandal" role="progressbar"></div>
+              </div>
+            </div>
+            <div class="my-3 border-top"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 col-xl-4 d-flex">
+      <div class="card radius-10 w-100">
+        <div class="card-header bg-transparent text-align-left">
+          <div class="row g-3 align-items-center">
+            <div class="col">
+              <h5 class="mb-0">Sản phẩm bán chạy</h5>
+            </div>
+            <div class="col">
+              <div class="d-flex align-items-center justify-content-end gap-3 cursor-pointer">
+                <div class="dropdown">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div class="best-product p-2 mb-3" *ngFor="let  item in mock; let i = index">
+            <div class="best-product-item">
+              <div class="d-flex align-items-center gap-3">
+                <div class="product-box border">
+                  <img src="" alt="sp-banchay">
+                </div>
+                <div class="product-info">
+                  <h6 class="product-name mb-1">Sản phẩm {{i}}</h6>
+                </div>
+                <div class="sales-count ms-auto">
+                  <p class="mb-0">120 Sản phẩm đã bán</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-12 col-xl-4 d-flex">
+      <div class="card radius-10 w-100">
+        <div class="card-header bg-transparent">
+          <div class="row g-3 align-items-center">
+            <div class="col">
+              <h5 class="mb-0">Người mua gần đây</h5>
+            </div>
+            <div class="col">
+              <div class="d-flex align-items-center justify-content-end gap-3 cursor-pointer">
+                <div class="dropdown">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="top-sellers-list p-2 mb-3">
+          <div class="d-flex align-items-center gap-3 sellers-list-item">
+            <img src="" class="rounded-circle" width="50" height="50" alt="ng mua">
+            <div>
+              <h6 class="mb-1">Lê Thị Lê</h6>
+              <p class="mb-0 font-13">Mã KH: xxa</p>
+            </div>
+            <div class="d-flex align-items-center gap-3 fs-6 ms-auto">
+              <!-- <p class="mb-0">5.0 <i class="bi bi-star-fill text-warning"></i></p> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--end row-->
+
+
+  <div class="card radius-10">
+    <div class="card-header bg-transparent">
+      <div class="row g-3 align-items-center">
+        <div class="col">
+          <h5 class="mb-0">Đơn đặt hàng mới</h5>
+        </div>
+        <div class="col">
+          <div class="d-flex align-items-center justify-content-end gap-3 cursor-pointer">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Mã hóa đơn</th>
+              <th>Tên khách hàng</th>
+              <th>Số lượng sản phẩm</th>
+              <th>Tổng tiền</th>
+              <th>Ngày lập hóa đơn</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>#donhangmoi</td>
+              <td>
+                <div class="d-flex align-items-center gap-3">
+                  <!-- <div class="product-box border">
+                      <img src="/public/img/product/100_1.jpg" alt="">
+                    </div> -->
+                  <div class="product-info">
+                    <h6 class="mb-1">Khách hàng</h6>
+                  </div>
+                </div>
+              </td>
+              <td>1</td>
+              <td>11111</td>
+              <td>11/08/2023</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

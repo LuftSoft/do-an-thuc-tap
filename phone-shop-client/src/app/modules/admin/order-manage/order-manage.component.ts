@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductDetailComponent } from '../product/product-detail/product-detail.component';
 import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { CONFIG } from 'src/app/core/constant/CONFIG';
@@ -9,6 +9,8 @@ import { OpenDialogService } from 'src/app/core/service/dialog/opendialog.servic
 import { NotificationService } from 'src/app/core/service/notification.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-order-manage',
@@ -16,7 +18,7 @@ import { OrderDetailComponent } from './order-detail/order-detail.component';
   styleUrls: ['./order-manage.component.scss']
 })
 export class OrderManageComponent implements OnInit {
-
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   dataSource: MatTableDataSource<any>;
   pageSizeOption = CONFIG.PAGING_OPTION;
   pageSize = this.pageSizeOption[0];
@@ -32,12 +34,13 @@ export class OrderManageComponent implements OnInit {
   }
 
   ngOnInit() {
-    //const load = this.loader.showProgressBar();
+    this.loader.showProgressBar();
     this.adminService.getAllOrder()
-      //.pipe(finalize(() => { this.loader.hideProgressBar() }))
+      .pipe(finalize(() => { this.loader.hideProgressBar() }))
       .subscribe((response) => {
         if (response.code === CONFIG.STATUS_CODE.SUCCESS) {
           this.dataSource.data = response.data;
+          this.dataSource.paginator = this.paginator;
           this.pageLength = this.dataSource.data.length;
         }
       })
@@ -122,5 +125,62 @@ export class OrderManageComponent implements OnInit {
   }
   onCreateWarehouseTicket() {
 
+  }
+  paymentStatusClass(status: any) {
+    let result = '';
+    switch (status) {
+      case CONFIG.ORDER.PAYMENT.STATUS.CONFIRMING:
+        result = 'tag-confirming';
+        break;
+      case CONFIG.ORDER.PAYMENT.STATUS.PAID:
+        result = 'tag-paid';
+        break;
+      case CONFIG.ORDER.PAYMENT.STATUS.UNPAID:
+        result = 'tag-unpaid';
+        break;
+    }
+    return result;
+  }
+  paymentMethodClass(method: any) {
+    let result = '';
+    switch (method) {
+      case CONFIG.ORDER.PAYMENT.METHOD.OFFLINE:
+        result = 'tag-offline';
+        break;
+      case CONFIG.ORDER.PAYMENT.METHOD.ONLINE:
+        result = 'tag-online';
+        break;
+    }
+    return result;
+  }
+  getNewestStatus(order: any) {
+    console.log(order)
+    let newestStatus = order[0];
+    for (let status of order) {
+      if (new Date(status.created) > new Date(newestStatus.created)) newestStatus = status;
+    }
+    return newestStatus.status.statusType;
+  }
+  orderStatusClass(status: any) {
+    let newestStatus = this.getNewestStatus(status);
+    let result = '';
+    switch (newestStatus) {
+      case CONFIG.ORDER.STATUS.CREATED:
+        result = 'tag-confirmed';
+        break;
+      case CONFIG.ORDER.STATUS.PREPARED:
+        result = 'tag-prepared';
+        break;
+      case CONFIG.ORDER.STATUS.DELIVERY:
+        result = 'tag-unpaid';
+        break;
+      case CONFIG.ORDER.STATUS.TRANFERED:
+        result = 'tag-paid';
+        break;
+      case CONFIG.ORDER.STATUS.CANCELED:
+        result = 'tag-reject';
+        break;
+    }
+    return result;
   }
 }

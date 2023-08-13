@@ -6,7 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Helpers, NotificationService } from 'src/app/core/service/notification.service';
 import { AdminService } from 'src/app/modules/admin/admin.service';
-import { response } from 'express';
 import { finalize } from 'rxjs';
 import { LoadingService } from 'src/app/core/service/loading.service';
 
@@ -129,9 +128,11 @@ export class ShopProductComponent implements OnInit {
       })
   }
   addToCart(phone: any) {
+    Helpers.checkUser(this.router);
     this.addToCartService(phone.id, 1);
   }
   onBuyNow(phone: any) {
+    Helpers.checkUser(this.router);
     this.loader.showProgressBar();
     this.userService.addToCart(phone.id, 1)
       .pipe(finalize(() => {

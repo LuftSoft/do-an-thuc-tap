@@ -14,7 +14,15 @@ $orange-dark: #ff4f30;
     --dark-gray: #8f8f8f;
     --red: #d70018;
     --warning: #d1bc02;
-    --form-field-background: e6e6e6;
+    --form-field-background: ededed;
+}
+
+mat-dialog-container {
+    border-top: 10px solid var(--basecolor) !important;
+}
+
+.border-top-base {
+    border-top: 6px solid var(--basecolor) !important;
 }
 
 html,
@@ -72,6 +80,14 @@ mat-form-field {
     }
 }
 
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
 .btn-common-base-outline {
     color: #03dac6 !important;
     border-radius: 0 !important;
@@ -86,13 +102,34 @@ mat-form-field {
     }
 }
 
+.uppercase {
+    text-transform: uppercase !important;
+}
+
+.btn-submit {
+    color: #fff !important;
+    background-color: #ff3d00 !important;
+}
+
+.btn-cancel {
+    color: #000 !important;
+    border: 1px solid #000 !important;
+    background-color: #fff !important;
+
+    &:hover {
+        color: #fff !important;
+        border: 1px solid #fff !important;
+        background-color: #000 !important;
+    }
+}
+
 .mat-form-field-flex {
-    background-color: #e6e6e6;
-    padding: 10px;
+    background-color: #ededed;
+    padding: 6px;
 }
 
 textarea {
-    background-color: #e6e6e6 !important;
+    background-color: #ededed !important;
     padding: 10px !important;
 }
 
@@ -299,6 +336,10 @@ textarea {
     font-weight: 650;
     padding: 20px 0 0 0;
     transition: all 0.3s ease-in-out;
+}
+
+.bg-whitesmoke {
+    background-color: whitesmoke !important;
 }
 
 /* CARD */

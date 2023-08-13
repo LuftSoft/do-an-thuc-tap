@@ -28,7 +28,7 @@ export class ShopHomeComponent implements OnInit, AfterViewChecked {
   ]
   constructor(
     private router: Router,
-    notify: NotificationService,
+    private notify: NotificationService,
     private loader: LoadingService,
     private userService: UserService,
     private adminService: AdminService,
@@ -68,5 +68,28 @@ export class ShopHomeComponent implements OnInit, AfterViewChecked {
   }
   ngAfterViewChecked(): void {
     this.cd.detectChanges();
+  }
+  addToCart(phone: any) {
+
+  }
+  onBuyNow(phone: any) {
+    let isLogin = Helpers.checkUser(this.router);
+    if (!isLogin) return;
+    this.loader.showProgressBar();
+    this.userService.addToCart(phone.id, 1)
+      .pipe(finalize(() => {
+        this.loader.hideProgressBar();
+        setTimeout(() => {
+          this.router.navigateByUrl("/cart");
+        }, 100);
+      }))
+      .subscribe((response) => {
+        if (response.code === CONFIG.STATUS_CODE.SUCCESS) {
+          this.notify.notifySuccess("Thêm vào giỏ hàng thành công!");
+        }
+        else if (response.code === CONFIG.STATUS_CODE.ERROR) {
+          this.notify.notifyError(response.message?.toString()!);
+        }
+      })
   }
 }

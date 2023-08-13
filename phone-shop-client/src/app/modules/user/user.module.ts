@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotificationService } from 'src/app/core/service/notification.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ShopCartComponent } from './page/shop-cart/shop-cart.component';
@@ -32,7 +32,8 @@ import { AddNewAddressDialogComponent } from './page/add-new-address-dialog/add-
     SharedModule,
     UserRoutesModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   declarations: [
     ShopLayoutComponent,
