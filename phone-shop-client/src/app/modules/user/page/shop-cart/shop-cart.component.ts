@@ -121,7 +121,7 @@ export class ShopCartComponent implements OnInit, OnDestroy {
       })
   }
   plusProductQuantity(cartItem: any) {
-    if (cartItem.quantity == 5) {
+    if (cartItem.quantity == CONFIG.MAX_PRODUCT) {
       this.dialogService.openDialog(ConfirmDialogComponent, {
         content: `
       <div>Số lượng sản phẩm đã đạt đến mức tối đa</div>

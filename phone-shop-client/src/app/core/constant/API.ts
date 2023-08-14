@@ -14,6 +14,8 @@ export const API = {
         PAYMENT: 'payment',
         BRAND: 'brand',
         STATUS: 'status',
+        WAREHOUSE: 'warehouse',
+        SUPPILER: 'supplier'
     },
     USER: 'user',
     ADMIN: 'admin',

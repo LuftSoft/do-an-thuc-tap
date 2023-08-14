@@ -1,0 +1,32 @@
+.btn-container {
+    justify-content: flex-end;
+}
+
+.product-detail-contain {
+    button {
+        padding: 10px 40px !important;
+
+
+    }
+
+    .title {
+        font-size: 2rem !important;
+        font-weight: 600;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    p {
+        color: #0087ff;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #e6e6e6 !important;
+    }
+}
+
+.disabled {
+    pointer-events: none;
+    background-color: #e6e6e6 !important;
+    color: #000 !important;
+    border: 1px solid #ccc;
+}

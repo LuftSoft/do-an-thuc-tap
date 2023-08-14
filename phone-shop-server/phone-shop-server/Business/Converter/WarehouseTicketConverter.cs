@@ -45,7 +45,7 @@ namespace phone_shop_server.Business.Converter
         {
             return new WarehouseTicket()
             {
-                Created = warehouseTicket.Created,
+                Created =(DateTime) warehouseTicket.Created,
                 SupplierId = Guid.Parse(warehouseTicket.SupplierId),
                 UserId = warehouseTicket.UserId
             };

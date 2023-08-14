@@ -5,6 +5,7 @@ import { Helpers, NotificationService } from 'src/app/core/service/notification.
 import { UserInfoService } from 'src/app/core/service/user.info.service';
 import { finalize, delay } from 'rxjs'
 import { LoadingService } from 'src/app/core/service/loading.service';
+import { UserService } from '../../user.service';
 
 @Component({
   selector: 'app-shop-nav',
@@ -17,13 +18,17 @@ export class ShopNavComponent implements OnInit {
     private notify: NotificationService,
     private router: Router,
     private userInfoService: UserInfoService,
-    private loader: LoadingService
+    private loader: LoadingService,
+    private userService: UserService
   ) {
     this.userInfoService.eventReload.subscribe(data => {
       this.user = Helpers.clonDeep(data);
     });
   }
-
+  onSearch(e: any) {
+    let searchKey = e.target.value;
+    this.userService.searchEvent.emit(searchKey);
+  }
   ngOnInit(): void {
     this.user = this.userInfoService.user;
     console.log(this.user);

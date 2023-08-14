@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'navbar-cmp',
@@ -40,7 +41,16 @@ export class NavBarComponent implements OnInit {
       isSelected: false
     },
   }
-  constructor() { }
+  constructor(
+    private activateRoute: ActivatedRoute,
+    private router: Router
+  ) {
+    let routerArr = router.url.split('/');
+    for (let item in this.sidebarValue) {
+      this.sidebarValue[item].isSelected = false;
+    }
+    this.sidebarValue[routerArr[routerArr.length - 1]].isSelected = true;
+  }
 
   ngOnInit() {
   }

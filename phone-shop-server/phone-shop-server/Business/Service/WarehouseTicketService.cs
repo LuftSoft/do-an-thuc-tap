@@ -10,6 +10,11 @@ namespace phone_shop_server.Business.Service
 {
     public interface IWarehouseTicketService
     {
+        Task<APIResponse.APIResponse> GetAllAsync();
+        Task<APIResponse.APIResponse> GetOneAsync(string id);
+        Task<APIResponse.APIResponse> CreateAsync(WarehouseTicketCreateDto warehouseCreateTicket);
+        Task<APIResponse.APIResponse> UpdateAsync(WarehouseTicketCreateDto warehouseTicketDto);
+        Task<APIResponse.APIResponse> DeleteAsync(string id);
 
     }
     public class WarehouseTicketService : IWarehouseTicketService
@@ -22,7 +27,7 @@ namespace phone_shop_server.Business.Service
             IPhoneService phoneService,
             ITicketDetailRepository ticketDetailRepository,
             IWarehouseTicketConverter warehouseTicketConverter,
-            IWarehouseTicketRepository warehouseTicketRepository 
+            IWarehouseTicketRepository warehouseTicketRepository
             )
         {
             _phoneService = phoneService;
@@ -36,7 +41,7 @@ namespace phone_shop_server.Business.Service
             try
             {
                 var warehouseTickets = await _warehouseTicketRepository.GetAllAsync();
-                if(warehouseTickets == null)
+                if (warehouseTickets == null)
                 {
                     return new APIResponse.APIResponse()
                     {
@@ -50,7 +55,7 @@ namespace phone_shop_server.Business.Service
                     data = await _warehouseTicketConverter.ConvertToListWarehouseTicketDto(warehouseTickets)
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new APIResponse.APIResponse()
                 {
@@ -93,8 +98,6 @@ namespace phone_shop_server.Business.Service
         {
             try
             {
-                using(TransactionScope scope = new TransactionScope())
-                {
                     var warehouseConvert = _warehouseTicketConverter.MapToWarehouseTicketEntity(warehouseCreateTicket);
                     var warehouseTicket = await _warehouseTicketRepository.CreateAsync(warehouseConvert);
                     if (warehouseTicket == null)
@@ -110,15 +113,13 @@ namespace phone_shop_server.Business.Service
                         await _ticketDetailRepository
                             .CreateAsync(_warehouseTicketConverter
                             .MapToTicketDetailEntity(phone, warehouseTicket));
-                        await _phoneService.UpdateQuantityAsync(phone.phoneId, phone.quantity); 
+                        await _phoneService.UpdateQuantityAsync(phone.phoneId, phone.quantity);
                     }
-                    scope.Complete();
                     return new APIResponse.APIResponse()
                     {
                         code = StatusCode.SUCCESS.ToString(),
                         data = await _warehouseTicketConverter.ConvertToWarehouseTicketDto(warehouseTicket)
                     };
-                }
             }
             catch (Exception ex)
             {

@@ -31,7 +31,8 @@
                         </li>
                     </ul>
                     <form class="d-flex me-3 search-form">
-                        <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search">
+                        <input class="form-control search-input" type="search" placeholder="Tìm kiếm điện thoại"
+                            aria-label="Search" (input)="onSearch($event)">
                         <button class="btn btn-search" type="submit">
                             <i class="fa fa-search" aria-hidden="true"></i>
                         </button>

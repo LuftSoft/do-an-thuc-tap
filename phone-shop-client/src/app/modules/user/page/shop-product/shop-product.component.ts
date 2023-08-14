@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Helpers, NotificationService } from 'src/app/core/service/notification.service';
 import { AdminService } from 'src/app/modules/admin/admin.service';
-import { finalize } from 'rxjs';
+import { debounce, debounceTime, delay, filter, finalize } from 'rxjs';
 import { LoadingService } from 'src/app/core/service/loading.service';
 
 @Component({
@@ -57,8 +57,10 @@ export class ShopProductComponent implements OnInit {
     { value: "Trên 6 inch" },
     { value: "Dưới 6 inch" }
   ];
+  searchKey: string = '';
   brandFilter = [];
   filter = {
+    search: '',
     price: '',
     ram: '',
     rom: '',
@@ -72,7 +74,14 @@ export class ShopProductComponent implements OnInit {
     private adminSerivce: AdminService,
     private loader: LoadingService,
     private notity: NotificationService
-  ) { }
+  ) {
+    userService.searchEvent
+      .pipe(debounceTime(500))
+      .subscribe((data) => {
+        this.filter.search = data.trim();
+        this.filterData();
+      });
+  }
 
   ngOnInit(): void {
     this.getAllProduct();
@@ -95,7 +104,6 @@ export class ShopProductComponent implements OnInit {
           this.datasource.data = response.data;
           this.datasource.paginator = this.paginator;
           this.cartFilter = this.cartFilter.slice(0, 5);
-          console.log(this.cart);
         }
       })
   }
@@ -105,14 +113,13 @@ export class ShopProductComponent implements OnInit {
         this.brandList = response.data;
         this.brandList.forEach(b => b.isSelect = false)
       }
-      console.log(this.brandList);
     });
   }
   onDetail(id: string) {
     this.router.navigateByUrl(`/product/${id}`);
   }
-  filterByBrand(brandId: any) {
-
+  isSelectChange(e: any) {
+    return e.value == -1 ? false : true;
   }
   addToCartService(phoneId: any, quantity: number) {
     this.loader.showProgressBar();
@@ -152,9 +159,14 @@ export class ShopProductComponent implements OnInit {
   }
   filterData() {
     this.datasource.data = Helpers.clonDeep(this.cart);
-    console.log(this.filter);
     for (let item in this.filter) {
       switch (item) {
+        case 'search':
+          if (this.filter.search !== '') {
+            this.datasource.data = this.datasource.data.filter(p => Helpers.removeVietnameseTones(p.name)
+              .includes(Helpers.removeVietnameseTones(this.filter.search)))
+          }
+          break;
         case 'price':
           if (this.filter[item] !== '') {
             switch (this.filter[item]) {
@@ -169,7 +181,6 @@ export class ShopProductComponent implements OnInit {
           break;
         case 'ram':
           if (this.filter[item] !== '') {
-            console.log(this.filter.ram);
             this.datasource.data = this.datasource.data.filter(p => p.ram == this.filter.ram);
           }
           break;
@@ -202,30 +213,29 @@ export class ShopProductComponent implements OnInit {
       this.datasource.data = this.datasource.data.filter(p => this.brandFilterList.includes(p.brand.id));
     }
     this.cartFilter = this.datasource.data.slice(0, 5);
-    console.log(this.cartFilter, this.datasource.data);
   }
   changePrice(e: any) {
-    e._value === -1 ? this.filter.price = '' : this.filter.price = e._value.toString();
+    e.target.value == -1 ? this.filter.price = '' : this.filter.price = e.target.value.toString();
     this.filterData();
   }
   changeCpu(e: any) {
-    e._value === -1 ? this.filter.cpu = '' : this.filter.cpu = e._value.toString();
+    e.target.value == -1 ? this.filter.cpu = '' : this.filter.cpu = e.target.value.toString();
     this.filterData();
   }
   changeRam(e: any) {
-    e._value === -1 ? this.filter.ram = '' : this.filter.ram = e._value.toString();
+    e.target.value == -1 ? this.filter.ram = '' : this.filter.ram = e.target.value.toString();
     this.filterData();
   }
   changeRom(e: any) {
-    e._value === -1 ? this.filter.rom = '' : this.filter.rom = e._value.toString();
+    e.target.value == -1 ? this.filter.rom = '' : this.filter.rom = e.target.value.toString();
     this.filterData();
   }
   changeHz(e: any) {
-    e._value === -1 ? this.filter.hz = '' : this.filter.hz = e._value.toString();
+    e.target.value == -1 ? this.filter.hz = '' : this.filter.hz = e.target.value.toString();
     this.filterData();
   }
   changeSize(e: any) {
-    e._value === -1 ? this.filter.size = '' : this.filter.size = e._value.toString();
+    e.target.value == -1 ? this.filter.size = '' : this.filter.size = e.target.value.toString();
     this.filterData();
   }
   toggleBrand(id: string) {
@@ -237,7 +247,6 @@ export class ShopProductComponent implements OnInit {
     else {
       this.brandFilterList = this.brandFilterList.filter(b => b != brand.id);
     }
-    console.log(this.brandFilterList);
     this.filterData();
   }
 }

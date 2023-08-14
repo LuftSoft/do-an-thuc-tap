@@ -42,16 +42,7 @@ export class UserSignupComponent implements OnInit {
     const file: File = event.target.files[0];
 
     if (file) {
-
       this.form.get('avatar')?.setValue(file);
-
-      // const formData = new FormData();
-
-      // formData.append("thumbnail", file);
-
-      // const upload$ = this.http.post("/api/thumbnail-upload", formData);
-
-      // upload$.subscribe();
     }
   }
   onSubmit() {

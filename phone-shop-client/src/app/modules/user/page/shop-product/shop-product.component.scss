@@ -7,22 +7,22 @@
 .brand-image-contain {
     gap: 10px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
     text-align: center;
 
     .brand-image-item {
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 12px;
-        border: 2px solid #ccc;
-        height: 50px;
-        width: 150px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        height: 36px;
+        width: 108px;
 
         &:hover {
             cursor: pointer;
             transform: translate(1.03);
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         }
 
         img {
@@ -30,6 +30,22 @@
             width: 97% !important;
         }
     }
+}
+
+.select-tag {
+    height: 40px;
+    width: fit-content;
+    min-width: 140px !important;
+    cursor: pointer;
+    background-color: #f3f4f6;
+
+    option {
+        cursor: pointer;
+    }
+}
+
+.select-change {
+    border: 2px solid #6c6c6c;
 }
 
 .selected {

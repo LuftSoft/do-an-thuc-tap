@@ -53,14 +53,14 @@ export class ProductComponent implements OnInit {
   onPaging() { }
   onProductDetail(data: any) {
     this.dialog.openDialog(ProductDetailComponent,
-      { type: 'view', data: data, title: 'Chi tiết sản phẩm' }, '75vw', '70vh')
+      { type: 'view', data: data, title: 'Chi tiết sản phẩm' }, '60vw', '70vh')
   }
   onBrandDetail(brand: any) {
-    this.dialog.openDialog(BrandDetailComponent, { type: 'view' }, '75vw', '70vh')
+    this.dialog.openDialog(BrandDetailComponent, { type: 'view' }, '60vw', '70vh')
   }
   onEditProductDetail(data: any) {
     this.dialog.openDialog(ProductDetailComponent,
-      { type: 'edit', data: data, title: 'Chỉnh sửa sản phẩm' }, '75vw', '70vh')
+      { type: 'edit', data: data, title: 'Chỉnh sửa sản phẩm' }, '60vw', '70vh')
       .afterClosed().subscribe(response => {
         if (response) {
           this.ngOnInit();
@@ -81,7 +81,7 @@ export class ProductComponent implements OnInit {
   }
   onCreateProduct() {
     this.dialog.openDialog(ProductDetailComponent,
-      { type: 'add', title: 'Thêm sản phẩm' }, '75vw', '70vh')
+      { type: 'add', title: 'Thêm sản phẩm' }, '60vw', '70vh')
       .afterClosed().subscribe(response => {
         if (response) {
           this.ngOnInit();

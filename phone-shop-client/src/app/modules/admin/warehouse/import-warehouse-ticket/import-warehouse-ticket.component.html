@@ -1,3 +1,83 @@
-<p>
-  import-warehouse-ticket works!
-</p>
+<div class="product-detail-contain">
+  <h1 class="title my-3">Nhập hàng</h1>
+  <form class="mb-3" [formGroup]="form">
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field>
+          <mat-label for="" class="form-label">Nhà phân phối</mat-label>
+          <mat-select matNativeControl required formControlName="supplierId"
+            [value]="this.form.controls['supplierId'].value">
+            <mat-option *ngFor="let supplier of suppliers" value="{{supplier.id}}">{{supplier.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-12 mb-3">
+        <div style="border: 1px solid #ccc;">
+          <div class="row p-2">
+            <div class="mb-2 bold">
+              Thêm điện thoại
+            </div>
+            <div class="col-12">
+              <mat-form-field>
+                <mat-label for="" class="form-label">Sản phẩm điện thoại</mat-label>
+                <mat-select matNativeControl required (selectionChange)="changePhone($event)" [value]="selectPhone">
+                  <mat-option value="" disabled>
+                    Sản phẩm điện thoại
+                  </mat-option>
+                  <mat-option *ngFor="let phone of phones" value="{{phone.id}}">
+                    <span>
+                      <img class="me-2" style="width: 50px; height: 50px;object-fit: cover;object-position: center;"
+                        src="{{phone.phoneImages[0].link}}" alt="phoneimg">
+                      {{phone.name}}
+                    </span>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row px-2">
+            <div class="col-5">
+              <mat-form-field>
+                <mat-label class="form-label">Số lượng</mat-label>
+                <input matInput min="1" type="number" #count (input)="changeCount($event)" [value]="phoneCount">
+              </mat-form-field>
+            </div>
+            <div class="col-3">
+              <button class="btn btn-common-base" [disabled]="!isAddPhone()" (click)="addPhone()">Thêm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="my-3">
+        <div class="bold">Danh sách nhập</div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Ảnh</th>
+              <th scope="col">Tên</th>
+              <th scope="col">Số lượng</th>
+              <th scope="col">Chỉnh sửa</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let select of listPhoneAdd; let i = index">
+              <td>{{i+1}}</td>
+              <td><img style="width: 50px; height: 50px;object-fit: cover;object-position: center;"
+                  src="{{getPhone(select.phoneId).phoneImages[0].link}}" alt="phoneimg"></td>
+              <td>{{getPhone(select.phoneId).name}}</td>
+              <td>{{select.quantity}}</td>
+              <td><a (click)="deletePhone(select.phoneId)" style="cursor: pointer;text-decoration: underline;"
+                  class="bold">Xóa</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="d-flex btn-container">
+      <button class="me-3 btn btn-common-base" (click)="onCreate()" [disabled]="form.invalid">Nhập hàng</button>
+      <button class="btn btn-common-reject" mat-dialog-close>Thoát</button>
+    </div>
+  </form>
+</div>

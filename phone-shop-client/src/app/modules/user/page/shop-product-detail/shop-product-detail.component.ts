@@ -95,7 +95,7 @@ export class ShopProductDetailComponent implements OnInit, OnDestroy {
   addToCart(product: any) {
     Helpers.checkUser(this.router);
     let productCart = this.getProductIncart(product.id);
-    if ((productCart && (this.productCount + productCart.quantity) > 5) || this.productCount > 5) {
+    if ((productCart && (this.productCount + productCart.quantity) > CONFIG.MAX_PRODUCT) || this.productCount > CONFIG.MAX_PRODUCT) {
       this.dialog.openDialog(ConfirmDialogComponent, {
         content: `
       <div>Số lượng sản phẩm đã đạt đến mức tối đa</div>
@@ -125,7 +125,7 @@ export class ShopProductDetailComponent implements OnInit, OnDestroy {
   buyNow(product: any) {
     Helpers.checkUser(this.router);
     let productCart = this.getProductIncart(product.id);
-    if ((productCart && (this.productCount + productCart.quantity) > 5) || this.productCount > 5) {
+    if ((productCart && (this.productCount + productCart.quantity) > CONFIG.MAX_PRODUCT) || this.productCount > CONFIG.MAX_PRODUCT) {
       this.dialog.openDialog(ConfirmDialogComponent, {
         content: `
       <div>Số lượng sản phẩm đã đạt đến mức tối đa</div>

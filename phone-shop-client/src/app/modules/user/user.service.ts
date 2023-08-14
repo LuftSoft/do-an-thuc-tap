@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API } from 'src/app/core/constant/API';
 import { BaseAPIResponse, CONFIG } from 'src/app/core/constant/CONFIG';
@@ -12,6 +12,7 @@ export class UserService {
   constructor(
     private http: HttpClient
   ) { }
+  searchEvent: EventEmitter<string> = new EventEmitter<string>();
   getHeaderAuth() {
     let headers = new HttpHeaders();
     headers.append('Authorization', `Bearer ${localStorage.getItem(CONFIG.AUTH.USER_ACCESS_TOKEN)}`)

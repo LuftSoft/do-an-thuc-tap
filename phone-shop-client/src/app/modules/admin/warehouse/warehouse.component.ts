@@ -12,6 +12,7 @@ import { BrandDetailComponent } from '../product/brand-detail/brand-detail.compo
 import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { finalize } from 'rxjs'
+import { ImportWarehouseTicketComponent } from './import-warehouse-ticket/import-warehouse-ticket.component';
 
 @Component({
   selector: 'app-warehouse',
@@ -85,7 +86,16 @@ export class WarehouseComponent implements OnInit {
       })
   }
   onCreateWarehouseTicket() {
-
+    this.dialog.openDialog(ImportWarehouseTicketComponent, {},
+      '30vw', '50vh'
+    )
+      .afterClosed().subscribe(response => {
+        console.log(response);
+        if (response) {
+          this.notify.notifySuccess('Nhap hang thanh cong');
+          this.ngOnInit();
+        }
+      });
   }
 }
 
