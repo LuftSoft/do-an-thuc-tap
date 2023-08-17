@@ -1,3 +1,44 @@
-<p>
-  user-information works!
-</p>
+<form class="bg-light ">
+  <h4 class="mb-2 bold dot-three-rem uppercase">thông tin nhân viên</h4>
+  <div class="row my-2">
+    <div class="my-2 col-5" style="text-align: center;">
+      <img src="{{user.avatar}}" alt="avatar" class="avatar">
+    </div>
+    <div class="col-7">
+      <div class="mb-2 row">
+        <div class="col-12">
+          <mat-form-field class="example-full-width">
+            <mat-label class="form-label">Họ và tên</mat-label>
+            <input type="text" matInput readonly="" [value]="user?.firstName+' '+user?.lastName" name="name">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-12">
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input type="text" readonly matInput [value]="user?.email">
+          </mat-form-field>
+        </div>
+        <div class="col-12">
+          <mat-form-field>
+            <mat-label>Số điện thoại</mat-label>
+            <input type="text" readonly matInput [value]="user?.phoneNumber">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-12">
+          <mat-form-field>
+            <mat-label>Tuổi</mat-label>
+            <input type="text" readonly matInput [value]="user?.age">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex;justify-content: right;">
+    <button class="btn btn-cancel me-3" [mat-dialog-close]="false">Trở lại</button>
+  </div>
+</form>

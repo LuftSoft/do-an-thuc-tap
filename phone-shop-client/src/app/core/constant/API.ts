@@ -18,10 +18,19 @@ export const API = {
         SUPPILER: 'supplier'
     },
     USER: 'user',
+    ROLE: 'role',
     ADMIN: 'admin',
     DETAIL: 'detail',
+    REPORT: {
+        REPORT: 'report',
+        MONTH: 'month',
+        RANGE_DAY: 'range-day',
+        THIRTY_DAY: 'thirty-day',
+        PDF: 'pdf'
+    },
     FILTER: 'filter',
     ADDRESS: 'address',
+    DASHBOARD: 'dashboard',
     LOCATION: {
         LOCATION: 'location',
         PROVINCE: 'province',

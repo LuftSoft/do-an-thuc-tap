@@ -25,6 +25,7 @@ import { UserAddressDialogComponent } from './page/user-address-dialog/user-addr
 import { ConfirmPaymentDialogComponent } from './page/confirm-payment-dialog/confirm-payment-dialog.component';
 import { PaySuccessDialogComponent } from './page/pay-success-dialog/pay-success-dialog.component';
 import { AddNewAddressDialogComponent } from './page/add-new-address-dialog/add-new-address-dialog.component';
+import { UserOrderDetailDialogComponent } from './page/user-order-detail-dialog/user-order-detail-dialog.component';
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import { AddNewAddressDialogComponent } from './page/add-new-address-dialog/add-
     ConfirmPaymentDialogComponent,
     PaySuccessDialogComponent,
     AddNewAddressDialogComponent,
+    UserOrderDetailDialogComponent,
     VNDPipe
   ],
   exports: [

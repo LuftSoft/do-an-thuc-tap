@@ -71,6 +71,10 @@ export class Helpers {
   static random(min: number, max: number) {
     return Math.floor(Math.random() * (max - min) + min);
   }
+  static getCurrentStringTime() {
+    const now = new Date;
+    return now.getFullYear() + '-' + now.getMonth() + 1 + '-' + now.getDate() + '-' + now.getHours() + '-' + now.getMinutes() + '-' + now.getSeconds();
+  }
   static removeVietnameseTones(str: string) {
     str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
     str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");

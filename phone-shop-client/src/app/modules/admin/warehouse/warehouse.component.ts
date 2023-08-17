@@ -13,6 +13,7 @@ import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.comp
 import { MatPaginator } from '@angular/material/paginator';
 import { finalize } from 'rxjs'
 import { ImportWarehouseTicketComponent } from './import-warehouse-ticket/import-warehouse-ticket.component';
+import { SupplierDialogComponent } from './supplier-dialog/supplier-dialog.component';
 
 @Component({
   selector: 'app-warehouse',
@@ -92,8 +93,19 @@ export class WarehouseComponent implements OnInit {
       .afterClosed().subscribe(response => {
         console.log(response);
         if (response) {
-          this.notify.notifySuccess('Nhap hang thanh cong');
+          this.notify.notifySuccess('Nhập hàng thành công!');
           this.ngOnInit();
+        }
+      });
+  }
+  onOpenSupplier() {
+    this.dialog.openDialog(SupplierDialogComponent, { type: 'add' },
+      '45vw', '50vh'
+    )
+      .afterClosed().subscribe(response => {
+        console.log(response);
+        if (response) {
+          this.notify.notifySuccess('Tạo nhà phân phối thành công!');
         }
       });
   }

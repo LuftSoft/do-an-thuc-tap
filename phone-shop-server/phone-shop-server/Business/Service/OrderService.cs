@@ -247,16 +247,6 @@ namespace phone_shop_server.Business.Service
         {
             try
             {
-                string userId = await _userService.GetUserIdFromContext(context);
-                var user = await _userService.getUserDetailAsync(userId);
-                if(user == null)
-                {
-                    return new APIResponse.APIResponse()
-                    {
-                        code = StatusCode.ERROR.ToString(),
-                        message = "user is null"
-                    };
-                }
                 var order = await _orderRepository.GetAsync(dto.orderId);
                 if(order == null)
                 {

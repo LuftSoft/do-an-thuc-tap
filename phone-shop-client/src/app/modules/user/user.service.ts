@@ -30,6 +30,9 @@ export class UserService {
   userLogin(data: any): Observable<BaseAPIResponse> {
     return this.http.post<BaseAPIResponse>(`${API.BASE_URL}/${API.USER}/${API.AUTH.LOGIN}`, data);
   }
+  getUserDetail(id: any) {
+    return this.http.get(`${API.BASE_URL}/${API.USER}/${id}`);
+  }
   userSignup(data: any): Observable<BaseAPIResponse> {
     console.log(data);
     let _headers = new HttpHeaders();
@@ -45,6 +48,12 @@ export class UserService {
       })
     });
   }
+  updateUser(data: any) {
+    return this.http.put(`${API.BASE_URL}/${API.USER}`, data);
+  }
+  setDefaultAddress(id: any) {
+    return this.http.patch(`${API.BASE_URL}/${API.ADDRESS}/${id}`, {});
+  }
   fogotPassword(data: SignupModel): Observable<BaseAPIResponse> {
     return this.http.post<BaseAPIResponse>(`${API.BASE_URL}/${API.USER}/${API.AUTH.FOGOT_PASSWORD}`, data);
   }
@@ -54,6 +63,9 @@ export class UserService {
   }
   getAllUser() {
     return this.http.get<any>(`${API.BASE_URL}/${API.USER}`);
+  }
+  getAllRole(): Observable<BaseAPIResponse> {
+    return this.http.get<BaseAPIResponse>(`${API.BASE_URL}/${API.SHOP.PHONE}/${API.ROLE}`);
   }
   //product
   getListPhone(): Observable<BaseAPIResponse> {

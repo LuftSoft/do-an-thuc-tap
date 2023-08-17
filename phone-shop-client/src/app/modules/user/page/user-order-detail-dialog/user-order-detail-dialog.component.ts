@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { CONFIG } from 'src/app/core/constant/CONFIG';
@@ -8,16 +8,17 @@ import { NotificationService } from 'src/app/core/service/notification.service';
 import { UserInfoService } from 'src/app/core/service/user.info.service';
 import { ConfirmDialogComponent } from 'src/app/modules/confirm-dialog/confirm-dialog.component';
 import { UserService } from '../../user.service';
-import { UserOrderDetailDialogComponent } from '../user-order-detail-dialog/user-order-detail-dialog.component';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-user-order',
-  templateUrl: './user-order.component.html',
-  styleUrls: ['./user-order.component.scss']
+  selector: 'app-user-order-detail-dialog',
+  templateUrl: './user-order-detail-dialog.component.html',
+  styleUrls: ['./user-order-detail-dialog.component.scss']
 })
-export class UserOrderComponent implements OnInit {
+export class UserOrderDetailDialogComponent implements OnInit {
+
   user: any;
-  order: any[] = [];
+  order: any = {};
   selectedCart: any[] = [];
   total_price: any = 0;
   constructor(
@@ -28,16 +29,13 @@ export class UserOrderComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private userInfo: UserInfoService,
     notify: NotificationService,
-    private dialogService: OpenDialogService
+    private dialogService: OpenDialogService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit(): void {
-    this.activateRoute.params.subscribe(() => {
-      this.total_price = 0;
-      this.selectedCart = this.userInfo.order;
-      this.upDatePrice(this.selectedCart);
-      this.getUserOrder();
-    })
+    console.log(this.data);
+    this.getOrderDetail(this.data.id);
   }
   getUserInfo() {
     this.loader.showProgressBar();
@@ -47,18 +45,11 @@ export class UserOrderComponent implements OnInit {
         this.user = response;
       })
   }
-  getUserOrder() {
-    this.loader.showProgressBar();
-    this.userService.getUserOrder()
-      .pipe(finalize(() => { this.loader.hideProgressBar(); }))
+  getOrderDetail(id: any) {
+    this.userService.getDetailOrder(id)
       .subscribe((response) => {
-        if (response.code === CONFIG.STATUS_CODE.SUCCESS) {
-          this.order = response.data;
-        }
-        else if (response.code === CONFIG.STATUS_CODE.ERROR) {
-          this.notification.notifyError(response.message || 'Failed!');
-        }
-
+        console.log(response);
+        this.order = response.data;
       })
   }
   isOrderStatusCreated(order: any) {
@@ -142,7 +133,7 @@ export class UserOrderComponent implements OnInit {
     this.router.navigateByUrl('/product');
   }
   getProduct(id: string) {
-    var returnResult = this.order.find(item => item.id == id);
+    var returnResult = '';
     return returnResult;
   }
   upDatePrice(cart: any[]) {
@@ -179,10 +170,7 @@ export class UserOrderComponent implements OnInit {
     return false;
   }
   onOrderDetail(id: any) {
-    this.dialogService.openDialog(UserOrderDetailDialogComponent, { id: id },
-      '75vw', '60vh')
-      .afterClosed().subscribe((response) => {
 
-      })
   }
+
 }

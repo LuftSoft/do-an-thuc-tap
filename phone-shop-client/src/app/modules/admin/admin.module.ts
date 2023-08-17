@@ -22,6 +22,8 @@ import { ImportWarehouseTicketComponent } from './warehouse/import-warehouse-tic
 import { OrderDetailComponent } from './order-manage/order-detail/order-detail.component';
 import { AdminVNDPipe, VNDPipe } from 'src/app/core/service/custom.pipe';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SupplierDialogComponent } from './warehouse/supplier-dialog/supplier-dialog.component';
+import { UserInformationComponent } from './user-information/user-information.component';
 //const NgbModule = require('@ng-bootstrap/ng-bootstrap')
 
 @NgModule({
@@ -49,6 +51,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
         BrandDetailComponent,
         ImportWarehouseTicketComponent,
         OrderDetailComponent,
+        SupplierDialogComponent,
+        UserInformationComponent,
         AdminVNDPipe
     ],
     providers: [

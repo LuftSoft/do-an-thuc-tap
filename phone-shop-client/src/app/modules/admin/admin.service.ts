@@ -53,4 +53,31 @@ export class AdminService {
   getOneTicket(id: string) {
     return this.http.get<BaseAPIResponse>(`${API.BASE_URL}/${API.SHOP.WAREHOUSE}/${id}`);
   }
+  //dashboard
+  getDashBoard(): Observable<BaseAPIResponse> {
+    return this.http.get<BaseAPIResponse>(`${API.BASE_URL}/${API.SHOP.PHONE}/${API.DASHBOARD}`);
+  }
+  //report
+  getDayReport(): Observable<BaseAPIResponse> {
+    return this.http.get<BaseAPIResponse>(`${API.BASE_URL}/${API.REPORT.REPORT}/${API.REPORT.THIRTY_DAY}`);
+  }
+  getMonthReport(year: number): Observable<BaseAPIResponse> {
+    return this.http.get<BaseAPIResponse>(`${API.BASE_URL}/${API.REPORT.REPORT}/${API.REPORT.MONTH}/${year}`);
+  }
+  postRangeDayReport(startDate: any, endDate: any): Observable<BaseAPIResponse> {
+    return this.http.post<BaseAPIResponse>(`${API.BASE_URL}/${API.REPORT.REPORT}/${API.REPORT.RANGE_DAY}`, {
+      startDate: startDate,
+      endDate: endDate
+    });
+  }
+  exportDayReport(): Observable<any> {
+    return this.http.get(`${API.BASE_URL}/${API.REPORT.REPORT}/${API.REPORT.PDF}/${API.REPORT.THIRTY_DAY}`, { responseType: 'blob' });
+  }
+  exportMonthReport(year: number) {
+    return this.http.get(`${API.BASE_URL}/${API.REPORT.REPORT}/${API.REPORT.PDF}/${API.REPORT.MONTH}/${year}`, { responseType: 'blob' });
+  }
+  //supplier
+  createSupplier(data: any): Observable<BaseAPIResponse> {
+    return this.http.post<BaseAPIResponse>(`${API.BASE_URL}/${API.SHOP.SUPPILER}`, data);
+  }
 }

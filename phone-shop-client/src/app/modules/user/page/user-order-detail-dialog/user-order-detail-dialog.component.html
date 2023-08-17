@@ -1,0 +1,106 @@
+<div class="row mb-3">
+  <div class="col-9 bold dot-three-rem uppercase">chi tiết đơn hàng</div>
+  <div class="col-3 d-flex" style="justify-content: flex-end;">
+    <i class="fa fa-times" aria-hidden="true" style="color: red;font-size: 36px !important;" mat-dialog-close></i>
+  </div>
+</div>
+<div class="row mb-3">
+  <div class="row">
+    <div class="col-4 bold">Địa chỉ nhận hàng</div>
+    <div class="col-8">{{order.address.detailAddress}}, {{order.address.homeletAddress}}</div>
+  </div>
+</div>
+<div class="row" style="min-height: 300px;">
+  <div class="list-items mb-5 border-top-base col-12 contain_product_item">
+    <div class="row">
+      <div class="col-8 bold uppercase">
+        sản phẩm
+      </div>
+      <div class="col-4 relative" style="justify-content: flex-end;display: flex;">
+        <a class="btn btn-common-base me-3 order-tag order-tag__confirmed" *ngIf="isOrderStatusDelivery(order)">
+          Đang vận chuyển</a>
+        <a class="btn btn-common-base me-3 order-tag order-tag__confirmed">
+          {{order.paymentMethod == 'COD'?'Thanh toán khi nhận hàng':'Thanh toán online'}}</a>
+        <a class="btn btn-common-base me-3 order-tag order-tag__confirmed" *ngIf="isOrderStatusPrepared(order)"
+          [matTooltip]="'Đơn hàng đang được chuẩn bị'">
+          Chuẩn bị hàng</a>
+        <a disabled class="btn btn-common-reject order-tag order-tag__disabled" *ngIf="isOrderStatusCanceled(order)">Đã
+          hủy</a>
+        <a disabled class="btn btn-common-base order-tag order-tag__confirmed" *ngIf="isOrderStatusTranfered(order)">Đã
+          nhận hàng</a>
+      </div>
+    </div>
+    <hr>
+    <div *ngFor="let orderDetail of order.orderDetail">
+      <div class="d-flex contain-product">
+        <div class="product-img">
+          <img src="{{orderDetail.phone.phoneImages[0].link}}" alt="product" class="img-fluid"
+            style="width: 100%;height: 100%;">
+        </div>
+        <div style="width: 100%;">
+          <div class="row">
+            <div class="col" style="position: relative;">
+              <div class="ps-3">
+                <a class="cart-title">
+                  <h4>
+                    {{orderDetail.phone.name}}
+                  </h4>
+                </a>
+                <p>
+                  {{orderDetail.phone.description}}
+                </p>
+                <div class="d-flex" style="margin-top: 25px;">
+                  <div class="border-choice" style="max-height: 30px;z-index: 700;">
+                    Đơn giá: {{orderDetail.phone.soldPrice}}
+                  </div>
+                  <div class="ms-3 border-choice" style="max-height: 30px;z-index: 700;">
+                    Số lượng: {{orderDetail.quantity}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-4">
+              <h5 style="text-align: center;font-size: 1.2rem;font-weight: 600;" id="price__id">
+                {{orderDetail.phone.soldPrice * orderDetail.quantity | vndPipe}}
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2" style="align-items: center;">
+      <div class="col-8 d-flex" style="justify-content: flex-start;align-items: center;">
+        <span class="me-3">Ngày tạo: <span class="bold">{{order.createDate | date: 'dd/MM/yyyy'}}</span></span>
+      </div>
+      <div class="col-4 relative d-flex" style="align-items: center;justify-content: center;">
+        <h5 style="text-align: center;font-size: 1.2rem;font-weight: 600;" id="price__id">
+          Thành tiền: {{ getTotalPrice(order) | vndPipe}}
+        </h5>
+      </div>
+    </div>
+    <hr>
+    <div class="mt-4">
+      <div class="row mb-3">
+        <div class="bold uppercase">Lịch sử trạng thái</div>
+      </div>
+      <div class="row">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Thời gian</th>
+              <th scope="col">Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="order">
+            <tr *ngFor="let item of order.orderStatus; let i = index">
+              <th scope="row">{{i}}</th>
+              <td>{{item.created | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+              <td>{{item.status.statusType}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

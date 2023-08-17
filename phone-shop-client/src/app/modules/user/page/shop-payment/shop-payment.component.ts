@@ -18,6 +18,7 @@ import { ConfirmDialogComponent } from 'src/app/modules/confirm-dialog/confirm-d
   styleUrls: ['./shop-payment.component.scss']
 })
 export class ShopPaymentComponent implements OnInit {
+  selectedAddressId: string = '';
   order: any[] = [];
   total_price = 0;
   ship_cost = 30000;
@@ -51,7 +52,6 @@ export class ShopPaymentComponent implements OnInit {
       .subscribe((response: any) => {
         this.user = response;
         this.payAddress = this.user.address.filter((ad: any) => ad.isDefault)[0] || {};
-        console.log('payad', this.payAddress);
       })
   }
   configOrderInfo() {
@@ -66,6 +66,9 @@ export class ShopPaymentComponent implements OnInit {
         quantity: item.quantity
       })
     })
+  }
+  getAddressById(id: string) {
+    return this.user.address.filter((ad: any) => ad.id == id)[0] || {};
   }
   onOrder() {
     this.loader.showProgressBar();
@@ -89,10 +92,24 @@ export class ShopPaymentComponent implements OnInit {
         }
       })
   }
-  onChangeAddress() {
-    this.dialogService.openDialog(UserAddressDialogComponent, {}, '', '')
+  getSelectedAddress() {
+    return this.user.address.filter((u: any) => u.isDefault)[0].id
+  }
+  onChangeAddress(id: any) {
+    this.dialogService.openDialog(UserAddressDialogComponent, { id: id }, '', '')
       .afterClosed().subscribe(((data) => {
-        console.log(data);
+        if (data) {
+          this.loader.showProgressBar();
+          this.userService.getUserInfo()
+            .pipe(finalize(() => {
+              this.loader.hideProgressBar();
+              this.payAddress = this.getAddressById(data);
+            }))
+            .subscribe((response: any) => {
+              this.user = response;
+              this.payAddress = this.user.address.filter((ad: any) => ad.isDefault)[0] || {};
+            })
+        }
       }))
   }
   check() {

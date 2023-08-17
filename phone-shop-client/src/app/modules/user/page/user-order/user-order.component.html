@@ -77,7 +77,7 @@
                 <div class="row mt-2" style="align-items: center;">
                     <div class="col-8 d-flex" style="justify-content: flex-start;align-items: center;">
                         <span class="me-3">Ngày tạo: {{orderItem.createDate | date: 'dd/MM/yyyy'}}</span>
-                        <a class="btn btn-common-base me-3 order-tag">Chi tiết</a>
+                        <a class="btn btn-common-base me-3 order-tag" (click)="onOrderDetail(orderItem.id)">Chi tiết</a>
                     </div>
                     <div class="col-4 relative d-flex" style="align-items: center;justify-content: center;">
                         <h5 style="text-align: center;font-size: 1.2rem;font-weight: 600;" id="price__id">

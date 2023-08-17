@@ -7,14 +7,17 @@ import { OpenDialogService } from 'src/app/core/service/dialog/opendialog.servic
 import { LoadingService } from 'src/app/core/service/loading.service';
 import { Helpers, NotificationService } from 'src/app/core/service/notification.service';
 import { UserInfoService } from 'src/app/core/service/user.info.service';
-import { UserService } from '../../user.service';
+import { UserService } from 'src/app/modules/user/user.service';
+import { AdminService } from '../../admin.service';
+
 
 @Component({
-  selector: 'app-add-new-address-dialog',
-  templateUrl: './add-new-address-dialog.component.html',
-  styleUrls: ['./add-new-address-dialog.component.scss']
+  selector: 'app-supplier-dialog',
+  templateUrl: './supplier-dialog.component.html',
+  styleUrls: ['./supplier-dialog.component.scss']
 })
-export class AddNewAddressDialogComponent implements OnInit {
+export class SupplierDialogComponent implements OnInit {
+
   public data: any;
   public provinces: any[] = [];
   public provinceFilter: any[] = [];
@@ -22,7 +25,7 @@ export class AddNewAddressDialogComponent implements OnInit {
   public homelets: any[] = [];
   public name: string = '';
   public phone: string = '0334397865';
-  public detailAddress: string = '';
+  public description: string = '';
   public homeletId: string = '';
   public isDefault: boolean = false;
   public type: string = '';
@@ -36,7 +39,8 @@ export class AddNewAddressDialogComponent implements OnInit {
     private userInfo: UserInfoService,
     notify: NotificationService,
     private dialogService: OpenDialogService,
-    private dialogRef: MatDialogRef<AddNewAddressDialogComponent>
+    private adminService: AdminService,
+    private dialogRef: MatDialogRef<SupplierDialogComponent>
   ) {
     this.data = data;
   }
@@ -145,7 +149,7 @@ export class AddNewAddressDialogComponent implements OnInit {
   changeHomelet(event: any) {
     console.log(event);
     //this.homeletId = event._value.id;
-    console.log(this.name, this.phone, this.detailAddress, this.homeletId, this.type, this.isDefault);
+    console.log(this.name, this.phone, this.description, this.homeletId, this.type, this.isDefault);
   }
   onSearchProvince(event: any) {
     if (event) {
@@ -158,72 +162,20 @@ export class AddNewAddressDialogComponent implements OnInit {
     this.type = event;
   }
   formValid() {
-    return this.name.length > 0 && this.phone.length > 0
-      && this.detailAddress.length > 0 && this.homeletId.length > 0
-      && this.type.length > 0
-  }
-  createAddress() {
-    this.loader.showProgressBar();
-    this.userService.createAddress(
-      {
-        id: '',
-        homeletAddress: '',
-        userId: '',
-        detailAddress: this.detailAddress,
-        type: this.type,
-        isDefault: this.isDefault,
-        homeletId: this.homeletId
-      })
-      .pipe(finalize(() => {
-        this.loader.hideProgressBar();
-        setTimeout(() => {
-          this.closeDialog();
-        }, 100);
-      }))
-      .subscribe((response) => {
-        if (response.code === CONFIG.STATUS_CODE.SUCCESS) {
-          this.notification.notifySuccess('Thêm địa chỉ thành công!');
-        }
-        else if (response.code === CONFIG.STATUS_CODE.ERROR) {
-          this.notification.notifyError(response.message || 'Failed');
-        }
-      });
-  }
-  updateAddress() {
-    this.userService.createAddress(
-      {
-        id: '',
-        homeletAddress: '',
-        userId: '',
-        detailAddress: this.detailAddress,
-        type: this.type,
-        isDefault: this.isDefault,
-        homeletId: this.homeletId
-      })
-      .pipe(finalize(() => {
-        this.loader.hideProgressBar();
-        setTimeout(() => {
-          this.closeDialog();
-        }, 100);
-      }))
-      .subscribe((response) => {
-        if (response.code === CONFIG.STATUS_CODE.SUCCESS) {
-          this.notification.notifySuccess('Thêm địa chỉ thành công!');
-        }
-        else if (response.code === CONFIG.STATUS_CODE.ERROR) {
-          this.notification.notifyError(response.message || 'Failed');
-        }
-      });
+    return this.name.length > 0 && this.description.length > 0 && this.homeletId.length > 0
+
   }
   onSubmit(event: any) {
     if (!this.formValid()) return;
-    this.loader.showProgressBar()
-    if (this.data.type === 'add') {
-      this.createAddress();
-    }
-    else if (this.data.type === 'edit') {
-      this.updateAddress();
-    }
-    //this.closeDialog();
+    this.loader.showProgressBar();
+    this.adminService.createSupplier({
+      name: this.name,
+      description: this.description,
+      homeletId: this.homeletId
+    })
+      .pipe(finalize(() => { this.loader.hideProgressBar() }))
+      .subscribe(response => {
+        if (response) this.dialogRef.close(true);
+      });
   }
 }

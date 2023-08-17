@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Mvc;
 using phone_shop_server.Business.APIResponse;
 using phone_shop_server.Business.DTO.Phone;
 using phone_shop_server.Business.Service;
 using phone_shop_server.Database.Enum;
+using phone_shop_server.Database.Repository;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,9 +15,15 @@ namespace phone_shop_server.API
     public class PhoneController : ControllerBase
     {
         private readonly IPhoneService _phoneService;
-        public PhoneController(IPhoneService phoneService)
+        private readonly IPhoneRepository _phoneRepository;
+        public PhoneController(
+            IPhoneService phoneService,
+            IPhoneRepository phoneRepository
+            
+        )
         {
             _phoneService = phoneService;
+            _phoneRepository = phoneRepository;
         }
 
         [HttpGet]
@@ -64,6 +72,72 @@ namespace phone_shop_server.API
             }
         }
 
+        [HttpGet("best-seller")]
+        public async Task<APIResponse> BestSeller(int top)
+        {
+            try
+            {
+                
+                return new APIResponse()
+                {
+                    code = Database.Enum.StatusCode.SUCCESS.ToString(),
+                    data = await _phoneRepository.GetBestSeller(top)
+                };
+            }
+            catch (Exception ex)
+            {
+                return new APIResponse()
+                {
+                    code = Database.Enum.StatusCode.ERROR.ToString(),
+                    message = ex.Message,
+                    data = null
+                };
+            }
+        }
+        [HttpGet("role")]
+        public async Task<APIResponse> GetAllRole()
+        {
+            try
+            {
+
+                return new APIResponse()
+                {
+                    code = Database.Enum.StatusCode.SUCCESS.ToString(),
+                    data = await _phoneRepository.GetAllRole()
+                };
+            }
+            catch (Exception ex)
+            {
+                return new APIResponse()
+                {
+                    code = Database.Enum.StatusCode.ERROR.ToString(),
+                    message = ex.Message,
+                    data = null
+                };
+            }
+        }
+        [HttpGet("dashboard")]
+        public async Task<APIResponse> GetDashboard()
+        {
+            try
+            {
+
+                return new APIResponse()
+                {
+                    code = Database.Enum.StatusCode.SUCCESS.ToString(),
+                    data = await _phoneRepository.AdminDashBoard()
+                };
+            }
+            catch (Exception ex)
+            {
+                return new APIResponse()
+                {
+                    code = Database.Enum.StatusCode.ERROR.ToString(),
+                    message = ex.Message,
+                    data = null
+                };
+            }
+        }
         [HttpPost]
         public async Task<APIResponse> Post([FromForm] PhoneCreateDto dto)
         {

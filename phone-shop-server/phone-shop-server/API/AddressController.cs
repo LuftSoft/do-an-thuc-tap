@@ -1,11 +1,13 @@
 ﻿using Humanizer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using phone_shop_server.Business.APIResponse;
 using phone_shop_server.Business.Converter;
 using phone_shop_server.Business.DTO.Address;
 using phone_shop_server.Business.DTO.Brand;
 using phone_shop_server.Business.DTO.Phone;
 using phone_shop_server.Business.Service;
+using phone_shop_server.Database;
 using phone_shop_server.Database.Entity;
 using phone_shop_server.Database.Repository;
 using phone_shop_server.Util;
@@ -17,6 +19,7 @@ namespace phone_shop_server.API
     public class AddressController : ControllerBase
     {
         private readonly IAddressRepository _addressRepository;
+        private readonly AppDbContext _appDbContext;
         private readonly IBrandService _brandService;
         private readonly IJwtUtil _jwtUtil;
         private readonly IUserService _userService;
@@ -26,9 +29,11 @@ namespace phone_shop_server.API
             IAddressRepository addressRepository,
             IJwtUtil jwtUtil,
             IUserService userService,
+            AppDbContext appDbContext,
             IAddressConverter addressConverter
             )
         {
+            _appDbContext = appDbContext;
             _addressConverter = addressConverter;
             _jwtUtil = jwtUtil;
             _userService = userService;
@@ -158,6 +163,33 @@ namespace phone_shop_server.API
                 {
                     code = Database.Enum.StatusCode.ERROR.ToString(),
                     data = null
+                };
+            }
+        }
+        [HttpPatch("{id}")]
+        public async Task<APIResponse> SetDault(string id) 
+        {
+            try
+            {
+                var address = await _appDbContext.Address.FirstOrDefaultAsync(a => a.Id.ToString() == id);
+                if (address.isDefault) return new APIResponse()
+                {
+                    code = "SUCCESS"
+                };
+                var defaultAd = await _appDbContext.Address.Where(a => (a.UserId == address.UserId) && a.isDefault).FirstOrDefaultAsync();
+                defaultAd.isDefault = false;
+                address.isDefault = true;
+                await _appDbContext.SaveChangesAsync();
+                return new APIResponse()
+                {
+                    code = "SUCCESS"
+                };
+            }
+            catch 
+            {
+                return new APIResponse()
+                {
+                    code = "ERROR"
                 };
             }
         }

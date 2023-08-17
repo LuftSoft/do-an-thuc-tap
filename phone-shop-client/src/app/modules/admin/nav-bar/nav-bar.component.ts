@@ -49,7 +49,13 @@ export class NavBarComponent implements OnInit {
     for (let item in this.sidebarValue) {
       this.sidebarValue[item].isSelected = false;
     }
-    this.sidebarValue[routerArr[routerArr.length - 1]].isSelected = true;
+    if (this.sidebarValue[routerArr[routerArr.length - 1]]) {
+      this.sidebarValue[routerArr[routerArr.length - 1]].isSelected = true
+    }
+    else {
+      this.sidebarValue['dashboard'].isSelected = true;
+    }
+
   }
 
   ngOnInit() {

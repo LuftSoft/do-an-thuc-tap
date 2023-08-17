@@ -19,7 +19,17 @@ namespace phone_shop_server.Database.Repository
         }
         public async Task<AddressDto> CreateAsync(Address address)
         {
+            if (address.isDefault)
+            {
+                var defaultAd = await _appDbContext.Address.FirstOrDefaultAsync(a => a.UserId == address.UserId && a.isDefault);
+                if(defaultAd != null)
+                {
+                    defaultAd.isDefault = false;
+                    await _appDbContext.SaveChangesAsync();
+                }
+            }
             _appDbContext.Address.Add( address );
+
             await _appDbContext.SaveChangesAsync();
             return await _addressConverter.ConvertAddressToAddressDto(address);
         }

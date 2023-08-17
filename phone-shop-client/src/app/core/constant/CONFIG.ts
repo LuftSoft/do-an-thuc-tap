@@ -56,6 +56,11 @@ export const CONFIG = {
             VIEW: 'view'
         }
     },
+    ROLE: {
+        CUSTOMER: "CUSTOMER",
+        STAFF: "STAFF",
+        ADMIN: "ADMIN"
+    },
     ORDER: {
         MIN_DATE: "0001-01-01T00:00:00",
         PAYMENT: {

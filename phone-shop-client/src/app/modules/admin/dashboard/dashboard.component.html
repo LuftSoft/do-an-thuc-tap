@@ -2,12 +2,13 @@
   <h2 class="bold dot-three-rem uppercase">tổng quan</h2>
   <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-4">
     <div class="col">
-      <div class="card radius-10">
+      <div class="card radius-10 background"
+        style="background: url('https://res.cloudinary.com/dnshdled2/image/upload/v1692286127/layered-waves-haikei_lq4iov.svg');">
         <div class="card-body">
           <div class="d-flex align-items-center text-align-left">
             <div>
               <p class="mb-0 text-secondary">Tổng số đơn hàng</p>
-              <h4 class="my-1">102</h4>
+              <h4 class="my-1 bold">{{dashboard.totalOrder||0}}</h4>
             </div>
             <div class="widget-icon-large bg-gradient-purple text-white ms-auto"><i class="bi bi-basket2-fill"></i>
             </div>
@@ -16,12 +17,13 @@
       </div>
     </div>
     <div class="col">
-      <div class="card radius-10">
+      <div class="card radius-10 background"
+        style="background: url('https://res.cloudinary.com/dnshdled2/image/upload/v1692286127/stacked-waves-haikei_efnrge.svg');">
         <div class="card-body">
           <div class="d-flex align-items-center text-align-left">
             <div>
               <p class="mb-0 text-secondary">Tổng doanh thu</p>
-              <h4 class="my-1">{{2000000}}</h4>
+              <h4 class="my-1 bold">{{dashboard.totalPrice||0 | adminVndPipe}}</h4>
               <p class="mb-0 font-13 text-success"></p>
             </div>
             <div class="widget-icon-large bg-gradient-success text-white ms-auto"><i
@@ -32,12 +34,13 @@
       </div>
     </div>
     <div class="col">
-      <div class="card radius-10">
+      <div class="card radius-10 background"
+        style="background: url('https://res.cloudinary.com/dnshdled2/image/upload/v1692286127/circle-scatter-haikei_s6nxdf.svg');">
         <div class="card-body">
           <div class="d-flex align-items-center text-align-left">
             <div>
               <p class="mb-0 text-secondary">Tổng số khách hàng</p>
-              <h4 class="my-1">200</h4>
+              <h4 class="my-1 bold">{{dashboard.users.length||0}}</h4>
               <!-- <i class="bi bi-caret-down-fill"></i> 2.7 from last week -->
               <p class="mb-0 font-13 text-danger"></p>
             </div>
@@ -48,12 +51,13 @@
       </div>
     </div>
     <div class="col">
-      <div class="card radius-10">
+      <div class="card radius-10 background"
+        style="background: url('https://res.cloudinary.com/dnshdled2/image/upload/v1692286127/blob-scene-haikei_con0hk.svg');">
         <div class="card-body">
           <div class="d-flex align-items-cente text-align-left">
             <div>
               <p class="mb-0 text-secondary">Doanh thu hôm nay</p>
-              <h4 class="my-1">{{0 | adminVndPipe }}</h4>
+              <h4 class="my-1 bold">{{dashboard.todayStat.totalPrice||0 | adminVndPipe }}</h4>
               <!-- <i class="bi bi-caret-up-fill"></i> 12.2% so với hôm qua -->
               <p class="mb-0 font-13 text-success"></p>
             </div>
@@ -78,8 +82,6 @@
             <div class="col">
               <div class="d-flex align-items-center justify-content-end gap-3 cursor-pointer">
                 <div class="dropdown">
-
-                  <!--  -->
                 </div>
               </div>
             </div>
@@ -88,40 +90,42 @@
         <div class="card-body">
           <div class="categories">
             <div class="progress-wrapper">
-              <p class="mb-2">IPhone<span class="float-end">120</span></p>
+              <p class="mb-2">IPhone<span class="float-end">{{phones.apple}}</span></p>
               <div class="progress" style="height: 6px;">
-                <div class="progress-bar bg-gradient-purple progress-sneaker" role="progressbar"></div>
+                <div class="progress-bar bg-gradient-purple progress-sneaker" role="progressbar" style="width: 18%">
+                </div>
               </div>
             </div>
             <div class="my-3 border-top"></div>
             <div class="progress-wrapper">
-              <p class="mb-2">Samsung<span class="float-end">22</span></p>
+              <p class="mb-2">Samsung<span class="float-end">{{phones.samsung}}</span></p>
               <div class="progress" style="height: 6px;">
-                <div class="progress-bar bg-gradient-danger progress-casual" role="progressbar"></div>
+                <div class="progress-bar bg-gradient-danger progress-casual" role="progressbar" style="width: 20%">
+                </div>
+              </div>
+            </div>
+            <div class="my-3 border-top"></div>
+            <div class="progress-wrapper">
+              <p class="mb-2">Xiaomi <span class="float-end">{{phones.xiaomi}}</span></p>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-gradient-success progress-formal" style="width: 18%" role="progressbar">
+                </div>
 
               </div>
             </div>
             <div class="my-3 border-top"></div>
             <div class="progress-wrapper">
-              <p class="mb-2">Xiaomi <span class="float-end">123</span></p>
+              <p class="mb-2">Nokia<span class="float-end">{{phones.nokia}}</span></p>
               <div class="progress" style="height: 6px;">
-                <div class="progress-bar bg-gradient-success progress-formal" role="progressbar"></div>
-
+                <div class="progress-bar bg-gradient-info progress-heel" role="progressbar" style="width: 7%"></div>
               </div>
             </div>
             <div class="my-3 border-top"></div>
             <div class="progress-wrapper">
-              <p class="mb-2">Nokia<span class="float-end">99</span></p>
+              <p class="mb-2">Oneplus<span class="float-end">{{phones.oneplus}}</span></p>
               <div class="progress" style="height: 6px;">
-                <div class="progress-bar bg-gradient-info progress-heel" role="progressbar"></div>
-
-              </div>
-            </div>
-            <div class="my-3 border-top"></div>
-            <div class="progress-wrapper">
-              <p class="mb-2">Oneplus<span class="float-end">32</span></p>
-              <div class="progress" style="height: 6px;">
-                <div class="progress-bar bg-gradient-warning progress-sandal" role="progressbar"></div>
+                <div class="progress-bar bg-gradient-warning progress-sandal" role="progressbar" style="width: 7%">
+                </div>
               </div>
             </div>
             <div class="my-3 border-top"></div>
@@ -139,27 +143,27 @@
             <div class="col">
               <div class="d-flex align-items-center justify-content-end gap-3 cursor-pointer">
                 <div class="dropdown">
-
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="card-body p-0">
-          <div class="best-product p-2 mb-3" *ngFor="let  item in mock; let i = index">
-            <div class="best-product-item">
+          <div class=" p-2 mb-3" *ngFor="let item of dashboard.bestSeller; let i = index">
+            <div class="">
               <div class="d-flex align-items-center gap-3">
-                <div class="product-box border">
-                  <img src="" alt="sp-banchay">
+                <div class="">
+                  <img src="{{item.image}}" alt="sp-banchay" class="img">
                 </div>
-                <div class="product-info">
-                  <h6 class="product-name mb-1">Sản phẩm {{i}}</h6>
+                <div class="">
+                  <h6 class="mb-1">{{item.name}}</h6>
                 </div>
-                <div class="sales-count ms-auto">
-                  <p class="mb-0">120 Sản phẩm đã bán</p>
+                <div class="ms-auto">
+                  <p class="mb-0">{{item.quantity}} Sản phẩm</p>
                 </div>
               </div>
             </div>
+            <hr>
           </div>
         </div>
       </div>
@@ -181,16 +185,19 @@
           </div>
         </div>
         <div class="top-sellers-list p-2 mb-3">
-          <div class="d-flex align-items-center gap-3 sellers-list-item">
-            <img src="" class="rounded-circle" width="50" height="50" alt="ng mua">
-            <div>
-              <h6 class="mb-1">Lê Thị Lê</h6>
-              <p class="mb-0 font-13">Mã KH: xxa</p>
+          <ng-container *ngFor="let user of dashboard.users;let i = index;">
+            <div class="d-flex align-items-center gap-3 sellers-list-item">
+              <img src="{{user.avatar}}" class="rounded-circle img" alt="ng mua" *ngIf="i<4">
+              <div>
+                <h6 class="mb-1">{{user.firstName}} {{user.lastName}}</h6>
+                <p class="mb-0 font-13">Mã KH: {{user.id}}</p>
+              </div>
+              <div class="d-flex align-items-center gap-3 fs-6 ms-auto">
+                <!-- <p class="mb-0">5.0 <i class="bi bi-star-fill text-warning"></i></p> -->
+              </div>
             </div>
-            <div class="d-flex align-items-center gap-3 fs-6 ms-auto">
-              <!-- <p class="mb-0">5.0 <i class="bi bi-star-fill text-warning"></i></p> -->
-            </div>
-          </div>
+            <hr>
+          </ng-container>
         </div>
       </div>
     </div>
@@ -223,22 +230,24 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>#donhangmoi</td>
-              <td>
-                <div class="d-flex align-items-center gap-3">
-                  <!-- <div class="product-box border">
+            <ng-container *ngFor="let order of dashboard.allOrders;let i = index;">
+              <tr *ngIf="i<4">
+                <td>{{order.result.id}}</td>
+                <td>
+                  <div class="d-flex align-items-center gap-3">
+                    <!-- <div class="product-box border">
                       <img src="/public/img/product/100_1.jpg" alt="">
                     </div> -->
-                  <div class="product-info">
-                    <h6 class="mb-1">Khách hàng</h6>
+                    <div class="product-info">
+                      <h6 class="mb-1">Khách hàng</h6>
+                    </div>
                   </div>
-                </div>
-              </td>
-              <td>1</td>
-              <td>11111</td>
-              <td>11/08/2023</td>
-            </tr>
+                </td>
+                <td>1</td>
+                <td>11111</td>
+                <td>{{order.result.create | date:'dd/MM/yyyy'}}</td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
       </div>

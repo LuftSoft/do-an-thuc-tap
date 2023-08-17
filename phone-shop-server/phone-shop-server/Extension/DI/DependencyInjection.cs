@@ -15,6 +15,7 @@ namespace phone_shop_server.Extension.DI
             services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IStatusRepository, StatusRepository>();
+            services.AddScoped<IReportRepository, ReportRepository>();
             services.AddScoped<IHomeletRepository, HomeletRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IDistrictRepository, DistrictRepository>();

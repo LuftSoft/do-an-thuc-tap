@@ -19,8 +19,8 @@
                 <div style="height: 5px;border-bottom: 1px solid #fff;"></div>
                 <!-- Liet ke danh sach dia chi -->
                 <div *ngIf="user && user.address && user.address.length >0">
-                    <div class="row detailUserLocate my-3" *ngFor="let userAddress of user.address; let i = index;">
-                        <ng-container *ngIf="userAddress.isDefault">
+                    <ng-container *ngFor="let userAddress of user.address; let i = index;">
+                        <div class="row detailUserLocate my-3" *ngIf="userAddress.id == payAddress.id">
                             <div class="col-8">
                                 <div class="row" style="position: relative;">
                                     <span class="location_label col-4 bold">
@@ -42,11 +42,11 @@
                                         *ngIf="userAddress.isDefault">Mặc định</span>
                                     <a class="bold"
                                         style="display: inline-block; cursor: pointer;color: rgb(27, 145, 255);"
-                                        (click)="onChangeAddress()">Thay đổi</a>
+                                        (click)="onChangeAddress(payAddress.id)">Thay đổi</a>
                                 </span>
                             </div>
-                        </ng-container>
-                    </div>
+                        </div>
+                    </ng-container>
                     <div style="height: 5px;border-bottom: 1px solid #fff;"></div>
                 </div>
             </div>

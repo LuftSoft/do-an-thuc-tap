@@ -10,7 +10,7 @@ import { NotificationService } from 'src/app/core/service/notification.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { finalize } from 'rxjs';
+import { finalize, pipe } from 'rxjs';
 
 @Component({
   selector: 'app-order-manage',
@@ -54,35 +54,57 @@ export class OrderManageComponent implements OnInit {
     return result.status.statusType;
   }
   onConfirmOrder(data: any) {
+    this.loader.showProgressBar()
     this.adminService.updateOrderStatus({
       orderId: data.id,
       status: CONFIG.ORDER.STATUS.PREPARED
-    }).subscribe((response) => {
-      if (response.code === CONFIG.STATUS_CODE.SUCCESS) {
-        this.notify.notifySuccess('confirm order success');
-      }
-    });
+    })
+      .pipe(finalize(() => { this.loader.hideProgressBar(); this.ngOnInit(); }))
+      .subscribe((response) => {
+        if (response.code === CONFIG.STATUS_CODE.SUCCESS) {
+          this.notify.notifySuccess('confirm order success');
+        }
+      });
+  }
+  onConfirmOrderDelivery(data: any) {
+    this.loader.showProgressBar()
+    this.adminService.updateOrderStatus({
+      orderId: data.id,
+      status: CONFIG.ORDER.STATUS.DELIVERY
+    })
+      .pipe(finalize(() => { this.loader.hideProgressBar(); this.ngOnInit() }))
+      .subscribe((response) => {
+        if (response.code === CONFIG.STATUS_CODE.SUCCESS) {
+          this.notify.notifySuccess('confirm order success');
+        }
+      });
   }
   onConfirmOrderPayment(data: any) {
+    this.loader.showProgressBar()
     this.adminService.updateOrderPaymentStatus({
       orderId: data.id,
       paymentMethod: data.paymentMethod,
       paymentStatus: CONFIG.ORDER.PAYMENT.STATUS.PAID
-    }).subscribe((response) => {
-      if (response.code === CONFIG.STATUS_CODE.SUCCESS) {
-        this.notify.notifySuccess('confirm order success');
-      }
-    });;
+    })
+      .pipe(finalize(() => { this.loader.hideProgressBar(); this.ngOnInit(); }))
+      .subscribe((response) => {
+        if (response.code === CONFIG.STATUS_CODE.SUCCESS) {
+          this.notify.notifySuccess('confirm order success');
+        }
+      });;
   }
   onCancelOrder(id: any) {
+    this.loader.showProgressBar();
     this.adminService.updateOrderStatus({
       orderId: id,
       status: CONFIG.ORDER.STATUS.CANCELED
-    }).subscribe((response) => {
-      if (response.code === CONFIG.STATUS_CODE.SUCCESS) {
-        this.notify.notifySuccess('confirm order success');
-      }
-    });;
+    })
+      .pipe(finalize(() => { this.loader.hideProgressBar(); this.ngOnInit(); }))
+      .subscribe((response) => {
+        if (response.code === CONFIG.STATUS_CODE.SUCCESS) {
+          this.notify.notifySuccess('confirm order success');
+        }
+      });;
   }
   onPaging() { }
   onOrderDetail(data: any) {
@@ -154,7 +176,6 @@ export class OrderManageComponent implements OnInit {
     return result;
   }
   getNewestStatus(order: any) {
-    console.log(order)
     let newestStatus = order[0];
     for (let status of order) {
       if (new Date(status.created) > new Date(newestStatus.created)) newestStatus = status;

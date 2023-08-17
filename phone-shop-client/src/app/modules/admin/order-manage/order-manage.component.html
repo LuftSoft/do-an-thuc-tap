@@ -51,13 +51,18 @@
   <ng-container matColumnDef="edit">
     <th mat-header-cell *matHeaderCellDef> Chỉnh sửa </th>
     <td mat-cell *matCellDef="let element; let i = index;" [ngClass]="i%2==0?'':'bg-whitesmoke'">
+      <i class="fa fa-credit-card-alt me-2 checked-link" aria-hidden="true" [matTooltip]="'Xác nhận thanh toán'"
+        (click)="onConfirmOrderPayment(element)" *ngIf="element.paymentStatus == 'UNPAID'
+        && getNewestStatus(element.orderStatus) != 'CANCELED'"></i>
 
       <i class="fa fa-check-square-o me-2 checked-link" aria-hidden="true" [matTooltip]="'Xác nhận'"
-        (click)="onConfirmOrder(element)"></i>
-      <i class="fa fa-credit-card-alt me-2 checked-link" aria-hidden="true" [matTooltip]="'Xác nhận thanh toán'"
-        (click)="onConfirmOrderPayment(element)"></i>
+        (click)="onConfirmOrder(element)" *ngIf="getNewestStatus(element.orderStatus) == 'CREATED'"></i>
+
+      <i class="fa fa-truck me-2 tranfer-link" aria-hidden="true" [matTooltip]="'Đang vận chuyển'"
+        (click)="onConfirmOrderDelivery(element)" *ngIf="getNewestStatus(element.orderStatus) == 'PREPARED'"></i>
+
       <i class="fa fa-trash-o me-1 delete-link" aria-hidden="true" [matTooltip]="'Hủy đơn hàng'"
-        (click)="onCancelOrder(element.id)"></i>
+        (click)="onCancelOrder(element.id)" *ngIf="getNewestStatus(element.orderStatus) == 'CREATED'"></i>
     </td>
   </ng-container>
 

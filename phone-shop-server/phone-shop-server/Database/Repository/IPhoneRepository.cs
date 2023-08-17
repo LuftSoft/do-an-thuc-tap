@@ -9,7 +9,9 @@ namespace phone_shop_server.Database.Repository
         Task<Phone> CreateAsync(Phone phone);
         Task<Phone> UpdateAsync(Phone phone);
         Task<bool> DeleteAsync(string id);
-
+        Task<IEnumerable<object>> GetBestSeller(int count);
+        Task<IEnumerable<object>> GetAllRole();
+        Task<object> AdminDashBoard();
 
     }
 }

@@ -35,7 +35,7 @@
     <th mat-header-cell *matHeaderCellDef> Số điện thoại </th>
     <td mat-cell *matCellDef="let element; let i = index;" [ngClass]="i%2==0?'':'bg-whitesmoke'">
       <span class="table-tag">
-        {{element.phone}}</span>
+        {{element.phoneNumber}}</span>
     </td>
   </ng-container>
 
@@ -48,12 +48,12 @@
   <ng-container matColumnDef="edit">
     <th mat-header-cell *matHeaderCellDef> Chỉnh sửa </th>
     <td mat-cell *matCellDef="let element; let i = index;" [ngClass]="i%2==0?'':'bg-whitesmoke'">
-      <button class="btn btn-common-base me-3">
+      <button class="btn btn-common-base me-3" (click)="onUserDetail(element.id)">
         <i class="fa fa-pencil" aria-hidden="true" [matTooltip]="'Chi tiết'" style="color: #fff;"></i>
         Chi tiết
       </button>
-      <button class="btn btn-common-reject"><i class="fa fa-trash-o me-2" style="color: #fff;" aria-hidden="true"
-          [matTooltip]="'Xóa nhân viên'"></i> Xóa</button>
+      <!-- <button class="btn btn-common-reject"><i class="fa fa-trash-o me-2" style="color: #fff;" aria-hidden="true"
+          [matTooltip]="'Xóa nhân viên'"></i> Xóa</button> -->
     </td>
   </ng-container>
 

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using phone_shop_server.Business.APIResponse;
 using phone_shop_server.Business.DTO.User;
 using phone_shop_server.Business.Service;
+using phone_shop_server.Database;
 
 namespace phone_shop_server.API
 {
@@ -10,11 +12,14 @@ namespace phone_shop_server.API
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly AppDbContext _appDbContext;
         public UserController(
-            IUserService userService
+            IUserService userService,
+            AppDbContext appDbContext
             ) 
         {
             _userService = userService; 
+            _appDbContext = appDbContext;
         }
         [HttpGet]
         public async Task<IActionResult> GetAll() 
@@ -30,6 +35,26 @@ namespace phone_shop_server.API
         public async Task<IActionResult> GetSelf()
         {
             return Ok(await _userService.getUserDetailAsync( await _userService.GetUserIdFromContext(HttpContext)));
+        }
+        [HttpPut]
+        public async Task<IActionResult> Put(UserUpdateDto update)
+        {
+            try
+            {
+                var user = await _appDbContext.Users.FirstOrDefaultAsync(u => u.Id == update.Id);
+                user.PhoneNumber = update.PhoneNumber;
+                user.FirstName = update.FirstName;
+                user.LastName = update.LastName;
+                user.Age = update.Age;
+                _appDbContext.Users.Update(user);
+                await _appDbContext.SaveChangesAsync();
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(false);
+            }
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDto dto)

@@ -1,5 +1,5 @@
 <div class="product-detail-contain">
-  <h1 class="title mb-3">{{data.title || 'Chi tiết sản phẩm'}}</h1>
+  <h1 class="title mb-3">{{data.title || 'Chi tiết đơn hàng'}}</h1>
   <form class="mb-3" [formGroup]="form" [enctype]="data.type==='add'?'multipart/form-data':''">
     <div class="row">
       <div class="col-12 col-md-6">
@@ -43,8 +43,24 @@
       <div class="mt-2">
         <label for="" class="form-label">Sản phẩm</label>
         <ng-container *ngIf="data.type === 'view'">
-          <p *ngFor="let phone of form.controls['orderDetail'].value">{{phone.phone.name}} - {{phone.quantity}} -
-            {{phone.phone.soldPrice}}</p>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Tên</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Giá</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let phone of form.controls['orderDetail'].value; let i = index;">
+                <th scope="row">{{i}}</th>
+                <td>{{phone.phone.name}}</td>
+                <td>{{phone.quantity}}</td>
+                <td>@{{phone.phone.soldPrice}}</td>
+              </tr>
+            </tbody>
+          </table>
         </ng-container>
       </div>
 

@@ -1,20 +1,14 @@
 <form class="bg-light ">
-  <h4 class="mb-2 bold dot-three-rem uppercase">{{data.type === 'add'?'Thêm địa chỉ mới' : 'Chỉnh sửa địa chỉ'}}</h4>
+  <h4 class="mb-2 bold dot-three-rem uppercase">{{data.type === 'add'?'Thêm nhà phân phối' : 'Chỉnh sửa thông tin'}}
+  </h4>
   <div class="mb-2 row">
     <div class="col-12">
       <mat-form-field class="example-full-width">
-        <mat-label class="form-label">Họ và tên</mat-label>
+        <mat-label class="form-label">Tên nhà phân phối</mat-label>
         <input type="text" matInput placeholder="Họ và tên" required maxlength="100" minlength="2" [(ngModel)]="name"
           name="name">
       </mat-form-field>
     </div>
-    <!-- <div class="col-5">
-      <mat-form-field class="example-full-width">
-        <mat-label class="form-label">Số điện thoại</mat-label>
-        <input type="text" maxlength="11" minlength="10" matInput placeholder="Số điện thoại" required
-          [(ngModel)]="phone" name="phone">
-      </mat-form-field>
-    </div> -->
   </div>
   <div class="row mb-2">
     <div class="col">
@@ -59,27 +53,10 @@
     </div>
   </div>
   <div class="mb-3">
-    <label for="inputEditLocateDetail" class="form-label">Địa chỉ cụ thể</label>
+    <label for="inputEditLocateDetail" class="form-label">Mô tả</label>
     <!-- <textarea type="text" class="form-control" id="inputEditLocateDetail"> -->
     <textarea style="max-height: 100px !important;" id="inputEditLocateDetail" rows="3" cols="10" style="width: 100%;"
-      required [(ngModel)]="detailAddress" name="detailAddress"></textarea>
-  </div>
-  <div class="bold">Loại địa chỉ</div>
-  <div style="margin: 10px 0;">
-    <div class="radio-type-locate">
-      <input type="radio" class="me-3" id="home_address" name="address_choose" value="home"
-        (focus)="onSelectAddress('home')" required>
-      <label for="home_address" class="bold">Nhà riêng</label>
-    </div>
-    <div class="radio-type-locate">
-      <input type="radio" class="me-3" id="office_address" name="address_choose" value="office"
-        (focus)="onSelectAddress('office')" required>
-      <label for="office_address" class="bold">Văn phòng</label>
-    </div>
-  </div>
-  <div class="mb-3">
-    <input type="checkbox" class="me-3" id="defaultLocate" (input)="setDefault($event)">
-    <label for="defaultLocate" class="form-check-label bold">Đặt làm địa chỉ mặc định</label>
+      required [(ngModel)]="description" name="detailAddress"></textarea>
   </div>
   <div style="display: flex;justify-content: right;">
     <button class="btn btn-cancel me-3" [mat-dialog-close]="false">Trở lại</button>
