@@ -32,6 +32,15 @@ body {
     border-radius: 15px 15px 0 0 !important;
 }
 
+.mat-custom-button {
+    background-color: #00cec9 !important;
+    color: #fff !important;
+
+    &:hover {
+        background-color: #81ecec !important;
+    }
+}
+
 .no-order-detail {
     position: absolute;
     width: 100%;

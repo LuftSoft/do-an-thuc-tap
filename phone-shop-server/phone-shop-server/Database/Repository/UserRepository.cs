@@ -105,7 +105,7 @@ namespace phone_shop_server.Database.Repository
                 List<string> roleIds = _appDbContext.UserRoles.Where(urole => urole.UserId == userId).Select(ur => ur.RoleId).ToList();
                 foreach(var roleId in roleIds)
                 {
-                    roles.Add((await _appDbContext.Roles.FirstOrDefaultAsync(r => r.Id == roleId)).Id);
+                    roles.Add((await _appDbContext.Roles.FirstOrDefaultAsync(r => r.Id == roleId)).Name);
                 }
             }
             return roles;

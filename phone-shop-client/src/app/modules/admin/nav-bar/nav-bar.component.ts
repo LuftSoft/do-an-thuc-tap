@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AdminService } from '../admin.service';
+import { LoadingService } from 'src/app/core/service/loading.service';
+import { finalize } from 'rxjs';
+import { CONFIG } from 'src/app/core/constant/CONFIG';
+import { NotificationService } from 'src/app/core/service/notification.service';
 
 @Component({
   selector: 'navbar-cmp',
@@ -7,6 +12,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
+  user: any = {};
+  roles: any[] = [];
   sidebarValue: any = {
     'dashboard': {
       value: 'dashboard',
@@ -43,7 +50,10 @@ export class NavBarComponent implements OnInit {
   }
   constructor(
     private activateRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private adminService: AdminService,
+    private load: LoadingService,
+    private notify: NotificationService
   ) {
     let routerArr = router.url.split('/');
     for (let item in this.sidebarValue) {
@@ -59,14 +69,46 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getUserInfor();
   }
   onLogout() {
+    this.notify.notifySuccess('Đăng xuất thành công!')
+    localStorage.removeItem(CONFIG.AUTH.ADMIN_ACCESS_TOKEN);
+    localStorage.removeItem(CONFIG.AUTH.ADMIN_REFRESH_TOKEN);
+    localStorage.removeItem(CONFIG.AUTH.ADMIN);
+    setTimeout(() => {
+      this.router.navigate(['/admin/login']).then(() => {
+        window.location.reload();
+      });
+    }, 100);
+  }
+  getUserInfor() {
+    try {
+      this.load.showProgressBar();
+      this.adminService.getUserInfo()
+        .pipe(finalize(() => { this.load.hideProgressBar() }))
+        .subscribe((response: any) => {
+          this.user = response;
+          this.roles = response.role;
+        });
+    }
+    catch {
 
+    }
   }
   onSideBarSelect(value: string) {
     for (let item in this.sidebarValue) {
       this.sidebarValue[item].isSelected = false;
     }
     this.sidebarValue[value].isSelected = true;
+  }
+  isAdmin() {
+    return this.roles.includes(CONFIG.ROLE.ADMIN);
+  }
+  isStaff() {
+    return this.roles.includes(CONFIG.ROLE.STAFF);
+  }
+  isAdminOrStaff() {
+    return this.roles.includes(CONFIG.ROLE.ADMIN) || this.roles.includes(CONFIG.ROLE.STAFF);
   }
 }

@@ -81,7 +81,7 @@
                 <div class="card-chip" [matTooltip]="cartItem.rom" matTooltipPosition="left">{{cartItem.rom}}</div>
                 <div class="card-chip" [matTooltip]="cartItem.pin" matTooltipPosition="left">{{cartItem.pin}}</div>
             </div>
-            <div class="card-price">{{cartItem.soldPrice}}</div>
+            <div class="card-price">{{cartItem.soldPrice | vndPipe}}</div>
             <div class="card-description" [matTooltip]="cartItem.description" matTooltipPosition="left">
                 {{cartItem.description}}</div>
             <div class="card-btn-contain">

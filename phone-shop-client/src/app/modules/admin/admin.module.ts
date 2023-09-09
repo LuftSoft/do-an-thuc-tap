@@ -24,6 +24,9 @@ import { AdminVNDPipe, VNDPipe } from 'src/app/core/service/custom.pipe';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SupplierDialogComponent } from './warehouse/supplier-dialog/supplier-dialog.component';
 import { UserInformationComponent } from './user-information/user-information.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 //const NgbModule = require('@ng-bootstrap/ng-bootstrap')
 
 @NgModule({
@@ -34,7 +37,9 @@ import { UserInformationComponent } from './user-information/user-information.co
         ReactiveFormsModule,
         AdmminRouteModule,
         RouterModule,
-        FormsModule
+        FormsModule,
+        MatDatepickerModule,
+        MatNativeDateModule
     ],
     declarations: [
         AdminLayoutComponent,
@@ -53,6 +58,7 @@ import { UserInformationComponent } from './user-information/user-information.co
         OrderDetailComponent,
         SupplierDialogComponent,
         UserInformationComponent,
+        AdminLoginComponent,
         AdminVNDPipe
     ],
     providers: [

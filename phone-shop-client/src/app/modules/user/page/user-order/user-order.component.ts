@@ -4,11 +4,12 @@ import { finalize } from 'rxjs';
 import { CONFIG } from 'src/app/core/constant/CONFIG';
 import { OpenDialogService } from 'src/app/core/service/dialog/opendialog.service';
 import { LoadingService } from 'src/app/core/service/loading.service';
-import { NotificationService } from 'src/app/core/service/notification.service';
+import { Helpers, NotificationService } from 'src/app/core/service/notification.service';
 import { UserInfoService } from 'src/app/core/service/user.info.service';
 import { ConfirmDialogComponent } from 'src/app/modules/confirm-dialog/confirm-dialog.component';
 import { UserService } from '../../user.service';
 import { UserOrderDetailDialogComponent } from '../user-order-detail-dialog/user-order-detail-dialog.component';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-user-order',
@@ -60,6 +61,9 @@ export class UserOrderComponent implements OnInit {
         }
 
       })
+  }
+  isPayed(order: any) {
+    return order.paymentStatus === CONFIG.ORDER.PAYMENT.STATUS.PAID;
   }
   isOrderStatusCreated(order: any) {
     return this.getNewestStatus(order) === CONFIG.ORDER.STATUS.CREATED
@@ -183,6 +187,14 @@ export class UserOrderComponent implements OnInit {
       '75vw', '60vh')
       .afterClosed().subscribe((response) => {
 
+      })
+  }
+  exportReceipt(id: string) {
+    this.loader.showProgressBar();
+    this.userService.exportOrderReceipt(id)
+      .pipe(finalize(() => { this.loader.hideProgressBar() }))
+      .subscribe((response: Blob) => {
+        FileSaver.saveAs(response, 'order-receipt-' + Helpers.getCurrentStringTime() + '.pdf');
       })
   }
 }

@@ -8,10 +8,11 @@ import { PromotionComponent } from './promotion/promotion.component';
 import { OrderManageComponent } from './order-manage/order-manage.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserInformationComponent } from './user-information/user-information.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 
 const routes: Routes = [
     { path: '', component: DashboardComponent },
-    { path: 'login', component: UserLoginComponent },
+    { path: 'login', component: AdminLoginComponent },
     { path: 'staff', component: StaffManageComponent },
     { path: 'report', component: ReportComponent },
     { path: 'product', component: ProductComponent },

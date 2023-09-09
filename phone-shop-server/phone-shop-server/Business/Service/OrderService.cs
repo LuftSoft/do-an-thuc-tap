@@ -1,5 +1,6 @@
 ﻿using phone_shop_server.Business.Converter;
 using phone_shop_server.Business.DTO.Order;
+using phone_shop_server.Business.DTO.User;
 using phone_shop_server.Database.Entity;
 using phone_shop_server.Database.Enum;
 using phone_shop_server.Database.Repository;
@@ -9,6 +10,8 @@ namespace phone_shop_server.Business.Service
     public interface IOrderService
     {
         Task<APIResponse.APIResponse> GetAllAsync();
+        Task<OrderDto> GetEntityAsync(string orderId);
+        Task<UserDto?> getUserFromOrderId(string orderId);
         Task<APIResponse.APIResponse> GetOneAsync(string orderId);
         Task<APIResponse.APIResponse> GetByUserIdAsync(HttpContext context);
         Task<APIResponse.APIResponse> CancelOrder(HttpContext context, string orderId);
@@ -27,6 +30,7 @@ namespace phone_shop_server.Business.Service
         private readonly IStatusRepository _statusRepository;
         private readonly IOrderDetailRepository _orderDetailRepository;
         private readonly IOrderStatusRepository _orderStatusRepository;
+        private readonly IAddressRepository _addressRepository;
         public OrderService(
             IUserService userService,
             IOrderConverter orderConverter,
@@ -35,7 +39,8 @@ namespace phone_shop_server.Business.Service
             IPhoneRepository phoneRepository,
             IStatusRepository statusRepository,
             IOrderDetailRepository orderDetailRepository,
-            IOrderStatusRepository orderStatusRepository
+            IOrderStatusRepository orderStatusRepository,
+            IAddressRepository addressRepository
             )
         {
             _userService = userService;
@@ -44,6 +49,7 @@ namespace phone_shop_server.Business.Service
             _orderRepository = orderRepository;
             _phoneRepository = phoneRepository;
             _statusRepository = statusRepository;
+            _addressRepository = addressRepository;
             _orderDetailRepository = orderDetailRepository;
             _orderStatusRepository = orderStatusRepository;
         }
@@ -92,6 +98,25 @@ namespace phone_shop_server.Business.Service
             catch (Exception ex)
             {
                 throw new ApplicationException(ex.InnerException.ToString());
+            }
+        }
+        public async Task<UserDto> getUserFromOrderId(string orderId)
+        {
+            var order = await _orderRepository.GetAsync(orderId);
+            var address = await _addressRepository.GetOneAsync(order.AddressId.ToString());
+            return await _userService.getUserDetailAsync(address.UserId);
+        }
+        public async Task<OrderDto> GetEntityAsync(string orderId)
+        {
+            try
+            {
+                var order = await _orderRepository.GetAsync(orderId);
+                return await _orderConverter.ConvertToOrderDto(order);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.InnerException.ToString());
+                return null;
             }
         }
         public async Task<APIResponse.APIResponse> GetOneAsync(string orderId)

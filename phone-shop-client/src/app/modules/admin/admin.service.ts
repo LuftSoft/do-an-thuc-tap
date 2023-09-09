@@ -70,11 +70,31 @@ export class AdminService {
       endDate: endDate
     });
   }
+  getUserInfoWithToken(token: string): any {
+    return this.http.get<any>(`${API.BASE_URL}/${API.USER}/${API.AUTH.SELF_INFORMATION}`, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      })
+    });
+  }
+  getUserInfo(): any {
+    return this.http.get<any>(`${API.BASE_URL}/${API.USER}/${API.AUTH.SELF_INFORMATION}`, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem(CONFIG.AUTH.ADMIN_ACCESS_TOKEN)}`
+      })
+    });
+  }
   exportDayReport(): Observable<any> {
     return this.http.get(`${API.BASE_URL}/${API.REPORT.REPORT}/${API.REPORT.PDF}/${API.REPORT.THIRTY_DAY}`, { responseType: 'blob' });
   }
   exportMonthReport(year: number) {
     return this.http.get(`${API.BASE_URL}/${API.REPORT.REPORT}/${API.REPORT.PDF}/${API.REPORT.MONTH}/${year}`, { responseType: 'blob' });
+  }
+  exportRabgeDayReport(startDate: any, endDate: any) {
+    return this.http.post(`${API.BASE_URL}/${API.REPORT.REPORT}/${API.REPORT.PDF}/${API.REPORT.RANGE_DAY}`, {
+      startDate: startDate,
+      endDate: endDate
+    }, { responseType: 'blob' });
   }
   //supplier
   createSupplier(data: any): Observable<BaseAPIResponse> {

@@ -16,8 +16,14 @@
             <div *ngFor="let orderItem of order" [ngClass]="isOrderStatusCanceled(orderItem)?'list-items__disabled':''"
                 class="list-items mb-5 border-top-base col-12 contain_product_item">
                 <div class="row">
-                    <div class="col-8"></div>
-                    <div class="col-4 relative" style="justify-content: flex-end;display: flex;">
+                    <div class="col-4"></div>
+                    <div class="col-8 relative" style="justify-content: flex-end;display: flex;">
+                        <!-- (click)="exportReport(statType)" -->
+                        <a class="mat-custom-button me-3" mat-raised-button
+                            *ngIf="!isOrderStatusCanceled(orderItem) && isPayed(orderItem)"
+                            (click)="exportReceipt(orderItem.id)">
+                            <i class="fa fa-file-pdf-o me-2" aria-hidden="true"></i>Xuất hóa đơn
+                        </a>
                         <a class="btn btn-common-base me-3 order-tag" *ngIf="isOrderStatusDelivery(orderItem)"
                             (click)="onTranfered(orderItem)">
                             Đã nhận được hàng</a>

@@ -11,6 +11,7 @@ import { Helpers, NotificationService } from 'src/app/core/service/notification.
 import { UserInfoService } from 'src/app/core/service/user.info.service';
 import { UserService } from '../../user/user.service';
 import { AdminService } from '../admin.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-report',
@@ -22,6 +23,8 @@ export class ReportComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   dataSource: MatTableDataSource<any>;
   day: any = 2023;
+  rangeStartDate: any = '';
+  rangeEndDate: any = '';
   pageSizeOption = CONFIG.PAGING_OPTION;
   pageSize = this.pageSizeOption[0];
   pageLength = 100;
@@ -29,6 +32,10 @@ export class ReportComponent implements OnInit {
   displayedColumns = ['date', 'orderCount', 'productCount', 'total'];
   statTypes = ['day', 'month']
   statType = 'day'
+  range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
   constructor(
     private loader: LoadingService,
     private notify: NotificationService,
@@ -66,6 +73,19 @@ export class ReportComponent implements OnInit {
         this.pageLength = this.dataSource.data.length;
       });
   }
+  getRangeDayStat() {
+    console.log(this.rangeStartDate, this.rangeEndDate);
+    this.loader.showProgressBar();
+    this.adminService.postRangeDayReport(this.rangeStartDate, this.rangeEndDate)
+      .pipe(finalize(() => { this.loader.hideProgressBar() }))
+      .subscribe(response => {
+        if (response) {
+          this.dataSource.data = response.data;
+          this.dataSource.paginator = this.paginator;
+          this.pageLength = this.dataSource.data.length;
+        }
+      });
+  }
   exportReport(statType: string) {
     switch (statType) {
       case 'day':
@@ -88,20 +108,46 @@ export class ReportComponent implements OnInit {
             FileSaver.saveAs(response, 'month-report-' + Helpers.getCurrentStringTime() + '.pdf');
           })
         break;
-
+      case 'dayToday':
+        this.loader.showProgressBar();
+        this.adminService.exportRabgeDayReport(this.rangeStartDate, this.rangeEndDate)
+          .pipe(finalize(() => {
+            this.loader.hideProgressBar();
+          }))
+          .subscribe((response: Blob) => {
+            FileSaver.saveAs(response, 'day-to-day-report-' + Helpers.getCurrentStringTime() + '.pdf');
+          })
+        break;
     }
   }
   onChangeReport($event: any) {
-    switch ($event) {
+    // switch ($event) {
+    //   case 'day':
+    //     this.getDayStat();
+    //     break;
+    //   case 'month':
+    //     this.getMonthStat(this.day);
+    //     break;
+    // }
+  }
+  onChangeYear(e: any) {
+    this.getMonthStat(e);
+  }
+  onChangeEndDate() {
+    console.log(this.rangeStartDate, this.rangeEndDate);
+  }
+  onViewStat(statType: any) {
+    console.log(statType);
+    switch (statType) {
       case 'day':
         this.getDayStat();
         break;
       case 'month':
         this.getMonthStat(this.day);
         break;
+      case 'dayToday':
+        this.getRangeDayStat();
+        break;
     }
-  }
-  onChangeYear(e: any) {
-    this.getMonthStat(e);
   }
 }

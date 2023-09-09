@@ -182,6 +182,9 @@ export class UserService {
         })
       });
   }
+  exportOrderReceipt(id: string) {
+    return this.http.get(`${API.BASE_URL}/${API.REPORT.REPORT}/${API.REPORT.PDF}/${API.SHOP.ORDER}/${id}`, { responseType: 'blob' })
+  }
   //location
   getAllProvince() {
     return this.http.get<BaseAPIResponse>(`${API.BASE_URL}/${API.LOCATION.LOCATION}/${API.LOCATION.PROVINCE}`)
