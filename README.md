@@ -1,8 +1,8 @@
 # ĐỒ ÁN THỰC TẬP TỐT NGHIỆP
 ## Đề tài: Xây dựng website kinh doanh mặt hàng điện thoại di động
 ### Demo
-- Customer site: ***https://phoneshop-8f153.web.app/***
-- Admin site: ***https://phoneshop-8f153.web.app/admin/login***
+- Customer site: ***<a href="https://phoneshop-8f153.web.app/" target="_blank">https://phoneshop-8f153.web.app/</a>***
+- Admin site: ***<a href="https://phoneshop-8f153.web.app/admin/login" target="_blank">https://phoneshop-8f153.web.app/admin/login</a>***
 * Email: admin@gmail.com
 * Password: Ngoc123
 ### Thực hiện
