@@ -1,5 +1,10 @@
 # ĐỒ ÁN THỰC TẬP TỐT NGHIỆP
 ## Đề tài: Xây dựng website kinh doanh mặt hàng điện thoại di động
+### Demo
+- Customer site: ***https://phoneshop-8f153.web.app/***
+- Admin site: ***https://phoneshop-8f153.web.app/admin/login***
+* Email: admin@gmail.com
+* Password: Ngoc123
 ### Thực hiện
 - Giảng viên hướng dẫn: **Thạc sĩ Nguyễn Ngọc Duy**
 - Sinh viên thực hiện: **Bùi Tá Tân Ngọc**
